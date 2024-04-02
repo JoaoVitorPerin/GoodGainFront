@@ -1,0 +1,19 @@
+<dx-popup cssClass="columnCustom" (onHidden)="onHidden($event)" #columnChooser title="Seletor de Colunas" [(visible)]="visible"
+  [container]="container" [width]="300" [height]="350" [showCloseButton]="true"
+  [shading]="false">
+
+  <!-- <dxi-toolbar-item widget="dxButton" location="after" toolbar="bottom" [options]="applyOptions">
+    </dxi-toolbar-item>
+
+    <dxi-toolbar-item widget="dxButton" location="after" toolbar="bottom" [options]="cancelOptions">
+    </dxi-toolbar-item> -->
+
+  <dxo-position at="right bottom" my="right bottom" [of]="container"></dxo-position>
+
+  <div *dxTemplate="let data of 'content'" style="padding:0 !important;">
+    <dx-list (onSelectionChanged)="eventoColuna()" [(dataSource)]="listDataSource" selectByClick="true"
+      displayExpr="caption" searchExpr="caption" keyExpr="dataField" [(selectedItemKeys)]="selectedItems"
+      [searchEnabled]="false" [showSelectionControls]="true" selectionMode="multiple">
+    </dx-list>
+  </div>
+</dx-popup>

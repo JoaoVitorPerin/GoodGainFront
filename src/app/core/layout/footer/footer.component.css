@@ -1,0 +1,16 @@
+.app-footer {
+  padding: 0 10px;
+  background-color: var(--surface-a);
+  border-top: 2px solid var(--primary-color);
+  z-index: 1040;
+  height: 35px;
+}
+
+@media (min-width: 990px) {
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1020;
+  }
+}

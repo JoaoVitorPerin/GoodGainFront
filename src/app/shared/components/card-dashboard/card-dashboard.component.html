@@ -1,0 +1,43 @@
+<div class="mt-3 grid">
+    @for(card of infosCards; track card.id) {
+        <div class="col-12 md:col-6 lg:col-3">
+            <p-card>
+                <p class="text-color-secondary font-semibold text-sm">{{card.nm_card}}</p>
+                <div>
+                    @if(card.is_vlr_principal_perc && !card.is_vlr_secundario_perc && card.is_vlr_indicador_secundario) {
+                        <p><span class="text-lg font-semibold mr-1">{{this.toLocaleFixed(card.vlr_principal)}}%</span><small class="text-color-secondary">(R$ {{this.toLocaleFixed(card.vlr_secundario)}})</small></p>
+                    }
+                    @else if(!card.is_vlr_principal_perc && card.is_vlr_secundario_perc) {
+                        <p><span class="text-lg font-semibold mr-1">R$ {{this.toLocaleFixed(card.vlr_principal)}}</span><small class="text-color-secondary">({{this.toLocaleFixed(card.vlr_secundario)}}%)</small></p>
+                    }
+                    @else if(card.is_vlr_principal_perc) {
+                        <p><span class="text-lg font-semibold mr-1">{{this.toLocaleFixed(card.vlr_principal)}}%</span></p>
+                    }
+                    @else if(!card.is_vlr_principal_perc) {
+                        <p><span class="text-lg font-semibold mr-1">R$ {{this.toLocaleFixed(card.vlr_principal)}}</span></p>
+                    }
+                </div>
+                <p-divider></p-divider>
+                <div>
+                    @for(indicador of card.indicadores; track indicador.id) {
+                        <div class="flex align-items-center grid">
+                            <p class="text-xs col-6">{{indicador.nm_indicador}}:</p>
+                            @if(!indicador.is_vlr_indicador_perc && indicador.is_vlr_indicador_secundario && indicador.is_vlr_indicador_secundario_perc) {
+                                <p class="text-left"><span class="text-xs mr-1">R$ {{this.toLocaleFixed(indicador.vlr_indicador)}}</span><small class="text-color-secondary text-xs">({{this.toLocaleFixed(indicador.vlr_indicador_secundario)}}%)</small></p>
+                            }
+                            @else if(indicador.is_vlr_indicador_perc && indicador.is_vlr_indicador_secundario && !indicador?.is_vlr_indicador_secundario_perc) {
+                                <p class="text-left"><span class="text-xs mr-1">{{this.toLocaleFixed(indicador.vlr_indicador)}}%</span><small class="text-color-secondary text-xs">(R$ {{this.toLocaleFixed(indicador.vlr_indicador_secundario)}})</small></p>
+                            }
+                            @else if(!indicador.is_vlr_indicador_perc) {
+                                <p class="text-left"><span class="text-xs mr-1">R$ {{this.toLocaleFixed(indicador.vlr_indicador)}}</span></p>
+                            }
+                            @else if(indicador.is_vlr_indicador_perc) {
+                                <p class="text-left"><span class="text-xs mr-1">{{this.toLocaleFixed(indicador.vlr_indicador)}}%</span></p>
+                            }
+                        </div>
+                    }
+                </div>
+            </p-card>
+        </div>
+    }
+</div>

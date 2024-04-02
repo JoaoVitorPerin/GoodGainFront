@@ -1,0 +1,55 @@
+/* Container */
+.selection-container {
+    position: relative;
+}
+
+.selection-container.dragging-item {
+    cursor: grabbing;
+}
+
+/* Item */
+.selection-item.selection-placeholder {
+    opacity: 0.5;
+}
+
+.selection-container.dragging-item .selection-item:not(.selection-placeholder) {
+    cursor: copy;
+}
+
+/* Placeholder */
+.dragging-placeholder {
+    position: fixed;
+    pointer-events: none;
+
+    /* --primary com opacidade reduzida */
+    background-color: rgba(39, 170, 225, 0.25);
+    border: 2px dashed var(--primary);
+    border-radius: 0.25rem;
+    padding: 1rem;
+
+    opacity: 0.75;
+    z-index: 1;
+}
+
+.dragging-placeholder > img {
+    height: 50px;
+    width: 50px;
+}
+
+.dragging-placeholder::after {
+    content: attr(data-size);
+    border-radius: 20px;
+    background-color: var(--primary);
+    color: #fff;
+
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+
+    height: 20px;
+    width: 20px;
+}

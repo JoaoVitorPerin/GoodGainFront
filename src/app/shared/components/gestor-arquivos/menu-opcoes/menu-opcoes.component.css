@@ -1,0 +1,55 @@
+/* context menu */
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 1021;
+    padding: 12px 0;
+    width: 180px;
+    background-color: #fff;
+    border: solid 1px #dfdfdf;
+    box-shadow: 1px 1px 2px #cfcfcf;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.context-menu--active {
+    display: block;
+}
+
+.context-menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu__item {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.context-menu__item:last-child {
+    margin-bottom: 0;
+}
+
+.context-menu__link {
+    cursor: pointer;
+    display: block;
+    padding: 4px 12px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.context-menu__link:hover {
+    color: #fff !important;
+    background-color: var(--primary-color);
+}
+
+/* excluir */
+.context-menu__link.text-danger {
+    color: var(--danger);
+}
+
+.context-menu__link.text-danger:hover {
+    color: #fff !important;
+    background-color: var(--red-500);
+}

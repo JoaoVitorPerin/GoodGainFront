@@ -1,0 +1,33 @@
+<div class="container-autenticacao">
+  <div class="grid m-0 p-0 h-100">
+    <div class="col-12 md:col-4 container-login flex flex-column justify-content-center row-gap-4">
+      <img src="../../../assets/icons/logoGGdescritivoVerde.svg" alt="Logo" width="250">
+      <p class="text-6xl font-bold">Bem-vindo</p>
+      <p class="text-lg font-light">Para prosseguir, informe seu usuário e senha.</p>
+      <form [(formGroup)]="formLogin" class="w-100">
+        <div class="grid flex justify-content-center">
+          <div class="col-12 mb-2">
+              <app-form type="text"
+              id="username" [appElementoFoco]="'username'" [atalho]="'1'" [ctrl]="true"
+              label="Usuário" formControlName="username" placeholder="Digite seu usuário" ngDefaultControl/>
+          </div>
+          <div class="col-12 mb-3">
+            <app-form type="password"
+              id="password" [appElementoFoco]="'password'" [atalho]="'1'" [ctrl]="true"
+              label="Senha" formControlName="password" placeholder="Digite sua senha" ngDefaultControl/>
+          </div>
+          <div class="col-12 mt-3">
+            <p-button label="Entrar" size="large" styleClass="d-flex justify-content-center mt-3"
+              [appAtalhoEvento]="'Enter'" (evento)="login()" (click)="login()" />
+              <p class="mt-2 text-center text-xs">Não consegue acessar? <a class="redefinirSenha">Clique aqui.</a></p>
+              <p class="mt-3 text-center">Não possuí uma conta? <a class="redefinirSenha" (click)=redirectCadastro()>Cadastre-se!</a></p>
+          </div>
+          
+        </div>
+      </form>
+    </div>
+    <div class="col-12 hidden justify-content-center align-items-center md:col-8 md:flex">
+        <img src="../../../assets/icons/logoGGdescritivoVerde.svg" alt="Logo" width="400">
+    </div>
+  </div>
+</div>

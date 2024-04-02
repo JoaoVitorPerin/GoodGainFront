@@ -1,0 +1,419 @@
+label, span.label{
+  font-weight: 600;
+  font-size: .875rem !important;
+}
+
+input {
+  height: 2.05rem;
+}
+
+.p-dropdown.p-component, .p-multiselect.p-component {
+  height: 2.05rem;
+}
+
+.p-inputgroup .p-inputgroup-addon{
+  height: 2.05rem;
+}
+
+.p-inputgroup .p-button{
+  min-height: 2.05rem;
+  text-align: center;
+  display: flex;
+  width: max-content !important;
+  justify-content: center;
+  padding: 0px 30px !important;
+  text-wrap: none;
+}
+
+.p-inputgroup .p-button span{
+  text-wrap: nowrap;
+}
+
+
+.p-button.p-button-rounded{
+  border-radius: 50% !important;
+  padding: 8px;
+}
+
+.p-inputgroup .p-inputmask{
+  /* border-radius: 0 !important; */
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.p-dropdown .p-dropdown-label, .p-multiselect .p-multiselect-label{
+  padding: .35rem .75rem;
+}
+
+input:not(.ng-dirty.ng-invalid), textarea:not(.ng-dirty.ng-invalid) {
+  font-size: .875rem;
+  border: 1px solid #e2e8f0
+}
+
+.ng-dirty.ng-invalid > .p-inputnumber > .p-inputtext,
+.ng-dirty.ng-invalid > .p-calendar > .p-inputtext,
+.ng-dirty.ng-invalid > .p-dropdown > .p-inputtext,
+.ng-dirty.ng-invalid > .p-inputtext {
+  border-color: #e24c4c !important;
+}
+
+.field .p-element, .field .p-input-icon-left, .p-element .p-inputtext, .p-element .p-component, .p-element .p-calendar, .p-password, .p-element .p-dropdown, .p-multiselect, .p-multiselect .p-overlay, p-inputmask, p-divider, p-inputgroup input, p-inputnumber, input.p-inputtext, p-tabview.p-element, .p-input-icon-left{
+  width: 100%;
+}
+
+.p-inputgroup button:last-child {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.p-inputgroup input {
+  padding: 0.75rem 0.75rem;
+}
+
+.p-button {
+  width: 100% !important;
+}
+
+.p-divider.p-divider-horizontal {
+  margin: .65rem 0 !important;
+  padding: 0 .65rem !important;
+}
+
+.p-divider.p-divider-horizontal:before {
+  border-top: 1px solid #cbd5e1;
+}
+
+.dx-row.dx-data-row .p-button{
+  width: auto !important;
+}
+
+.overlay-mais-acoes {
+  max-width: 300px;
+}
+
+.overlay-mais-acoes .p-button {
+  width: auto !important;
+}
+
+::ng-deep .p-overlaypanel{
+  width: unset
+}
+
+.p-multiselect-panel .p-checkbox {
+  width: unset;
+}
+
+.p-inputswitch.p-component{
+  width: 3rem !important;
+}
+
+.p-element.p-icon-wrapper{
+  width: auto;
+  cursor: pointer;
+}
+
+.p-element-radio .p-element, .p-dropdown .p-element, .p-multiselect .p-element {
+  width: auto;
+}
+
+.p-calendar .p-inputtext {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.p-calendar .p-datepicker-trigger {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
+  width: 12px !important;
+}
+
+.p-button.p-button-icon-only {
+  max-height: 2rem;
+  width: 3.25rem !important;
+}
+
+.p-button.p-button-icon-only.p-button-icon-only-xs {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+}
+
+.p-accordion-tab {
+  padding: .35rem 0rem;
+}
+
+.p-accordion-header .p-accordion-toggle-icon, .p-accordion-header .p-accordion-header-text{
+  color: #495057 !important;
+}
+
+.p-disabled, .p-component:disabled  {
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.dx-item.dx-toolbar-item.dx-toolbar-button .p-button{
+  min-height: 2.25rem;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next {
+  width: 2rem !important;
+}
+
+.p-datepicker-title {
+  display: flex;
+}
+
+.p-overlay.p-component {
+  z-index: 1;
+}
+
+.p-datepicker table td>span {
+  width: 2.25rem !important;
+}
+
+.grid .field {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.field {
+  margin-bottom: 0;
+}
+
+.invalid {
+  display: none;
+  color: #e24c4c;
+}
+
+.ng-dirty.ng-invalid+.invalid{
+  display: block;
+}
+
+.field > label, .field > span.label {
+  margin-bottom: .35rem;
+}
+
+.field input {
+  display: inline-block;
+  margin-bottom: .35rem;
+}
+
+.p-card {
+  box-shadow: -3px 3px 20px rgba(0,0,0,.06);
+  border: 1px solid var(--global-bg-color);
+}
+
+.p-card .p-card-body {
+  padding: .35rem .85rem;
+}
+
+.p-card.p-card-sm .p-card-body {
+  padding: .35rem 1.15rem;
+}
+
+.p-card-filtros .p-card-body {
+  padding: .15rem;
+}
+
+.p-card .p-card-content {
+  padding: .25rem 0;
+}
+
+.p-element .p-tabview-nav-link{
+  color: #495057 !important;
+}
+
+.p-card .p-card-footer {
+  padding: 0;
+}
+
+.p-card .p-card-footer .p-button {
+  padding: .35rem 1.25rem;
+}
+
+.p-button .p-button-icon-left {
+  margin-right: .65rem;
+}
+
+.p-tabview .p-tabview-panels {
+  padding: 1rem .25rem 0rem .25rem;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding: 0.85rem 1.05rem;
+}
+
+.p-button-label {
+  font-weight: 500;
+}
+
+.p-button {
+  padding: .25rem .55rem;
+  height: 2.15rem;
+  font-size: .95rem !important;
+}
+
+@media (max-width: 992px) {
+  .p-button {
+    height: unset;
+    min-height: 2.15rem;
+  }
+}
+
+.p-button-xs .p-button {
+  padding: .05rem .35rem;
+}
+
+.p-steps .p-steps-number{
+  min-width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.p-steps .p-steps-item:before {
+  margin-top: -0.75rem;
+}
+
+.p-steps .p-steps-title{
+  font-size: .65rem;
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  min-width: 1.65rem;
+  height: 1.65rem;
+  line-height: 1.65rem;
+  font-size: .95rem;
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  color: #27AAE1;
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+  margin-top: .25rem;
+}
+
+@media(max-width: 768px){
+  .p-steps .p-steps-number{
+    font-size: 0.725rem;
+  }
+
+  .p-steps .p-steps-title{
+    font-size: 0.725rem;
+  }
+
+  .p-timeline-event {
+    margin-bottom: .5rem !important;
+  }
+}
+
+.p-toast-message .p-toast-message-text .p-toast-summary, .p-toast-message .p-toast-message-text .p-toast-detail {
+  text-align: center;
+}
+
+.p-toast-top-right{
+  top: 0;
+  right: 0;
+}
+
+.p-dialog .p-dialog-content {
+  padding: .75rem 1.25rem .75rem 1.25rem !important;
+}
+
+.p-avatar {
+  border-radius: 50% !important;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.border-solid{
+  border: 1px;
+}
+
+.text-danger {
+  color: var(--red-500);
+}
+
+input:read-only {
+  background-color: var(--surface-100);
+}
+
+.layout-sidebar{
+  box-shadow: none !important;
+}
+
+/* @media screen and (min-width: 992px){
+  .layout-container.layout-drawer.layout-sidebar-active .layout-sidebar {
+    width: 6.5rem !important;
+  }
+} */
+
+.p-carousel .p-carousel-indicators {
+  padding: 2rem 1rem .5rem 1rem;
+}
+
+.p-panel .p-panel-header .p-panel-title {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+.p-panel .p-panel-header, .p-accordion .p-accordion-header .p-accordion-header-link {
+  background-color: #fff !important;
+  padding: .75rem .95rem;
+  border-radius: 6px;
+}
+
+.p-panel .p-panel-content, .p-accordion .p-accordion-content {
+  padding: .75rem .95rem;
+}
+
+.p-accordion-header .p-accordion-toggle-icon, .p-accordion-header .p-accordion-header-text {
+  color: var(--text-color) !important;
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  font-weight: 600;
+}
+
+.p-accordion p-accordiontab .p-accordion-tab {
+  margin-bottom: 0px;
+}
+
+.p-dialog .p-dialog-header {
+  padding: 1.25rem;
+}
+
+.p-dialog .p-dialog-footer {
+  padding: .25rem 1.25rem 1.25rem 1.25rem;
+}
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+  padding: .65rem;
+}
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-legend-text {
+  font-size: .85rem;
+}
+
+.p-fieldset .p-fieldset-content {
+  padding: .35rem;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  margin: 0 0 -1px 0 !important;
+}
+
+.layout-content-wrapper{
+  padding: 0 !important;
+}
+
+.p-inputgroup-addon {
+  font-size: 67.5% !important;
+  border-top: 1px solid #e2e8f0 !important;
+  border-left: 1px solid #e2e8f0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}

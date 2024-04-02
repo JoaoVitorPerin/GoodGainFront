@@ -1,0 +1,26 @@
+::ng-deep .p-menu{
+    width: auto !important;
+}
+
+::ng-deep .p-submenu-header{
+    display: none !important;
+}
+
+::ng-deep .p-menu-list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+::ng-deep .p-menu ul li .p-menuitem-link{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.icon{
+    margin-top: 0.3rem;
+}

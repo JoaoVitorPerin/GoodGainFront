@@ -1,0 +1,39 @@
+<div>
+  @if(!item.routerLink || item.items.length){
+    <a [routerLink]="item.routerLink ? item.routerLink : null"
+      (click)="itemClick($event)" (mouseenter)="onMouseEnter()"
+      [appAtalhoEvento]="item?.atalho" [alt]="item?.alt ?? false" [ctrl]="item?.ctrl ?? false" [shift]="item?.shift ?? false" (evento)="itemClick($event, $event)" >
+      @if(item.icon){
+        @if(!item.icon_material) {
+          <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+        } @else {
+          <i class="material-symbols-outlined icon-material">
+            {{item.icon}}
+          </i>
+        }
+      }
+      <span class="layout-menuitem-text" [pTooltip]="item?.tooltip ?? null">{{ item.label }}</span>
+    </a>
+  } @else if(item.routerLink && !item.items.length) {
+    <a [routerLink]="item.routerLink ? item.routerLink : null" routerLinkActive="active-route" class="link-menu"
+      [routerLinkActiveOptions]="item.routerLinkActiveOptions || { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+      (click)="itemClick($event)" (mouseenter)="onMouseEnter()"
+      [appAtalhoEvento]="item?.atalho" [alt]="item?.alt ?? false" [ctrl]="item?.ctrl ?? false" [shift]="item?.shift ?? false" (evento)="itemClick($event)">
+      @if(item.icon){
+        @if(!item.icon_material) {
+          <i [ngClass]="item.icon" class="layout-menuitem-icon" [pTooltip]="item?.tooltip ?? null"></i>
+        } @else {
+          <i class="material-symbols-outlined icon-material" [pTooltip]="item?.tooltip ?? null">
+            {{item.icon}}
+          </i>
+        }
+      }
+      <span class="layout-menuitem-text" [pTooltip]="item?.tooltip ?? null">{{ item.label }}</span>
+    </a>
+  }
+  <ul #submenu *ngIf="item.items" [@children]="submenuAnimation" (@children.done)="onSubmenuAnimated($event)">
+    @for (child of item.items; track item.id; let i = $index) {
+      <li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
+    }
+  </ul>
+</div>

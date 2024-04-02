@@ -1,0 +1,23 @@
+<p-sidebar [(visible)]="visible" position="right" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'" styleClass="w-full sm:w-18rem">
+  <div class="grid">
+    <div class="col-12 flex justify-content-between align-items-center">
+      <p-avatar styleClass="cursor-pointer" size="normal" shape="circle"
+        [appAtalhoEvento]="'Tab'" [shift]="true" [style]="{'background-color':'#EFF3F8', 'color': '#05FF00'}"><span class="material-symbols-outlined"> person</span></p-avatar>
+      <p class="font-semibold font-lg">{{ funcionario }}</p>
+      <span class="material-symbols-outlined cursor-pointer" (click)="toggleMenuConfiguracoes()">
+        manufacturing
+      </span>
+    </div>
+    <p-divider></p-divider>
+    <div class="col-12 flex justify-content-between">
+      <p-button label="Criar Comunicado" [outlined]="true" icon="pi pi-file-edit"></p-button>
+    </div>
+    <div class="col-12 flex justify-content-between">
+      <p-accordion>
+        <p-accordionTab header="Acesso rápido">
+          <app-menu-perfil [items]='items'></app-menu-perfil>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+</p-sidebar>

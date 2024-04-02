@@ -1,0 +1,132 @@
+<div class="grid flex justify-content-center align-items-center w-100 m-0 p-0">
+  <div class="col-12 h-100">
+    <p-card class="border-round-lg" [style]="{height: 'calc(100vh - 40px - 35px - 7px)', overflowY: 'auto'}">
+      <form [(formGroup)]="formCadastrarCliente">
+        <div class="grid justify-content-center" [style]="{height: 'calc(100vh - 40px - 35px - 7px - 60px)', overflowY: 'auto'}">
+          <div class="col-12 md:col-6 row-gap-3">
+
+            <div class="grid m-0 p-0">
+              <div class="col-12">
+                <app-form label="Cadastrar cliente no Club Nissei" type="text-group"
+                  formControlName="cliente" ngDefaultControl [readonly]="cliente ? true : false"
+                  [mask]="mascaraTipo" textoAgrupamento="CPF/CNPJ" [autoClear]="false"/>
+              </div>
+
+              <div class="col-12 md:col-8">
+                <app-form label="Nome" type="text"
+                  formControlName="nome" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-4">
+                <app-form label="Celular" type="celular"
+                  formControlName="celular" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="E-mail" type="text"
+                  formControlName="email" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="Data de nascimento" type="date-manual"
+                  formControlName="data_nascimento" ngDefaultControl />
+              </div>
+
+              <div class="col-12">
+                <app-form label="Sexo" type="radio" [items]="sexos"
+                  formControlName="sexo" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="CEP" type="cep" (blur)="buscarEndereco()"
+                  formControlName="cep" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="Endereço" type="text"
+                  formControlName="endereco" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-3">
+                <app-form label="UF" type="text" [readonly]="!enderecoManual"
+                  formControlName="uf" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="Cidade" type="text" [readonly]="!enderecoManual"
+                  formControlName="cidade" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-3">
+                <app-form label="N°" type="int"
+                  formControlName="numero" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="Bairro" type="text"
+                  formControlName="bairro" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <app-form label="Complemento" type="text"
+                  formControlName="complemento" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-4">
+                <app-form label="Cr" type="select"
+                  [items]="crs" placeholder="Selecione"
+                  formControlName="cr" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-4">
+                <app-form label="Código" type="text"
+                  formControlName="cr_codigo" ngDefaultControl />
+              </div>
+
+              <div class="col-12 md:col-4">
+                <app-form label="UF" type="select"
+                  [items]="crUf" placeholder="Selecione"
+                  formControlName="cr_uf" ngDefaultControl />
+              </div>
+
+              <div class="col-12 mt-2">
+                <app-form label="Gostaria de CPF na nota (Opcional)" type="checkbox"
+                  formControlName="termo_cpf_nota" ngDefaultControl />
+              </div>
+
+              <div class="col-12">
+                <app-form label="Li e aceito os termos de uso de privacidade (Obrigatório)" type="checkbox"
+                  formControlName="termo_uso_privacidade" ngDefaultControl />
+              </div>
+
+              <div class="col-12">
+                <app-form label="Li e aceito os termos de uso do Club Nissei (Obrigatório)" type="checkbox"
+                  formControlName="termo_uso_club" ngDefaultControl />
+              </div>
+
+            </div>
+          </div>
+          <div class="col-12 md:col-6">
+            <p-panel header="Vantagens Club">
+              @if(loadingHTMLClub) {
+                <p-skeleton height="15rem" />
+              } @else {
+                <div class="text-justify" [innerHTML]="sanitizeString(htmlClub)"></div>
+              }
+            </p-panel>
+          </div>
+        </div>
+      </form>
+      <div class="col-12 flex justify-content-end column-gap-3 pb-0 mb-0">
+        <div class="col-3 m-0 p-0">
+          <p-button label="Avançar (Enter)"
+            [appAtalhoEvento]="'Enter'" (evento)="cadastrarCliente()" (click)="cadastrarCliente()" />
+        </div>
+        <div class="col-3 m-0 p-0">
+          <p-button severity="danger" label="Cancelar (Esc)"
+            [appAtalhoEvento]="'Escape'" (evento)="cancelarCadastro()" (click)="cancelarCadastro()" />
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="grid m-0 p-0">
+  <div class="col-12">
+    <p-card class="border-round-lg" [style]="{height: 'calc(100vh - 40px - 35px - 7px)', overflowY: 'auto'}">
+      <form [(formGroup)]="formOperadora">
+        <div class="grid">
+          @if(loadingOperadoras){
+            <div class="col-12">
+              <p class="font-lg font-semibold">Selecione uma operadora</p>
+            </div>
+            @for(skeleton of [].constructor(4); track skeleton;){
+              <div class="col-3">
+                <p-skeleton height="5rem"></p-skeleton>
+              </div>
+            }
+          } @else {
+            <div class="col-12">
+              <app-label grid="col-6 md:col-3" iconType="media" name="label-operadora" [control]="formOperadora?.get('operadora')"
+                label="Selecione uma operadora" [imgWidth]="25" [imgHeight]="25" cor="secondary" [items]="operadoras" />
+            </div>
+          }
+
+          @if (formOperadora?.get('operadora')?.value) {
+            <div class="col-6">
+              <app-form type="celular"
+                id="celular" [appElementoFoco]="'celular'" [atalho]="'5'" [ctrl]="true"
+                [autoClear]="false" label="Número de celular (Ctrl + 5)" formControlName="celular" ngDefaultControl />
+            </div>
+            @if(formOperadora?.get('celular')?.value){
+              <div class="col-6">
+                <app-form type="celular"
+                  id="celular_confirmar" [appElementoFoco]="'celular_confirmar'" [atalho]="'6'" [ctrl]="true"
+                  [autoClear]="false" label="Confirme o número de celular (Ctrl + 6)" formControlName="celular_confirmar" ngDefaultControl />
+              </div>
+              @if(formOperadora?.get('celular_confirmar')?.value) {
+                @if(loadingValoresRecargas){
+                  <div class="col-12">
+                    <p class="font-lg font-semibold">Selecione o valor da recarga</p>
+                  </div>
+                  @for(skeleton of [].constructor(6); track skeleton;){
+                    <div class="col-6 md:col-2">
+                      <p-skeleton height="3.5rem"></p-skeleton>
+                    </div>
+                  }
+                } @else {
+                  <div class="col-12">
+                    <app-label grid="col-6 md:col-2" name="label-valor-operadora" [control]="formOperadora?.get('valor')"
+                      label="Selecione o valor da recarga" cor="secondary" [items]="valoresRecarga" />
+                  </div>
+                }
+              }
+            }
+          }
+
+        </div>
+      </form>
+      @if(formOperadora?.valid) {
+        <div class="col-12 flex justify-content-end column-gap-3">
+          <div class="col-3 m-0 p-0">
+            <p-button label="Avançar (Enter)"
+              [appAtalhoEvento]="'Enter'" (evento)="proximoPasso()" (click)="proximoPasso()" />
+          </div>
+          <div class="col-3 m-0 p-0">
+            <p-button severity="danger" label="Cancelar (Esc)"
+              [appAtalhoEvento]="'Escape'" (evento)="cancelarCompra()" (click)="cancelarCompra()" />
+          </div>
+        </div>
+      }
+    </p-card>
+  </div>
+</div>

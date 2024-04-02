@@ -1,0 +1,26 @@
+<ng-template #loading>
+  <app-loader class="flex justify-content-center"></app-loader>
+</ng-template>
+
+<label *ngIf="label">{{ label }}</label>
+
+<div *ngIf="!type || type === 'text'">
+  <input pInputText type="text" (change)="modelHandler($event)" (keyup)="onKeyUpHandler($event)" />
+</div>
+
+<div *ngIf="type === 'textarea'">
+  <textarea pInputTextarea (change)="modelHandler($event)"></textarea>
+</div>
+
+<div *ngIf="type === 'select'">
+  <p-dropdown [options]="items" [placeholder]="placeholder ?? ''"
+    [filter]="true" [showClear]="true" ngDefaultControl
+    [virtualScroll]="true" [virtualScrollItemSize]="35"
+    (onChange)="onChangeModelHandler($event)"></p-dropdown>
+</div>
+
+<div *ngIf="type === 'dinheiro'">
+  <p-inputNumber (onInput)="onChangeModelHandler($event)"
+    mode="currency" currency="BRL" locale="pt-BR" [placeholder]="placeholder ?? ''" ngDefaultControl>
+  </p-inputNumber>
+</div>

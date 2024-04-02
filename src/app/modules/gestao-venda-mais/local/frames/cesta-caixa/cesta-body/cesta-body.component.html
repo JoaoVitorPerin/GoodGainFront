@@ -1,0 +1,5 @@
+<div class="col-12">
+  @for (produto of produtos; track produto?.ean) {
+    <app-produto [produto]="produto"></app-produto>
+  }
+</div>

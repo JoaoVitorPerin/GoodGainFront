@@ -1,0 +1,327 @@
+@if(loading) {
+  <p-skeleton height="2.25rem" />
+} @else {
+
+  <div class="flex justify-content-between w-100">
+    <label *ngIf="label && type != 'checkbox'">{{ label }}</label>
+    <p-overlayPanel class="p-overlaypanel" #infos>
+      <p>{{ajuda}}</p>
+    </p-overlayPanel>
+    <i *ngIf="ajuda" (click)="infos.toggle($event)" class="pi pi-info-circle cursor-pointer flex align-items-center justify-content-center text-sm" style="color: #495057"></i>
+  </div>
+
+  <div *ngIf="!type || type === 'text'">
+    <input pInputText type="text" [formControlName]="formControlName"
+      (blur)="onBlurHandler($event)"
+      [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }" />
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'pesquisa'">
+    <div class="p-inputgroup">
+      <input pInputText type="text"
+        #inputPesquisa [formControlName]="formControlName"
+        (blur)="onBlurHandler($event)"
+        [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+        [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }" />
+      <button (click)="onPesquisaGenerica()" type="button" pButton icon="pi pi-search"></button>
+    </div>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+    <p-overlayPanel styleClass="overlay-pesquisa" #overlayPesquisa>
+      <ul>
+        <li (click)="selecionarOpcaoPesquisa(opcao)" *ngFor="let opcao of opcoesPesquisa">
+          {{opcao}}
+        </li>
+      </ul>
+    </p-overlayPanel>
+  </div>
+
+  <div *ngIf="type === 'text-icon'">
+    <span class="p-input-icon-left">
+      <i class="pi {{ icon }}"></i>
+      <input pInputText type="text" [formControlName]="formControlName"
+        (blur)="onBlurHandler($event)"
+        [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+        [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }" />
+      <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+    </span>
+  </div>
+
+  <div *ngIf="type === 'textarea'">
+    <textarea [maxlength]="maxLength ?? 300" pInputTextarea [formControlName]="formControlName"
+      [placeholder]="placeholder ?? ''"[rows]="rows ?? 4" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }">
+    </textarea>
+    <div class="flex justify-content-between w-100">
+      <div>
+        <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+      </div>
+      <p>{{formGroup?.get(formControlName).value?.length ?? 0}}/{{maxLength ?? 300}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="type === 'text-group'">
+    @if (!mask) {
+      <p-inputGroup>
+        <p-inputGroupAddon>{{ textoAgrupamento }}</p-inputGroupAddon>
+        <input pInputText type="text" [formControlName]="formControlName"
+          (onBlur)="onBlurHandler($event)"
+          (onKeydown)="onKeyDownHandler($event)"
+          [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+          [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }" />
+      </p-inputGroup>
+    } @else if(mask === 'cpf'){
+      <p-inputGroup>
+        <p-inputGroupAddon>{{ textoAgrupamento }}</p-inputGroupAddon>
+        <p-inputMask [formControlName]="formControlName"
+          (onBlur)="onBlurHandler($event)"
+          (onKeydown)="onKeyDownHandler($event)"
+          mask="999.999.999-99" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false" [autoClear]="autoClear ?? true"
+          [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+        <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+      </p-inputGroup>
+    } @else if(mask === 'cnpj'){
+      <p-inputGroup>
+        <p-inputGroupAddon>{{ textoAgrupamento }}</p-inputGroupAddon>
+        <p-inputMask [formControlName]="formControlName"
+          (onBlur)="onBlurHandler($event)"
+          (onKeydown)="onKeyDownHandler($event)"
+          mask="99.999.999/9999-99" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false" [autoClear]="autoClear ?? true"
+          [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+        <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+      </p-inputGroup>
+    }
+  </div>
+
+  <div *ngIf="type == 'editor-html'">
+    <app-editor-html [controlName]="formControlName"></app-editor-html>
+  </div>
+
+  <div *ngIf="type == 'dualist'">
+    <p-pickList [source]="items" [target]="itemsSelecionados"
+      (onMoveToSource)="onDualistChange($event)"
+      (onMoveToTarget)="onDualistChange($event)"
+      (onMoveAllToSource)="onDualistChange($event)"
+      (onMoveAllToTarget)="onDualistChange($event)"
+      (onTargetReorder)="onDualistChange($event)"
+      sourceHeader="Disponíveis"
+      targetHeader="Selecionados"
+      [dragdrop]="true"
+      [responsive]="true"
+      [sourceStyle]="{ height: '20rem' }"
+      [targetStyle]="{ height: '20rem' }"
+      filterBy="label"
+      sourceFilterPlaceholder="Procurar por nome"
+      targetFilterPlaceholder="Procurar por nome"
+      breakpoint="1400px">
+      <ng-template let-item pTemplate="item">
+        <span class="font-bold">{{ item?.label }}</span>
+      </ng-template>
+    </p-pickList>
+  </div>
+
+  <div *ngIf="type === 'int'">
+    <p-inputNumber [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mode="decimal" [useGrouping]="false" [min]="min ?? 0" [max]="max ?? 9999999999999999999999999"
+      [prefix]="prefix ?? ''" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputNumber>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'float'">
+    <p-inputNumber [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mode="decimal" [useGrouping]="false" [minFractionDigits]="2" [maxFractionDigits]="2"
+      [prefix]="prefix ?? ''" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputNumber>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'dinheiro'">
+    <p-inputNumber [formControlName]="formControlName"
+      (blur)="onBlurHandler($event)"
+      mode="currency" currency="BRL" locale="pt-BR" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputNumber>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'celular'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="(99) 9 9999-9999" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'telefone'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="(99) 9999-9999" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'hora'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="99:99" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'cpf'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="999.999.999-99" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'rg'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="99.999.999-99" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'cnpj'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="99.999.999/9999-99" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'cep'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      (keyup)="onKeyUpHandler($event)"
+      mask="99.999-999" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'correio'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="**999999999BR" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'ean'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      mask="*9999999999999" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'mask'">
+    <p-inputMask [formControlName]="formControlName"
+      (onBlur)="onBlurHandler($event)"
+      [mask]="mask ?? ''" [slotChar]="slotChar ?? ''" [autoClear]="autoClear ?? true" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'password'">
+    <p-password [formControlName]="formControlName"
+      [toggleMask]="true" [feedback]="false" [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-password>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'switch'">
+    <p-inputSwitch [formControlName]="formControlName"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputSwitch>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'checkbox'">
+    <div class="flex align-items-center gap-2">
+      <p-checkbox [formControlName]="formControlName" [value]="true" [binary]="true" class="width-unset" styleClass="width-unset"
+        [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-checkbox>
+      <label *ngIf="label">{{ label }}</label>
+    </div>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'radio'">
+    <div *ngIf="items?.length" class="flex gap-4">
+      <div class="p-element-radio" *ngFor="let item of items; let index = index">
+        <p-radioButton [formControlName]="formControlName" [value]="item?.value" [id]="item?.value + '_' + index"></p-radioButton>
+        <label [for]="item?.value + '_' + index" class="ml-2">{{ item?.label }}</label>
+      </div>
+    </div>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'select'">
+    <p-dropdown [formControlName]="formControlName" [options]="items" (onChange)="onChangeHandler($event)"
+      [placeholder]="placeholder ?? ''" [filter]="true" [showClear]="true" ngDefaultControl
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"
+      [virtualScroll]="true" [virtualScrollItemSize]="35" appendTo="body"></p-dropdown>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'select-multiplo'">
+    <p-multiSelect [formControlName]="formControlName" [options]="items"
+      [placeholder]="placeholder ?? ''" [showClear]="true" ngDefaultControl
+      [virtualScroll]="true" [virtualScrollItemSize]="35" appendTo="body"></p-multiSelect>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'date'">
+    <p-calendar [formControlName]="formControlName"
+      [showIcon]="true" dateFormat="dd/mm/yy" dataType="string" appendTo="body"
+      (onClose)="onBlurHandler($event)" [readonlyInput]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"
+      [minDate]="minDate ?? ''" [maxDate]="maxDate ?? ''"></p-calendar>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'date-manual'">
+    <p-inputMask [formControlName]="formControlName"
+      mask="99/99/9999" [placeholder]="placeholder ?? ''" [autoClear]="autoClear ?? true" [readonly]="readonly ?? false"
+      [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }"></p-inputMask>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <div *ngIf="type === 'date-range'">
+    <p-calendar [formControlName]="formControlName"
+      [showIcon]="true" dateFormat="dd/mm/yy" appendTo="body"
+      [minDate]="minDate ?? ''" [maxDate]="maxDate ?? maxDateDefault" selectionMode="range"
+      #rangeData (onSelect)="onSelectDateRange();"></p-calendar>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div>
+
+  <!-- <div *ngIf="type === 'labl'">
+    <div class="grid">
+      <div class="{{ grid }} labl" *ngFor="let item of items; let index = index">
+        <input type="radio" [id]="item?.value + '_' + index" [value]="item?.value" [formControlName]="formControlName"
+          [ngClass]="{'ng-invalid ng-dirty': !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched }">
+        <label [for]="item?.value + '_' + index" class="w-100 border-round-md">
+          <div class="flex align-items-center h-100">
+            <a class="labl-body text-center p-2">
+              <i *ngIf="!iconType || iconType === 'icon' && item?.icon" class="pi {{ item?.icon }}"></i>
+              <img *ngIf="iconType === 'media' && item?.icon" [width]="width ?? 30" class="mb-1" [src]="item?.icon">
+              <p class="text-sm md:text-md mt-1">
+                {{ item?.label }}
+              </p>
+            </a>
+          </div>
+        </label>
+      </div>
+    </div>
+    <small class="invalid" *ngIf="erro && !formGroup?.get(formControlName)?.valid && formGroup?.get(formControlName)?.touched">{{ erro }}</small>
+  </div> -->
+
+  <div *ngIf="type === 'no-control'">
+    <input pInputText type="text" [value]="value" [disabled]="disabled ?? false" [style]="customStyle ?? {}"/>
+  </div>
+
+}

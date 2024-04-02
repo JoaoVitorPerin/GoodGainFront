@@ -1,0 +1,13 @@
+<app-header></app-header>
+<div class="layout-container" [ngClass]="containerClass">
+    <app-sidebar></app-sidebar>
+    <div class="layout-content-wrapper">
+        <div [ngClass]="{'with-submenu': temSubmenu, 'without-submenu': !temSubmenu}" class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <app-main-asidebar></app-main-asidebar>
+    <app-config></app-config>
+    <div class="layout-mask"></div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,42 @@
+::ng-deep app-label {
+  width: 100%;
+}
+
+.labl-body {
+  flex: 1 1 auto;
+}
+
+.labl .ng-invalid.ng-dirty {
+  border: 1px solid red !important;
+}
+
+.labl>input+label {
+  box-shadow: unset !important;
+}
+
+.labl>input+label:hover,
+.labl>input:checked+label {
+  border: 2px solid var(--primary-color) !important;
+}
+
+.labl>input+label:hover *, .labl>input:checked+label * {
+  color: var(--primary-color) !important;
+}
+
+.labl.labl-secondary label {
+  border: 1px solid #cbd5e1;
+}
+
+.labl.labl-secondary>input:checked+label,
+.labl.labl-secondary>input:hover+label {
+  background-color: #f0f3f5 !important;
+}
+
+.labl.labl-secondary>input:checked+label *,
+.labl.labl-secondary>input:hover+label * {
+  /* color: #f0f3f5 !important; */
+}
+
+.labl.labl-warning>input+label {
+  border: 0 !important;
+}

@@ -1,0 +1,35 @@
+
+<p-sidebar [(visible)]="visible" position="right" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'" styleClass="layout-config-sidebar w-18rem">
+    <!-- <h5>Cores</h5>
+    <div class="flex flex-wrap row-gap-3">
+        <div class="w-3" *ngFor="let theme of componentThemes">
+            <button type="button" 
+                class="cursor-pointer p-link w-2rem h-2rem border-circle flex-shrink-0 flex align-items-center justify-content-center" 
+                (click)="changeTheme(theme.name)" 
+                [ngStyle]="{'background-color': theme.color}"><i *ngIf="theme.name == this.layoutService.config.theme " class="pi pi-check text-white"></i></button>
+        </div>
+    </div>
+    
+    <h5>Escala</h5>
+    <div class="flex align-items-center">
+        <button icon="pi pi-minus" type="button" pButton (click)="decrementScale()" class="p-button-text p-button-rounded w-2rem h-2rem mr-2" [disabled]="scale === scales[0]"></button>
+        <div class="flex gap-2 align-items-center">
+            <i class="pi pi-circle-fill text-300" *ngFor="let s of scales" [ngClass]="{'text-primary-500': s === scale}"></i>
+        </div>
+        <button icon="pi pi-plus"  type="button" pButton (click)="incrementScale()" class="p-button-text p-button-rounded w-2rem h-2rem ml-2" [disabled]="scale === scales[scales.length - 1]"></button>
+    </div> -->
+
+    <h5>Tema</h5>
+    <div class="field-radiobutton">
+        <p-radioButton name="colorScheme" value="light" [(ngModel)]="colorScheme" inputId="mode-light"></p-radioButton>
+        <label for="mode-light">Light</label>
+    </div>
+    <div class="field-radiobutton">
+        <p-radioButton name="colorScheme" value="dim" [(ngModel)]="colorScheme" inputId="mode-dim"></p-radioButton>
+        <label for="mode-dim">Dim</label>
+    </div>
+    <div class="field-radiobutton">
+        <p-radioButton name="colorScheme" value="dark" [(ngModel)]="colorScheme" inputId="mode-dark"></p-radioButton>
+        <label for="mode-dark">Dark</label>
+    </div>
+</p-sidebar>

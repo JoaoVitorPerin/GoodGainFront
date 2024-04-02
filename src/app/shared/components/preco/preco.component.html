@@ -1,0 +1,35 @@
+@if(orientacao === 'vertical'){
+  <div class="grid" [style]="{height: precoAltura + 'px' ?? '60px' }">
+    @if (preco?.vlr_ini && !removerVlrIni && !isMobile) {
+      <div class="col-12 flex justify-content-center align-items-center mb-0 pb-0">
+        <p class="text-500"
+          [class.text-xs]="tamanho === 'xs'" [class.text-md]="tamanho === 'sm'" [class.text-xl]="tamanho === 'md'" [class.text-2xl]="tamanho === 'lg'">
+          R$ {{ convertePrecoParaPadraoBR(preco?.vlr_ini * (quantidade ? quantidade : 1)) }}
+        </p>
+      </div>
+    }
+    @if (preco?.vlr_fim) {
+      <div class="col-12 flex justify-content-center align-items-center mt-0 pt-0">
+        <p class="text-primary font-semibold"
+          [class.text-md]="tamanho === 'xs'" [class.text-xl]="tamanho === 'sm'" [class.text-3xl]="tamanho === 'md'" [class.text-5xl]="tamanho === 'lg'">
+          R$ {{ convertePrecoParaPadraoBR(preco?.vlr_fim * (quantidade ? quantidade : 1)) }}
+        </p>
+      </div>
+    }
+  </div>
+} @else if(orientacao === 'horizontal') {
+  <div class="flex align-items-center justify-content-center gap-3" [style]="{height: precoAltura + 'px' ?? '60px' }">
+    @if (preco?.vlr_ini && !removerVlrIni && !isMobile) {
+      <p class="text-500"
+        [class.text-xs]="tamanho === 'xs'" [class.text-md]="tamanho === 'sm'" [class.text-xl]="tamanho === 'md'" [class.text-2xl]="tamanho === 'lg'">
+        R$ {{ convertePrecoParaPadraoBR(preco?.vlr_ini * (quantidade ? quantidade : 1)) }}
+      </p>
+    }
+    @if (preco?.vlr_fim) {
+      <p class="text-primary font-semibold"
+        [class.text-md]="tamanho === 'xs'" [class.text-xl]="tamanho === 'sm'" [class.text-3xl]="tamanho === 'md'" [class.text-5xl]="tamanho === 'lg'">
+        R$ {{ convertePrecoParaPadraoBR(preco?.vlr_fim * (quantidade ? quantidade : 1)) }}
+      </p>
+    }
+  </div>
+}

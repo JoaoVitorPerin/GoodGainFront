@@ -1,0 +1,14 @@
+::ng-deep p-inputgroup .p-inputgroup {
+  flex-direction: column !important;
+}
+
+::ng-deep p-inputgroup .p-inputgroup .p-button {
+  width: 100% !important;
+  border-radius: 6px !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+::ng-deep p-inputgroup input {
+  border-bottom-left-radius: 0px !important;
+}

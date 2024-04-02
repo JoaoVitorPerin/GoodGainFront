@@ -1,0 +1,3 @@
+::ng-deep .dx-list .dx-item.dx-list-item.dx-state-invisible {
+  display: block !important;
+}

@@ -1,0 +1,23 @@
+/* Layout */
+@import "css/filepond.css";
+@import "css/filepond-plugin-image-preview.css";
+@import "assets/layout/styles/layout/layout.scss";
+@import "css/toastr.css";
+@import "css/sidebar.css";
+@import "css/header.css";
+@import "css/transitions.css";
+@import "primeicons/primeicons.css";
+@import "css/primeng.css";
+@import "css/tabelas.css";
+@import "css/customizado.css";
+@import "css/selection-box.css";
+
+@media print {
+  app-root>* {
+    display: none;
+  }
+  app-root app-print-layout {
+    display: block;
+  }
+}
+

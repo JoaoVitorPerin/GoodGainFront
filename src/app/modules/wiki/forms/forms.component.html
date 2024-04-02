@@ -1,0 +1,206 @@
+<p-card class="border-round-lg">
+  <div class="grid mb-2">
+    <div class="col-12 flex justify-content-between">
+      <p class="p-card-title">Wiki forms</p>
+      <p class="p-card-subtitle flex align-items-center">Versão 1.0.0</p>
+    </div>
+  </div>
+  <div class="grid conteudo-scrollavel">
+    <div class="col-12 lg:col-2">
+      <div class="block">
+        <p class="font-semibold text-sm mb-2">Forms</p>
+        <p class="font-light text-color-secondary text-xs mb-2">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+        <p class="font-light text-color-secondary text-xs mb-2">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words.</p>
+      </div>
+    </div>
+    <div class="col-12 lg:col-10 lg:pl-4">
+
+      <form [formGroup]="formularioPadronizacaoCampos">
+        <div class="grid" *ngIf="formularioPadronizacaoCampos">
+          <div class="field col-12 lg:col-6">
+           <div class="w-100">
+            <app-form label="Input texto padrão" type="text"
+            formControlName="input_text" [required]="true" ngDefaultControl
+            erro="Descrição para campo inválido" />
+           </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+           <div class="w-100">
+             <app-form label="Input com ícone na esquerda" type="text-icon"
+              formControlName="input_icone_esq" [required]="true" ngDefaultControl
+              erro="Descrição para campo inválido" />
+           </div>
+          </div>
+          <div class="field col-12">
+           <div class="w-100">
+             <app-form label="Textarea" type="textarea"
+              formControlName="textarea" [required]="true" ngDefaultControl
+              erro="Descrição para campo inválido" />
+           </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Input int" type="int"
+              formControlName="input_int" [required]="true" ngDefaultControl
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-6 lg:col-3">
+           <div class="w-100">
+             <app-form label="Input float" type="float"
+              formControlName="input_float" [required]="true" ngDefaultControl
+              erro="Descrição para campo inválido" />
+           </div>
+          </div>
+          <div class="field col-6 lg:col-3">
+            <div class="w-100">
+              <app-form label="Input c/ min e max" type="int"
+              formControlName="input_min_max" [required]="true" ngDefaultControl
+              [min]="0" [max]="100"
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Input com máscara" type="mask"
+              formControlName="input_mascara" [required]="true" ngDefaultControl
+              mask="(99) 9 9999-9999"
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Input com máscara e placeholder dinâmico" type="mask"
+              formControlName="input_mascara_placeholder" [required]="true" ngDefaultControl
+              mask="999.999.999-99" slotChar="999.999.999-99"
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+           <div class="w-100">
+             <app-form label="Input password" type="password"
+              formControlName="input_password" [required]="true" ngDefaultControl
+              erro="Descrição para campo inválido" />
+           </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+           <div class="w-100">
+            <app-form label="Input pesquisa" type="pesquisa"
+              formControlName="input_com_pesquisa" ngDefaultControl
+              [opcoesPesquisa]="opcoesPesquisa"
+              (pesquisar)="pesquisaGenerica('input_com_pesquisa')"
+              ajuda="Clique no ícone para pesquisar" />
+           </div>
+          </div>
+          <div class="field col-12 lg:col-3">
+            <div class="w-100">
+              <app-form label="Input switch" type="switch"
+              formControlName="input_switch" ngDefaultControl
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-3">
+           <div class="w-100">
+             <app-form label="Checkbox" type="checkbox"
+              formControlName="input_checkbox" ngDefaultControl
+              erro="Descrição para campo inválido" />
+           </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Radio" type="radio"
+              formControlName="input_radio" ngDefaultControl
+              [items]="opcoesRadio"
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Select c/ virtual scroll e pesquisa" type="select"
+              formControlName="select" placeholder="Selecione um item" ngDefaultControl
+              [items]="items"
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Select múltiplo c/ virtual scroll e pesquisa" type="select-multiplo"
+              formControlName="select_multiplo" placeholder="Selecione os itens" ngDefaultControl
+              [items]="items"
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Data" type="date"
+              formControlName="data" ngDefaultControl
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+          <div class="field col-12 lg:col-6">
+            <div class="w-100">
+              <app-form label="Data" type="date-range"
+                formControlName="data" ngDefaultControl
+                [minDate]="minDate" [maxDate]="maxDate"
+                erro="Descrição para campo inválido" />
+            </div>
+          </div>
+
+          <div class="field col-12 lg:col-12" >
+            <div class="w-100">
+              <app-planilha 
+                label="Planilha" type="planilha"
+                placeholder="Produtos (enviar ID dos produtos separados por `;`)"
+                formControlName="cadastro_planilha" 
+                nomeModelo="PlanilhaProdutos"
+                [modelo]="modeloPlanilha"
+                erro="erro" 
+                ajuda="ajuda" ngDefaultControl
+              >
+              </app-planilha>
+            </div>
+          </div>
+
+          <div class="field col-12">
+            <label for="mestre_detalhe">Mestre detalhe</label>
+            <div class="mw-100">
+              <datagrid [data]="data" [columns]="columns" [configuracoes]="configuracoes"
+                [control]="formularioPadronizacaoCampos?.controls['mestre_detalhe']"
+                urlPaginacao="" urlRelatorio="wiki/relatorio"></datagrid>
+            </div>
+          </div>
+
+          <!-- <div class="field col-12 lg:col-12">
+            <app-form label="Editor texto/html" type="editor-html"
+            formControlName="data" ngDefaultControl
+            [minDate]="minDate" [maxDate]="maxDate"
+            erro="Descrição para campo inválido" />
+          </div> -->
+
+          <div class="field col-12 lg:col-12">
+            <div class="w-100">
+              <app-form label="Dualist" type="dualist" [items]="itemsDualist"
+                formControlName="dualist" ngDefaultControl
+                erro="Descrição para campo inválido" 
+              />
+            </div>
+          </div>
+
+          <div class="field col-12">
+            <label for="mestre_detalhe">Tree list</label>
+            <div class="mw-100">
+              <app-treelist [columns]="columnsTreelist" [configuracoes]="confTreelist" [data]="dataTreelist" [idElemento]="idElementoTreelist" [idPai]="idPaiTreelist"></app-treelist>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end">
+      <div class="col-6 lg:col-2">
+        <p-button label="Salvar" icon="pi pi-check" size="small" styleClass="p-button-primary p-button-sm" (click)="onSubmit()"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-card>

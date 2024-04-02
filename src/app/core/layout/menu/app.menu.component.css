@@ -1,0 +1,44 @@
+::ng-deep .layout-sidebar-active .box-pesquisa{
+    border: none !important;
+}
+
+.box-pesquisa{
+    border-bottom: 1px solid #c3c3c3;
+    height: 50px;
+}
+
+::ng-deep .layout-sidebar-active .input-pesquisa{
+    opacity: 1 !important;
+    display: block !important;
+}
+.input-pesquisa{
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    padding: 1rem 1rem;
+    width: auto;
+    display: none;
+}
+
+::ng-deep .layout-sidebar-active .icone-pesquisa{
+    opacity: 0 !important;
+    display: none !important;
+}
+
+
+::ng-deep .layout-menuitem-text{
+    font-size: 0.75rem;
+}
+
+::ng-deep{
+    font-size: 0.875rem;
+}
+
+.icone-pesquisa {
+    color: var(--primary-color);
+    opacity: 1;
+    padding: 1rem 1rem;
+    width: auto;
+    display: block;
+    font-size: 1.25rem;
+    width: 1.25rem;
+}

@@ -1,0 +1,8 @@
+.border-x-divider {
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+}
+
+.border-divider {
+  border-right: 1px solid #cbd5e1;
+}

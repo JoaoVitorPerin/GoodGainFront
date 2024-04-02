@@ -1,0 +1,12 @@
+<div class="col-12">
+  <p class="font-lg font-semibold text-center mb-2">
+    {{ produtos?.length }} produto(s) na cesta
+  </p>
+</div>
+@if(exclusao){
+  <div class="col-12">
+    <p class="font-lg font-semibold text-center text-red-500 mb-3">
+      Atenção, você está no modo de exclusão. Todos os produtos bipados serão removidos da cesta.
+    </p>
+  </div>
+}

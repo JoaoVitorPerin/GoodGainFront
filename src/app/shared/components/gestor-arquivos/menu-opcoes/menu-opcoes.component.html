@@ -1,0 +1,128 @@
+<nav #menu class="context-menu" [ngClass]="{ 'context-menu--active': ativo }">
+    <ul class="context-menu__items">
+        <li *ngIf="!isDiretorio && !isArquivo" class="context-menu__item">
+            <a class="context-menu__link" (click)="atualizar()">
+                Atualizar
+            </a>
+        </li>
+        <li *ngIf="!isDiretorio && !isArquivo" class="context-menu__item">
+            <a class="context-menu__link" (click)="cadastro(false)">
+                Upload de arquivo
+            </a>
+        </li>
+        <li *ngIf="!isDiretorio && !isArquivo" class="context-menu__item">
+            <a class="context-menu__link" (click)="cadastro(true)">
+                Criar pasta
+            </a>
+        </li>
+        <li *ngIf="isArquivo && !isMultiplo" class="context-menu__item">
+            <a class="context-menu__link" (click)="download()">
+                Download
+            </a>
+        </li>
+
+        <hr *ngIf="isArquivo && !isMultiplo" class="my-2">
+
+        <li *ngIf="(isArquivo || isDiretorio) && !isMultiplo" class="context-menu__item">
+            <a class="context-menu__link" (click)="buscarInfo()">
+                Visualizar detalhes
+            </a>
+        </li>
+        <li *ngIf="(isArquivo || isDiretorio) && !isMultiplo" class="context-menu__item">
+            <a class="context-menu__link" (click)="cadastro(isDiretorio, arquivo.id)">
+                Editar
+            </a>
+        </li>
+
+        <hr *ngIf="(isArquivo || isDiretorio || isColar) && !isMultiplo" class="my-2">
+
+        <li *ngIf="isArquivo || isDiretorio" class="context-menu__item">
+            <a class="context-menu__link" (click)="copiar()">
+                Copiar
+            </a>
+        </li>
+        <li *ngIf="isArquivo || isDiretorio" class="context-menu__item">
+            <a class="context-menu__link" (click)="recortar()">
+                Recortar
+            </a>
+        </li>
+        <li *ngIf="!isArquivo && isColar" class="context-menu__item">
+            <a class="context-menu__link" (click)="colar()">
+                Colar
+            </a>
+        </li>
+
+      <hr *ngIf="isArquivo || isDiretorio" class="my-2">
+
+      <li *ngIf="isArquivo || isDiretorio" class="context-menu__item">
+          <a class="context-menu__link text-danger" (click)="excluir()">
+              Excluir
+          </a>
+      </li>
+  </ul>
+</nav>
+
+<ng-template #modalInfo>
+  <div class="modal-header">
+      <h5 class="modal-title">
+          Detalhes {{ isDiretorio ? "pasta" : "arquivo" }}
+      </h5>
+      <a class="icon_close p-1" (click)="bsModal.hide()"></a>
+  </div>
+  <div class="modal-body">
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Nome</p>
+          <p style="word-break: break-all;">{{ arquivoInfo.nome }}</p>
+      </div>
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Descrição</p>
+          <p>{{ arquivoInfo.descricao }}</p>
+      </div>
+      <div *ngIf="isArquivo" class="mt-2">
+          <p class="font-weight-bold">Tamanho</p>
+          <p>{{ arquivoInfo.tamanho }}</p>
+      </div>
+      <div *ngIf="isArquivo" class="mt-2">
+          <p class="font-weight-bold">Tipo (extensão)</p>
+          <p>
+              {{ arquivoInfo.formato }}
+              ({{ arquivoInfo.extensao }})
+          </p>
+      </div>
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Local</p>
+          <p>{{ arquivoInfo.local }}</p>
+      </div>
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Proprietário</p>
+          <p>{{ arquivoInfo.proprietario }}</p>
+      </div>
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Criado em</p>
+          <p>{{ arquivoInfo.criacao }}</p>
+      </div>
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Última edição</p>
+          <p>{{ arquivoInfo.edicao }}</p>
+      </div>
+      <div *ngIf="isArquivo || isDiretorio" class="mt-2">
+          <p class="font-weight-bold">Versão</p>
+          <p>{{ arquivoInfo.versao }}</p>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-outline-light" type="button" (click)="bsModal.hide()">Fechar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalExcluir>
+    <div class="text-left font-2xl">
+        <p *ngIf="!isMultiplo" class="mt-2 mb-2">
+            <span class="font-weight-bold mr-2">Nome:</span>
+            <span style="word-break: break-all;">{{ arquivo.nome }}</span>
+        </p>
+
+        <p *ngIf="!isMultiplo" class="mt-4">Deseja excluir este arquivo? Essa ação não pode ser desfeita</p>
+        <p *ngIf="isMultiplo">Deseja excluir {{ selecionados.length }} arquivos? Essa ação não pode ser desfeita</p>
+    </div>
+</ng-template>

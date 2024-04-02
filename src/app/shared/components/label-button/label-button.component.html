@@ -1,0 +1,6 @@
+<p-inputGroup>
+  <input pInputText type="text" [(ngModel)]="conteudoInput"
+    [placeholder]="placeholder ?? ''" [readonly]="readonly ?? false"
+    [ngClass]="{'ng-invalid ng-dirty': invalid ?? false}" />
+  <p-button [label]="textoBotao" [severity]="cor ?? 'primary'" size="small" (click)="onClick($event)" />
+</p-inputGroup>

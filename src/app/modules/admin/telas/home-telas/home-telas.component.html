@@ -1,0 +1,19 @@
+<p-card class="border-round-lg">
+    <div class="field col-12">
+        <label for="mestre_detalhe">Telas do Sistema</label>
+        <datagrid [data]="telas" [columns]="columsTelas" [configuracoes]="configuracoesTabela">
+        </datagrid>
+    </div>
+</p-card>
+
+<div class="mt-3">
+    <p-card class="border-round-lg">
+        <div class="field col-12">
+            <label for="mestre_detalhe">Versões do Sistema</label>
+            <datagrid [data]="versoes" [columns]="columsVersoes" [configuracoes]="configuracoesTabelaVersoes">
+            </datagrid>
+        </div>
+    </p-card>
+</div>
+
+<app-modal-confirmacao></app-modal-confirmacao>

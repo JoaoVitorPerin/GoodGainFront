@@ -1,0 +1,255 @@
+<ng-template #loading>
+  <app-loader class="flex justify-content-center"></app-loader>
+</ng-template>
+
+<div id="datagrid" class="div-dx-datagrid overflox-x-hidden">
+  <dx-data-grid *ngIf="columns && configuracoes;" [dataSource]="dataSource"
+    [columns]="colunasEditadas" [columnMinWidth]="configuracoes.columnMinWidth" [control]="control"
+    [allowColumnReordering]="configuracoes.allowColumnReordering"
+    [filterPanel]="configuracoes.filterPanel"
+    [filterBuilderPopup]="configuracoes.filterBuilderPopup" [pager]="configuracoes.pager"
+    [scrolling]="configuracoes.scrolling" [rowAlternationEnabled]="configuracoes.rowAlternationEnabled"
+    [sorting]="configuracoes.sorting"
+    [allowColumnResizing]="configuracoes.allowColumnResizing" [columnAutoWidth]="configuracoes.columnAutoWidth"
+    [showColumnLines]="configuracoes.showColumnLines" [columnResizingMode]="configuracoes.columnResizingMode"
+    [showRowLines]="configuracoes.showRowLines" 
+    (onContentReady)="setMaxHeight($event)"
+    (onFileSaving)="onFileSaving($event)"
+    (onCellPrepared)="onCellPrepared($event)"
+    (onRowPrepared)="onRowPrepared($event)"
+    (onEditorPreparing)="true"
+    (onExporting)="true"
+    (onOptionChanged)="true"
+    (onEditorPrepared)="true"
+    [remoteOperations]="true">
+
+    <dxo-header-filter [visible]="configuracoes.headerFilter"></dxo-header-filter>
+
+    <dxo-export [enabled]="configuracoes.exportButtonDefault || configuracoes.exportButton" [allowExportSelectedData]="true"></dxo-export>
+
+    <!-- TODO: implementar group panel -->
+    <!-- <dxo-group-panel emptyPanelText="Arraste uma coluna aqui para agrupar os dados" [visible]="configuracoes.groupPanel"></dxo-group-panel> -->
+
+    <dxo-column-fixing [enabled]="configuracoes.columnFixing"></dxo-column-fixing>
+
+    <dxo-sorting [mode]="configuracoes.sortingMode"></dxo-sorting>
+
+    <dxo-pager [visible]="configuracoes.paginationRow" displayMode="full"
+      [showPageSizeSelector]="configuracoes.paginationRow"
+      [showInfo]="configuracoes.paginationRow"
+      [showNavigationButtons]="configuracoes.paginationRow"></dxo-pager>
+
+    <dxo-paging [visible]="configuracoes.pagesSizesSelection"
+      [pageSize]="configuracoes.allowedPageSizes ? configuracoes.allowedPageSizes[0] : 50">
+    </dxo-paging>
+
+    <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+
+    <!-- <dxo-editing [mode]="configuracoes.editingMode" [allowUpdating]="configuracoes.editRow"
+      [allowAdding]="configuracoes.addButton" [allowDeleting]="configuracoes.deleteRow">
+      <dxo-popup title="Cadastro/Edição" [showTitle]="true" [width]="700" [height]="400"></dxo-popup>
+      <dxo-form labelMode="floating" [colCount]="12">
+        <dxi-item *ngFor="let column of columns; let i=index" [dataField]="column.dataField"
+          [dataType]="column.dataType">
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing> -->
+
+    <dxo-selection [mode]="'null'" [selectAllMode]="'allPages'" [showCheckBoxesMode]="'always'"></dxo-selection>
+
+    <ng-container *ngIf="columns?.length">
+
+      <dxi-column *ngFor="let column of columns; let i=index" [type]="null" [alignment]="column.alignment ?? 'left'"
+        [dataField]="column.dataField" [dataType]="column.dataType" [cellTemplate]="column.cellTemplate ?? null"
+        [renderAsync]="column.renderAsync" [(visible)]="column.visible"
+        [groupIndex]="column.groupIndex" [format]="column.format"
+        [allowSorting]="column.allowSorting ?? true"
+        [allowFiltering]="column.allowFiltering ?? true"
+        [allowHeaderFiltering]="column.allowHeaderFiltering ?? false"
+        [allowGrouping]="column.allowGrouping ?? true"
+        [width]="column.width" [caption]="column.caption" [editorOptions]="column.editorOptions"
+        [fixed]="column.fixed" [fixedPosition]="column.fixedPosition"
+        [sortIndex]="column.sortIndex" [sortOrder]="column.sortOrder">
+
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="false"></dxo-search>
+        </dxo-header-filter>
+
+        <!-- TODO: Mapear campos do mestre detalhe e implementá-los abaixo -->
+
+        <div *dxTemplate="let d of 'texto'">
+          <input pInputText type="text" [ngModel]="d?.value ?? ''" (change)="getValueCampoMestreDetalhe($event, d)"/>
+        </div>
+
+        <div *dxTemplate="let d of 'select'">
+          <p-dropdown [options]="opcoesSelect(d)" [ngModel]="d?.value ?? ''" (onChange)="getValueCampoMestreDetalhe($event, d)"
+            placeholder="Selecione" [filter]="true" [showClear]="true" ngDefaultControl
+            [virtualScroll]="true" [virtualScrollItemSize]="35" appendTo="body"></p-dropdown>
+        </div>
+
+        <div *dxTemplate="let d of 'date'">
+          <span>{{ d.value | date:'dd/MM/yyyy' }}</span>
+        </div>
+
+        <div *dxTemplate="let d of 'img'">
+          <img *ngIf="d.value" [src]="d.value" style="max-width: 50px; max-height: 50px;" />
+        </div>
+
+        <div *dxTemplate="let d of 'boolean'">
+          <p-checkbox [(ngModel)]="d.value" [binary]="true" disabled></p-checkbox>
+        </div>
+
+        <div *dxTemplate="let d of 'link'">
+          <a *ngIf="d.value" [href]="d.value" target="_blank">{{ d.value }}</a>
+        </div>
+
+        <div *dxTemplate="let d of 'acoes'">
+          <p-button *ngFor="let config of configuracoes?.acoes" [disabled]="isLoading"  [class.hidden]="!validarPermissao(config.permissao) || !config.show(d)"
+           [styleClass]="'w-auto mx-1 p-button-outlined ' + (config?.color ? 'p-button-' + config?.color : '')" 
+            size="small" [label]="config?.text" [pTooltip]="config?.tooltip" tooltipPosition="left"
+            (click)="clickAcoes(config, d)">
+            <i *ngIf="!config?.icon_tipo || config?.icon_tipo === 'primeng'" [class]="config.icon"></i>
+            <img *ngIf="config?.icon_tipo === 'img'" [src]="config.icon" width="20" height="21">
+            <span *ngIf="config?.icon_tipo === 'span'" [class]="config.icon"></span>
+            <i class="material-symbols-outlined" *ngIf="config?.icon_tipo === 'material'">{{ config.icon }}</i>
+            {{config.text}}
+          </p-button>
+            
+          <p-button *ngIf="configuracoes?.maisAcoes?.length" [disabled]="isLoading" 
+            styleClass="mx-1 p-button-outlined p-button-secondary" 
+            (click)="toogleMaisOpcoes()" (click)="overlayMaisOpcoes.toggle($event)"
+            size="small" pTooltip="Mais ações" tooltipPosition="left">
+            <i class="pi pi-ellipsis-h"></i>
+          </p-button>
+
+          <p-overlayPanel [styleClass]="'overlay-mais-acoes'" #overlayMaisOpcoes>
+            <p-button *ngFor="let config of configuracoes?.maisAcoes" [disabled]="isLoading"
+              [class.hidden]="!validarPermissao(config.permissao)"
+              [styleClass]="'mx-1 mb-1 p-button-outlined ' + (config?.color ? 'p-button-' + config?.color : '')" size="small"
+              [label]="config?.text" [pTooltip]="config?.tooltip" tooltipPosition="left"
+              (click)="clickAcoes(config, d)">
+              <i *ngIf="!config?.icon_tipo || config?.icon_tipo === 'primeng'" [class]="config.icon"></i>
+              <img *ngIf="config?.icon_tipo === 'img'" [src]="config.icon" width="20" height="21">
+              <span *ngIf="config?.icon_tipo === 'span'" [class]="config.icon"></span>
+              <i class="material-symbols-outlined" *ngIf="config?.icon_tipo === 'material'">{{ config.icon }}</i>
+              {{config.text}}
+            </p-button>
+          </p-overlayPanel>
+
+        </div>
+
+      </dxi-column>
+
+    </ng-container>
+
+    <dxo-toolbar [visible]="configuracoes.toolbar">
+
+      <dxi-item *ngFor="let config of configuracoes?.customButtons" cssClass="custom-button-datagrid" [visible]="true" location="center" showText="always" locateInMenu="never">
+        <div *ngIf="config?.icon">
+          <p-button [icon]="config?.icon" [styleClass]="config?.color ? 'p-button-' + config?.color : ''" class="white-space-nowrap" size="small"
+            [label]="config?.text" [pTooltip]="config?.tooltip" tooltipPosition="left"
+            (click)="config?.click()"></p-button>
+        </div>
+      </dxi-item>
+
+      <dxi-item [visible]="configuracoes.addRow" location="center" showText="always" locateInMenu="never">
+        <p-button [disabled]="isLoading" icon="pi pi-plus" size="small" class="white-space-nowrap" styleClass="p-button-success"
+          pTooltip="Adicionar registro" tooltipPosition="left" label="Adicionar registro"
+          (click)="addRow()"></p-button>
+      </dxi-item>
+
+      <!-- TODO: Implementar exclusão de linhas selecionadas -->
+      <!-- <dxi-item [visible]="configuracoes.deleteRows" location="center" showText="always" locateInMenu="never">
+        <p-button icon="pi pi-trash" size="small" class="white-space-nowrap" styleClass="p-button-danger"
+          pTooltip="Excluir registro(s) selecionados" tooltipPosition="left" label="Excluir registro(s)"
+          (click)="deleteSelectedrows()"></p-button>
+      </dxi-item> -->
+
+      <dxi-item *ngIf="configuracoes.searchPanel" cssClass="search-panel-datagrid custom-search-panel-datagrid" location="center"
+        showText="always" locateInMenu="never">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" [autofocus]="true" placeholder="Pesquisar" [(ngModel)]="stringPesquisa" class="mb-0"
+            (keyup)="pesquisarTabela(stringPesquisa)" (keydown)="clearTimeout(timer)"/>
+        </span>
+      </dxi-item>
+
+      <dxi-item *ngIf="configuracoes.inputToolbar" cssClass="search-panel-datagrid custom-search-panel-datagrid" location="center"
+        showText="always" locateInMenu="never">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText #inputEan type="text" [autofocus]="true" [readOnly]="null" [formControl]="controlSearch" placeholder="Digite o código"
+            (change)="bloqueioEnter($event)" (keyup)="bloqueioEnter($event)" (keydown)="bloqueioEnter($event)" (keypress)="bloqueioEnter($event)" (blur)="blurEmitter($event)"/>
+        </span>
+      </dxi-item>
+
+      <dxi-item [visible]="configuracoes.refreshButton && configuracoes.refresh" location="center" showText="always"
+        locateInMenu="never">
+        <p-button icon="pi pi-refresh" [outlined]="true" size="small" styleClass="p-button-primary p-button-outlined"
+          pTooltip="Atualizar os dados da tabela" tooltipPosition="left"
+          (click)="refreshAction(configuracoes.refresh)"></p-button>
+      </dxi-item>
+
+      <dxi-item [visible]="configuracoes.clearFilterButton" location="center" showText="always"
+        locateInMenu="never">
+        <p-button icon="pi pi-filter-slash" size="small" styleClass="p-button-primary p-button-outlined"
+          pTooltip="Limpar todos os filtros" tooltipPosition="left"
+          (click)="clearFilter($event)">
+        </p-button>
+      </dxi-item>
+
+      <dxi-item [visible]="configuracoes.columnChooserButton" location="center" showText="always"
+        locateInMenu="never">
+        <p-button icon="pi pi-bars" size="small" styleClass="p-button-primary p-button-outlined"
+          pTooltip="Esconda ou mostre as colunas" tooltipPosition="left"
+          (click)="seletorColunas($event)"></p-button>
+      </dxi-item>
+  
+      <dxi-item [visible]="configuracoes.exportButtonDefault || !urlRelatorio ? true : false" name="exportButton" showText="always"
+        location="center" locateInMenu="never" [options]="{type:'normal'}">
+        <p-button icon="pi pi-file-excel" size="small" styleClass="p-button-primary p-button-outlined"
+          pTooltip="Exportar dados" tooltipPosition="left"
+          (click)="onExporting($event)"></p-button>
+      </dxi-item>
+
+      <dxi-item [visible]="configuracoes.exportButton && urlRelatorio ? true : false" showText="always"
+        location="center" locateInMenu="never" [options]="{type:'normal'}">
+        <p-button icon="pi pi-file-excel" size="small" styleClass="p-button-primary p-button-outlined"
+          pTooltip="Exportar dados" tooltipPosition="left"
+          (click)="gerarRelatorio()"></p-button>
+      </dxi-item>
+
+      <!-- <dxi-item [visible]="configuracoes.deleteSelectedsButton" location="center" showText="always"
+        locateInMenu="never">
+        <button pTooltip="Excluir linhas selecionadas" tooltipPosition="left" class="btn" color="danger"
+          [disabled]="!selectedItemKeys?.length" (click)="deleteSelecteds()">
+          <i class="pi pi-trash"></i>
+          Excluir
+        </button>
+      </dxi-item> -->
+
+    </dxo-toolbar>
+
+    <dxo-column-chooser mode="select" [enabled]="true"></dxo-column-chooser>
+
+    <dxo-summary [recalculateWhileEditing]="true">
+      <dxi-total-item summaryType="count"> </dxi-total-item>
+    </dxo-summary>
+
+    <dxo-filter-row [visible]="configuracoes.filterRow"></dxo-filter-row>
+
+  </dx-data-grid>
+
+  <dx-tooltip position="right">
+    <div *dxTemplate="let data of 'content'">
+     {{ tooltipData }}
+    </div>
+  </dx-tooltip>
+
+  <app-column-chooser (checkedChange)="changeSeletorColunas($event)" [(visible)]="isColumnChooserVisible" [container]="'#datagrid'"
+    [columns]="columns">
+  </app-column-chooser>
+
+</div>

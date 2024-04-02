@@ -1,0 +1,16 @@
+.container-produto {
+  max-height: calc(100vh - 35px - 50px);
+  overflow-y: auto;
+}
+
+::ng-deep p-card .p-card-body {
+  height: 100%;
+}
+
+::ng-deep p-card .p-card-content {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100%;
+  justify-content: space-between;
+}
+

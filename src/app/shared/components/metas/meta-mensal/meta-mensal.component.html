@@ -1,0 +1,22 @@
+<div class="grafico-mensal p-3">
+  <div class="mb-4">
+    <p class="font-semibold">Meta Mensal</p>
+    <p class="font-2xl font-bold">RS 1.720.172,07</p>
+    <p class="font-semibold">Realizado mensal: <strong>R$ 716.808,93</strong></p>
+  </div>
+  <div class="scroll-grafico">
+    <p-chart type="line" [options]="options" [data]="data" width="600px"  height="150px"></p-chart>
+  </div>
+</div>
+<p-card>
+  <div class="grid m-0">
+    <div class="col-12 md:col-6 text-center border-right-1 border-300">
+      <p class="font-xl font-bold">74</p>
+      <p class="font-sm">Ticket Médio</p>
+    </div>
+    <div class="col-12 md:col-6 text-center border-left-1 border-300">
+      <p class="font-xl font-bold">9643</p>
+      <p class="font-sm">Clientes Atendidos</p>
+    </div>
+  </div>
+</p-card>

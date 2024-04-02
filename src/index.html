@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Good Gain</title>
+  <base href="/"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="icon" type="image/x-icon" href="goodgain.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+  <link id="theme-link" rel="stylesheet" href="assets\layout\styles\theme\theme-dark\green\theme.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1976d2">
+</head>
+
+<body>
+  <app-root>
+    <style>
+      .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+
+      .loader-spinner {
+        border: 5px solid var(--primary-color);
+        border-radius: 50%;
+        border-top: 5px solid var(--surface-a);
+        width: 60px;
+        height: 60px;
+        -webkit-animation: spin 1s linear infinite;
+        /* Safari */
+        animation: spin 1s linear infinite;
+      }
+
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+    </style>
+    <div style="height: 100vh !important;">
+      <div class="w-100 h-100" style="transform: translateX(50%) translateY(50%); position: fixed;">
+        <div style="position: fixed;
+        left: -50px;
+        top: -90px;">
+          <img src="assets/img/loader/loader.gif" width="100" alt="">
+        </div>
+      </div>
+    </div>
+  </app-root>
+
+  <noscript>Habilite o Javascript do seu navegador para continuar utilizando essa aplicação</noscript>
+
+</body>
+
+</html>

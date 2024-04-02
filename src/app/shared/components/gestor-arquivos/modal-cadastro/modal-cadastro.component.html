@@ -1,0 +1,210 @@
+<ng-template #modalCadastro>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="row mt-n3">
+        <div *ngIf="isDiretorio" class="mt-3 col-12">
+          <div class="input-group">
+              <app-form label="Nome" type="text"
+              formControlName="nome" [required]="true" ngDefaultControl
+              erro="Descrição para campo inválido" />
+          </div>
+          @if(!diretorioInvalido) {
+            <p-message severity="error" text="Nome indisponível"></p-message>
+          }
+        </div>
+
+        @if(!isDiretorio) {
+          <div class="mt-3 col-12">
+            <file-pond [options]="pondOptions" [files]="pondFiles"></file-pond>
+          </div>
+
+          <div class="mt-3 col-12">
+            <div class="row flex">
+              <div class="col-6">
+                <div class="input-group">
+                  <app-form label="Período de alerta:" type="int"
+                  formControlName="periodo_alerta" ngDefaultControl
+                  erro="Descrição para campo inválido" />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group">
+                  <app-form label="Vencimento" type="date"
+                    formControlName="vencimento" ngDefaultControl
+                    erro="Descrição para campo inválido" />
+                </div>
+              </div>
+            </div>
+
+            <div class="flex mt-3">
+              <app-form label=" Enviar alerta distribuidor" type="checkbox"
+              formControlName="enviar_alerta_distribuidor" ngDefaultControl
+              erro="Descrição para campo inválido" />
+            </div>
+          </div>
+        }
+
+        <div class="mt-3 col-12">
+          <app-form label="Descrição" type="textarea"
+              formControlName="descricao" ngDefaultControl
+              erro="Descrição para campo inválido" />
+        </div>
+
+        @if(isDiretorio){
+          <div class="flex">
+            <div class="mt-3 col-6">
+              <!-- Escrita -->
+              <div class="card-header px-0 mb-0 flex align-items-center justify-content-between">
+                <span style="font-family: sans-serif;" class="text-uppercase">Permissão de escrita:</span>
+                  <i class="pi pi-info-circle mr-2" p-tooltip="Permissão para visualizar, editar, excluir e utilizar o(s) arquivo(s)."></i>
+              </div>
+
+              <div class="row">
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Usuários" type="select-multiplo"
+                      formControlName="escrita-funcionarios" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['escrita-funcionarios']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Cargos" type="select-multiplo"
+                      formControlName="escrita-cargos" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['escrita-cargos']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Filiais" type="select-multiplo"
+                      formControlName="escrita-filiais" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['escrita-filiais']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Áreas" type="select-multiplo"
+                      formControlName="escrita-areas" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['escrita-areas']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Grupos" type="select-multiplo"
+                      formControlName="escrita-areas" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['escrita-areas']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Grupos Admin" type="select-multiplo"
+                      formControlName="escrita-grupos-ged" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['escrita-grupos-ged']"
+                      erro="Descrição para campo inválido" />
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 col-6">
+              <!-- Leitura -->
+              <div class="card-header px-0 mb-0 flex align-items-center justify-content-between">
+                <span style="font-family: sans-serif;" class="text-uppercase">Permissão de leitura:</span>
+                <i class="pi pi-info-circle mr-2" p-tooltip="Permissão para baixar e acessar o(s) arquivo(s)."></i>
+              </div>
+
+              <div class="row">
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Usuários" type="select-multiplo"
+                      formControlName="leitura-funcionarios" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['leitura-funcionarios']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Cargos" type="select-multiplo"
+                      formControlName="leitura-cargos" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['leitura-cargos']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Filiais" type="select-multiplo"
+                      formControlName="leitura-filiais" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['leitura-filiais']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Áreas" type="select-multiplo"
+                      formControlName="leitura-areas" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['leitura-areas']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Grupos" type="select-multiplo"
+                      formControlName="leitura-grupos" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['leitura-grupos']"
+                      erro="Descrição para campo inválido" />
+                </div>
+
+                <div class="mt-3 col-12 col-md-6">
+                    <app-form label="Grupos Admin" type="select-multiplo"
+                      formControlName="leitura-grupos-ged" placeholder="Selecione os itens" ngDefaultControl
+                      [items]="opcoes['leitura-grupos-ged']"
+                      erro="Descrição para campo inválido" />
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer flex justify-content-end">
+    <p-button class="mr-2" [outlined]="true" severity="warning" type="button" (click)="this.modalService.fecharModal()">Fechar</p-button>
+    <p-button type="button" severity="success" class="btn btn-primary text-white font-weight-semibold" (click)="submit()">Confirmar</p-button>
+  </div>
+</ng-template>
+
+<ng-template #modalNome>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Resolver conflitos (+{{ conflitos.length }})
+    </h5>
+  </div>
+  <div class="modal-body">
+    <div class="flex flex-column align-items-center alert alert-danger mb-0 text-center">
+      <span class="font-weight-semibold">
+        Já existe um arquivo chamado
+
+        <span class="font-lg text-danger">{{ conflito.uploadConfig?.nome }}</span>.
+        <br>
+        Ele será substituído pelo arquivo do upload, caso queira manter os dois separados, marque o campo abaixo:
+      </span>
+      <div class="flex align-items-center">
+        <label for="manter-separado" class="font-weight-bold mr-2">
+          Manter arquivos separados
+        </label>
+        <input id="manter-separado" [formControl]="conflito.isNovoNome" class="mr-2" type="checkbox">
+      </div>
+    </div>
+    <div [collapse]="!conflito.isNovoNome.value" [isAnimated]="true" class="mt-3">
+      <label for="nome" class="font-weight-semibold w-100 text-muted text-uppercase small">
+        Novo nome:
+      </label>
+      <div class="input-group">
+        <input id="nome" type="text" class="form-control" [(ngModel)]="conflito.novoNome"
+          [ngClass]="{ 'is-invalid': !conflito.novoNome || conflito.existe }"
+          (blur)="verificarNome(conflito.novoNome + conflito.uploadConfig?.extensao)">
+      </div>
+      <div [collapse]="!conflito.existe" [isAnimated]="true" class="alert alert-danger mb-0 mt-2">
+        Nome indisponível
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary text-white font-weight-semibold" (click)="resolverConflito()">
+      Confirmar
+    </button>
+  </div>
+</ng-template>

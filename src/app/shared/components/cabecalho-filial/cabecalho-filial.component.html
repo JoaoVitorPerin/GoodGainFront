@@ -1,0 +1,82 @@
+<p-card>
+    <div class="grid flex justify-content-between align-items-center m-0 py-1">
+        <div class="h-full flex flex-column align-content-between justify-content-between mb-3 lg:mb-0 col-6 lg:col-3">
+            <small class="text-xs text-color-secondary">FILIAL</small>
+            <p class="text-2xl font-bold">{{infosFilial.nm_descritivo ? infosFilial.nm_descritivo : '--'}}</p>
+        </div>
+        @if (infosFilial.rank_local || infosFilial.rank_filial || infosFilial.rank_rede){
+            <div class="h-full flex flex-row align-content-around justify-content-around gap-5 col-6 lg:col-3">
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary" style="font-size: 1.8rem">location_on</span>
+                    <p class="text-2xl font-bold">{{infosFilial.rank_local ? infosFilial.rank_local : '--'}}º</p>
+                </div>
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary" style="font-size: 1.8rem">home</span>
+                    <p class="text-2xl font-bold">{{infosFilial.rank_filial ? infosFilial.rank_filial : '--'}}º</p>
+                </div>
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary" style="font-size: 1.8rem">globe</span>
+                    <p class="text-2xl font-bold">{{infosFilial.rank_rede ? infosFilial.rank_rede : '--'}}º</p>
+                </div>
+            </div>
+        }
+
+        <div class="h-full text-center flex flex-column justify-content-center align-items-center col-4 lg:col-2">
+            <small class="text-xs text-color-secondary">NOTA NPS:</small>
+            @if (infosFilial.nota_nps < 0){
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <img src="../../../../assets/img/nps/nps_ruim.svg">
+                    <p class="text-2xl font-bold text-red-600">{{infosFilial.nota_nps}}</p>
+                </div>
+            }
+            @else if(infosFilial.nota_nps >= 0 && infosFilial.nota_nps <= 49){
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <img src="../../../../assets/img/nps/nps_regular.svg">
+                    <p class="text-2xl font-bold text-orange-500">{{infosFilial.nota_nps}}</p>
+                </div>
+            }
+            @else if(infosFilial.nota_nps >= 50 && infosFilial.nota_nps <= 74){
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <img src="../../../../assets/img/nps/nps_bom.svg">
+                    <p class="text-2xl font-bold text-yellow-600">{{infosFilial.nota_nps}}</p>
+                </div>
+            }
+            @else if(infosFilial.nota_nps >= 75 && infosFilial.nota_nps <= 100){
+                <div class="flex flex-row justify-content-center align-items-center gap-2">
+                    <img src="../../../../assets/img/nps/nps_excelente.svg">
+                    <p class="text-2xl font-bold text-green-600">{{infosFilial.nota_nps}}</p>
+                </div>
+            }
+        </div>
+
+        <div class="h-full text-center flex flex-column align-content-center justify-content-center col-4 lg:col-2">
+            <small class="text-xs text-color-secondary">CHECKLIST:</small>
+            <a (click)="navigateChecklist()">
+                @if (infosFilial.nota_checklist >= 0 && infosFilial.nota_checklist < 2){
+                    <p class="text-2xl font-bold text-red-600">{{infosFilial.nota_checklist.toString().replace('.', ',')}}</p>
+                } 
+
+                @else if(infosFilial.nota_checklist >= 2 && infosFilial.nota_checklist < 3){
+                    <p class="text-2xl font-bold text-orange-500">{{infosFilial.nota_checklist.toString().replace('.', ',')}}</p>
+                }
+
+                @else if(infosFilial.nota_checklist >= 3 && infosFilial.nota_checklist < 4){
+                    <p class="text-2xl font-bold text-yellow-600">{{infosFilial.nota_checklist.toString().replace('.', ',')}}</p>
+                }
+
+                @else if(infosFilial.nota_checklist >= 4 && infosFilial.nota_checklist < 5){
+                    <p class="text-2xl font-bold text-green-600">{{infosFilial.nota_checklist.toString().replace('.', ',')}}</p>
+                }
+
+                @else if(infosFilial.nota_checklist == 5){
+                    <p class="text-2xl font-bold text-blue-600">{{infosFilial.nota_checklist.toString().replace('.', ',')}}</p>
+                }
+            </a>
+        </div>
+        <div class="h-full text-center flex flex-column flex-nowrap align-content-center justify-content-end col-4 lg:col-2 lg:text-right">
+            <small class="text-xs font-bold text-color-secondary">Origem: {{infosFilial.origem}}</small>
+            <small class="text-xs text-color-secondary">Primeiro: {{infosFilial.hora_primeiro}}</small>
+            <small class="text-xs text-color-secondary">Último: {{infosFilial.hora_ultimo}}</small>
+        </div>
+    </div>
+</p-card>

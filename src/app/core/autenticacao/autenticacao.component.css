@@ -1,0 +1,31 @@
+.container-autenticacao {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.container-login {
+  padding: 4.25rem 3rem 4.25rem 3rem;
+  max-width: 100vw;
+  overflow-y: auto;
+  box-shadow: 0px 1px 7px 0px #05FF00;
+}
+
+.redefinirSenha{
+  color: var(--primary-color) !important;
+  cursor: pointer;
+}
+
+.redefinirSenha:hover{
+  color: #03a600 !important;
+}
+
+::ng-deep input{
+  height: 40px;
+}
+
+::ng-deep button{
+  height: 50px;
+}

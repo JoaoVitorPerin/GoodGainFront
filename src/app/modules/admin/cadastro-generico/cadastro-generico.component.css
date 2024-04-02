@@ -1,0 +1,35 @@
+.conteudo-cadastro {
+  height: calc(100vh - 20.875rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.conteudo-cadastro-maximizado {
+  height: calc(100vh - 11rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media(max-width: 992px){
+  .conteudo-cadastro {
+    height: calc(90vh - (0.8rem * 32.5));
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .conteudo-cadastro-maximizado {
+    height: calc(90vh - (0.8rem * 23.5));
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.conteudo-scrollavel {
+  height: calc(85vh - (0.8rem * 12.5));
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+::ng-deep p-tabview {
+  width: 100%;
+}

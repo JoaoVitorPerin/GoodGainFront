@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+h2.error404 {
+  margin-bottom: 10px;
+  font-size: 3.500em;
+  font-weight: 800;
+  color: #333;
+}
+
+p.error404-title {
+  font-size: 1.625em;
+  font-weight: 400;
+  color: #444;
+}
+
+p.error404-specification {
+  font-size: 1em;
+  color: #999;
+}
+
+.error-404 {
+  display: flex;
+  justify-content: center;
+  margin: 70px auto 70px;
+  width: 70%;
+}
+
+.error-404_img {
+  width: 40%;
+  text-align: center;
+}
+
+.error-404_img img {
+  display: block;
+  margin: auto;
+  width: 100%;
+  max-width: 350px;
+}
+
+.error-404_text {
+  width: 60%;
+}
+
+.bt-back-error404 {
+  justify-content: center;
+  margin-top: 80px;
+  text-align: center;
+}
+
+a.bt-back-error404 {
+  padding: 13px 30px 11px 60px;
+  border: 1px solid #009FDD;
+  border-radius: 4px;
+  font-weight: 400;
+  text-decoration: none;
+  color: #009FDD;
+  /* background: url('assets/img/setas/back-arrow.png') no-repeat left 15% center; */
+  background-size: 15px;
+}
+
+a.bt-back-error404:hover {
+  border: 1px solid #148DBD;
+  color: #148DBD;
+  /* background: url('assets/img/setas/back-arrow_hover.png') no-repeat left 15% center; */
+  background-size: 15px;
+}
+
+@media (max-width: 800px) {
+  h2.error404, p.error404-title, p.error404-specification {
+    text-align: center;
+  }
+  .error-404 {
+    display: block;
+  }
+  .error-404_img, .error-404_text {
+    width: 100%;
+  }
+}

@@ -1,0 +1,29 @@
+<div class="grid">
+  @if (label) {
+    <div class="col-12">
+      <label class="font-lg font-semibold">{{ label }}</label>
+    </div>
+  }
+  <div class="{{ grid }} labl" [class.labl-secondary]="cor === 'secondary'" *ngFor="let item of items; let indexItem = index">
+    <input [type]="type ?? 'radio'" [id]="item?.value + '_' + (indexFormulario ? indexFormulario : 0) + '_' + indexItem" [value]="item"
+      [ngClass]="{'ng-invalid ng-dirty': invalid}" [name]="name" [formControl]="control">
+    <label [for]="item?.value + '_' + (indexFormulario ? indexFormulario : 0) + '_' + indexItem" class="w-100 border-round-md"
+      [appAtalhoEvento]="!desativarAtalhos ? item?.atalho : ''" [ctrl]="item?.ctrl ?? false" [shift]="item?.shift ?? false" [alt]="item?.alt ?? false" (evento)="onClickHandler(item, item?.value + '_' + (indexFormulario ? indexFormulario : 0) + '_' + indexItem)"
+      (click)="onClickHandler(item, item?.value + '_' + (indexFormulario ? indexFormulario : 0) + '_' + indexItem)">
+      <div class="flex align-items-center h-100">
+        <a class="labl-body flex flex-column align-items-center justify-content-center p-2">
+          <i *ngIf="!iconType || iconType === 'icon' && item?.icon" class="pi {{ item?.icon }}"></i>
+          <img *ngIf="iconType === 'media' && item?.icon" [width]="imgWidth ?? 30" [height]="imgHeight ?? 30" class="mb-1" [src]="item?.icon">
+          <p class="font-xs font-medium mt-1 text-limit-1">
+            {{ item?.label }}
+          </p>
+          @if (item?.atalho) {
+            <p class="font-sm font-semibold mt-1">
+              ({{item?.ctrl ? 'Ctrl + ' : ''}} {{item?.shift ? 'Shift + ' : ''}} {{item?.alt ? 'Alt + ' : ''}} {{ item?.atalho }})
+            </p>
+          }
+        </a>
+      </div>
+    </label>
+  </div>
+</div>

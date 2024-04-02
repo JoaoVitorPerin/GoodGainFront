@@ -1,0 +1,30 @@
+.container-venda-mais {
+  padding: 30px 0 0 0;
+  height: calc(100vh - 35px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* @media (min-width: 990px) {
+  .container-venda-mais {
+    padding: 2.25rem 0 0 0;
+  }
+}
+
+@media (min-width: 1360px) {
+  .container-venda-mais {
+    padding: 2.25rem 0 0 0;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container-venda-mais {
+    padding: 1.75rem 0 0 0;
+  }
+}
+
+@media (min-width: 2200px) {
+  .container-venda-mais {
+    padding: 1.15rem 0 0 0;
+  }
+} */

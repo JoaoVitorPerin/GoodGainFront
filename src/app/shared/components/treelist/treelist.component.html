@@ -1,0 +1,66 @@
+<dx-tree-list
+        *ngIf="columns && configuracoes"
+        [dataSource]="dataSource"
+        [rootValue]="null"
+        [columns]="colunasEditadas"
+        [showRowLines]="true"
+        [autoExpandAll]="true"
+        keyExpr="{{idElemento}}"
+        parentIdExpr="{{idPai}}">
+        <dxo-row-dragging
+            [onDragChange]="onDragChangeHandler"
+            [onReorder]="onReorderHandler"
+            [allowReordering]="true"
+            [showDragIcons]="false"
+            [allowDropInsideItem]="true"
+        ></dxo-row-dragging>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <ng-container *ngIf="columns?.length">
+            <dxi-column *ngFor="let column of columns; let i=index" [type]="null" [alignment]="column.alignment ?? 'center'"
+              [dataField]="column.dataField" [dataType]="column.dataType" [(visible)]="column.visible"
+              [allowSorting]="column.allowSorting ?? true"
+              [allowFiltering]="column.allowFiltering ?? true"
+              [allowHeaderFiltering]="column.allowHeaderFiltering ?? false"
+              [width]="column.width" [caption]="column.caption"
+              [fixed]="column.fixed" [fixedPosition]="column.fixedPosition">
+      
+              <dxo-header-filter [visible]="configuracoes.headerFilter"></dxo-header-filter>
+      
+              <div *dxTemplate="let d of 'acoes'">
+                <p-button *ngFor="let config of configuracoes?.acoes" [disabled]="isLoading"  [class.hidden]="!validarPermissao(config.permissao)"
+                 [styleClass]="'w-auto mx-1 p-button-outlined ' + (config?.color ? 'p-button-' + config?.color : '')" 
+                  size="small" [label]="config?.text" [pTooltip]="config?.tooltip" tooltipPosition="left"
+                  (click)="clickAcoes(config, d)">
+                  <i *ngIf="!config?.icon_tipo || config?.icon_tipo === 'primeng'" [class]="config.icon"></i>
+                  <img *ngIf="config?.icon_tipo === 'img'" [src]="config.icon" width="20" height="21">
+                  <span *ngIf="config?.icon_tipo === 'span'" [class]="config.icon"></span>
+                  <i class="material-symbols-outlined" *ngIf="config?.icon_tipo === 'material'">{{ config.icon }}</i>
+                  {{config.text}}
+                </p-button>
+                  
+                <p-button *ngIf="configuracoes?.maisAcoes?.length" [disabled]="isLoading" 
+                  styleClass="mx-1 p-button-outlined p-button-secondary" 
+                  (click)="toogleMaisOpcoes()" (click)="overlayMaisOpcoes.toggle($event)"
+                  size="small" pTooltip="Mais ações" tooltipPosition="left">
+                  <i class="pi pi-ellipsis-h"></i>
+                </p-button>
+      
+                <p-overlayPanel [styleClass]="'overlay-mais-acoes'" #overlayMaisOpcoes>
+                  <p-button *ngFor="let config of configuracoes?.maisAcoes" [disabled]="isLoading"
+                    [class.hidden]="!validarPermissao(config.permissao)"
+                    [styleClass]="'mx-1 mb-1 p-button-outlined ' + (config?.color ? 'p-button-' + config?.color : '')" size="small"
+                    [label]="config?.text" [pTooltip]="config?.tooltip" tooltipPosition="left"
+                    (click)="clickAcoes(config, d)">
+                    <i *ngIf="!config?.icon_tipo || config?.icon_tipo === 'primeng'" [class]="config.icon"></i>
+                    <img *ngIf="config?.icon_tipo === 'img'" [src]="config.icon" width="20" height="21">
+                    <span *ngIf="config?.icon_tipo === 'span'" [class]="config.icon"></span>
+                    <i *ngIf="config?.icon_tipo === 'material'">{{ botao.icon }}</i>
+                    {{config.text}}
+                  </p-button>
+                </p-overlayPanel>
+              </div>
+      
+            </dxi-column>
+      
+          </ng-container>
+</dx-tree-list>

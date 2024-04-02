@@ -1,0 +1,12 @@
+#treeList {
+    height: 500px;
+}
+
+::ng-deep .dx-treelist-action{
+    text-align: center !important;
+    padding: 1rem !important;
+    border-top: none;
+    border-left: 1px solid #eff2f6;
+    border-top: 1px solid #eff2f6;
+    border-top-left-radius: 6px;
+}

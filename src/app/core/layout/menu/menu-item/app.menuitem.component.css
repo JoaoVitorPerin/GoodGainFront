@@ -1,0 +1,43 @@
+.link-menu:after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    margin-bottom: 0.9rem;
+    height: 2px;
+    background: var(--menuitem-icon-color);;
+    bottom: -5px;
+    left: 0;
+    transition: all .4s;
+}
+
+::ng-deep .layout-sidebar-active .active-route:after, .layout-sidebar-active .link-menu:hover:after {
+    width: 30% !important;
+}
+
+.icon-material {
+    color: var(--menuitem-icon-color);
+    margin-left: -2px;
+    margin-right: 0.65rem
+}
+
+::ng-deep app-menuitem a{
+  padding: 0.5 1rem 0.5rem 1rem !important;
+  display: flex;
+  align-items: center;
+}
+
+.layout-menuitem-text {
+  display: none;
+  color: var(--text-color) !important;
+}
+
+::ng-deep .layout-sidebar-active .layout-menuitem-text {
+  display: initial;
+}
+
+@media screen and (min-width: 992px){
+  .layout-container.layout-drawer.layout-sidebar-anchored .sidebar-header {
+    display: flex;
+    justify-content: center;
+  }
+}

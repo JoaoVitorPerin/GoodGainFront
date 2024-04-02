@@ -1,0 +1,41 @@
+.container {
+  padding-left: 10px;
+  padding-right: 10px;
+  height: calc(100vh - 35px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.with-submenu {
+  padding-top: 8vh;
+}
+
+.without-submenu {
+  padding-top: 6.5vh;
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .with-submenu {
+    padding-top: 13vh;
+  }
+  .without-submenu {
+    padding-top: 8vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .with-submenu {
+    padding-top: 16.5vh;
+  }
+  .without-submenu {
+    padding-top: 10vh;
+  }
+}

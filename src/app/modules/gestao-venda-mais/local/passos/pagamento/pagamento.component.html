@@ -1,0 +1,140 @@
+<div class="grid m-0 p-0">
+  <div class="col-12 md:col-6">
+    <p-card class="border-round-lg" [style]="{height: 'calc(100vh - 40px - 35px - 7px)', overflowY: 'auto'}">
+      <div class="grid">
+
+        <div class="col-12 mb-0 pb-0">
+          <p-accordion [activeIndex]="(formArrayPagamento?.controls?.length && verificarIndexPagamentoPendente() === '') || formArrayPagamento?.controls?.length > 1 ? '' : 0">
+            <p-accordionTab [header]="tipo != 'recarga' ? 'Aplique um cupom de desconto e/ou utilize o saldo do dinheiro de volta' : 'Utilize o saldo do dinheiro de volta'"
+              [disabled]="formArrayPagamento?.controls?.length && verificarIndexPagamentoPendente() === ''">
+              <div class="grid">
+                <div class="col-6">
+                  <app-label-button
+                    [textoBotao]="cashbackUtilizado ? 'Remover (Ctrl + ' + (formasPagamento?.length + 1) + ')' : 'Utilizar (Ctrl + ' + (formasPagamento?.length + 1) + ')'"
+                    [cor]="cashbackUtilizado ? 'danger' : 'success'"
+                    [placeholder]="'Saldo de R$ ' + convertePrecoParaPadraoBR(saldoCashback)"
+                    [readonly]="true"
+                    [appAtalhoEvento]="formasPagamento?.length + 1" [ctrl]="true" (evento)="aplicarCashback()" (clicked)="aplicarCashback()"
+                  />
+                </div>
+                @if(tipo != 'recarga') {
+                  <div class="col-6">
+                    <app-label-button
+                      [textoBotao]="cupomAplicado ? 'Remover (Ctrl + ' + (formasPagamento?.length + 2) + ')' : 'Aplicar (Ctrl + ' + (formasPagamento?.length + 2) + ')'"
+                      [cor]="cupomAplicado ? 'danger' : 'primary'"
+                      [placeholder]="'Adicionar cupom (Alt + ' + (formasPagamento?.length + 2) + ')'"
+                      [readonly]="cupomAplicado" [invalid]="cupomInvalido"
+                      id="label-cupom" [appElementoFoco]="'label-cupom'" [atalho]="formasPagamento?.length + 2" [_alt]="true"
+                      [appAtalhoEvento]="formasPagamento?.length + 2" [ctrl]="true" (evento)="cupomDesconto($event)" (clicked)="cupomDesconto($event)"
+                    />
+                  </div>
+                }
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+
+        @if(cashbackUtilizado && (+saldoCashback >= +valorTotal)){
+          <div class="col-12">
+            <p class="font-lg font-semibold text-center text-red-500">
+              O saldo utilizado de dinheiro de volta cobre o valor total da compra e devido a isso não é necessário a seleção de uma nova forma de pagamento.
+            </p>
+          </div>
+        } @else {
+          <form [formGroup]="formPagamento" class="w-100">
+            <div class="col-12">
+              <div formArrayName="pagamentos">
+                @if (formArrayPagamento?.controls?.length) {
+                  <p-accordion [activeIndex]="verificarIndexPagamentoPendente()">
+                    @for (pag of formArrayPagamento.controls; track pag; let index = $index) {
+                      <div [formGroupName]="index" class="mb-2">
+                        <p-accordionTab [disabled]="formArrayPagamento?.at(index)?.get('pagamento_efetuado')?.value">
+
+                          <ng-template pTemplate="header">
+                            <div class="w-100 flex flex-column">
+                              <p style="font-size: 1rem; font-weight: 600;">{{ formArrayPagamento?.controls?.length === 1 ? 'Método de pagamento' : index + 1 + '° método de pagamento' }}</p>
+                              @if((formArrayPagamento?.controls?.length > 1 && formArrayPagamento?.at(index)?.get('pagamento')?.value) || formArrayPagamento?.at(index)?.get('pagamento_efetuado')?.value) {
+                                <p style="font-size: .75rem; font-weight: 600;" class="flex align-items-center">
+                                  <img [src]="formArrayPagamento?.at(index)?.get('pagamento')?.value?.icon" alt="Pagamento" width="20" class="mr-2">
+                                  {{ formArrayPagamento?.at(index)?.get('pagamento')?.value?.nm_descritivo }}
+                                  -
+                                  Valor pago: R$ {{ convertePrecoParaPadraoBR(formArrayPagamento?.at(index)?.get('vlr_pago')?.value) }}
+                                </p>
+                              }
+                            </div>
+                          </ng-template>
+
+                          @if(loadingPagamento){
+                            <div class="grid">
+                              @for(skeleton of [].constructor(6); track skeleton;){
+                                <div class="col-6 md:col-4">
+                                  <p-skeleton height="5rem"></p-skeleton>
+                                </div>
+                              }
+                            </div>
+                          } @else {
+                            <app-label grid="col-6 md:col-4" iconType="media" [name]="'label-pagamento-' + index" [indexFormulario]="index + 1"
+                              [control]="formArrayPagamento?.at(index)?.get('pagamento')"
+                              [imgWidth]="30" [imgHeight]="20" cor="secondary" [items]="formasPagamento" [desativarAtalhos]="activeIndexFormaPagamento != index"
+                              (clickHandler)="tipo != 'recarga' ? focusPagamentoSelecionado($event, index) : confirmarPagamento($event, index)" />
+                            @if(formArrayPagamento?.at(index)?.get('pagamento')?.value){
+                              <div class="col-12 mt-2">
+                                <label class="font-lg">{{ labelFormaPagamento(index) }}</label>
+                                <p-inputNumber formControlName="vlr_pago"
+                                  mode="currency" currency="BRL" locale="pt-BR" (onBlur)="confirmarPagamento($event, index)"
+                                  [ngClass]="{
+                                    'ng-invalid ng-dirty': !formArrayPagamento?.at(index)?.get('vlr_pago')?.valid && formArrayPagamento?.at(index)?.get('vlr_pago')?.touched,
+                                    'isDisabled': tipo === 'recarga'
+                                  }"
+                                  [id]="'pagamento' + index" [appElementoFoco]="'pagamento' + index" [atalho]="index + 1" [alt]="true"></p-inputNumber>
+                              </div>
+                            }
+                          }
+
+                        </p-accordionTab>
+                      </div>
+                    }
+                  </p-accordion>
+                }
+              </div>
+            </div>
+          </form>
+        }
+
+      </div>
+    </p-card>
+  </div>
+  <div class="col-12 md:col-6">
+    <app-cesta [produtos]="produtos" passo="pagamento"></app-cesta>
+  </div>
+</div>
+
+<ng-template #modalResumoCompra>
+  <div class="grid">
+    <div class="col-12">
+      <p-fieldset legend="Valores" [toggleable]="true">
+        <div class="flex flex-column row-gap-2">
+          <p class="font-md font-medium">Desconto: R$ {{ convertePrecoParaPadraoBR(valorDesconto) }}</p>
+          <p class="font-md font-medium">Valor Total: R$ {{ convertePrecoParaPadraoBR(valorTotal) }}</p>
+        </div>
+      </p-fieldset>
+    </div>
+    <div class="col-12">
+      <p-fieldset legend="Forma(s) de pagamento" [toggleable]="true">
+        <div class="flex flex-column row-gap-2">
+          @for (pag of formArrayPagamento.controls; track pag; let index = $index) {
+            <p class="font-md font-medium flex align-items-center">
+              <img [src]="formArrayPagamento?.at(index)?.get('pagamento')?.value?.icon" alt="Pagamento" width="20" class="mr-2">
+              {{ formArrayPagamento?.at(index)?.get('pagamento')?.value?.nm_descritivo }}
+              -
+              Valor pago: R$ {{ convertePrecoParaPadraoBR(formArrayPagamento?.at(index)?.get('vlr_pago')?.value) }}
+            </p>
+          }
+        </div>
+      </p-fieldset>
+    </div>
+    <div class="col-12">
+      <p class="font-bold font-xl">Deseja imprimir a nota?</p>
+    </div>
+  </div>
+</ng-template>

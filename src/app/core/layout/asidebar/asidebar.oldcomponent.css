@@ -1,0 +1,109 @@
+::ng-deep .c-sidebar-right .nav-tabs {
+  border-color: #c8ced3;
+  background-color: var(--white-secondary);
+}
+
+::ng-deep .nav-tabs {
+  border-bottom: 1px solid var(--secondary);
+}
+
+::ng-deep app-main-asidebar .nav-tabs .nav-item {
+  margin-bottom: -2px;
+}
+
+::ng-deep .c-sidebar-right .nav-tabs .nav-item:first-child .nav-link {
+  border-left: 0;
+  border-top-left-radius: 0;
+}
+
+::ng-deep .c-sidebar-right .nav-tabs .nav-link.active {
+  background-color: var(--surface-a);
+  color: var(--danger-hover);
+  border-bottom: 1px solid var(--surface-a);
+  border-right-color: #c8ced3;
+  border-left-color: #c8ced3;
+}
+
+::ng-deep  app-sidebar .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: #333;
+  background-color: var(--surface-a);
+  border-color: var(--secondary) var(--secondary) var(--surface-a);
+}
+
+::ng-deep .c-sidebar-right .tab-content {
+  border-top-left-radius: 0 !important;
+  border-left: 0;
+}
+
+::ng-deep .tab-content {
+  margin-top: -1px;
+  border-radius: 4px;
+}
+
+::ng-deep app-sidebar .tab-content {
+  background: var(--surface-a);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+@media (min-width: 576px) {
+  ::ng-deep html:not([dir="rtl"]) .aside-menu-sm-show .aside-menu {
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 576px) and (min-width: 576px) {
+  ::ng-deep html:not([dir="rtl"]) .aside-menu-sm-show.aside-menu-fixed .main, html:not([dir="rtl"]) .aside-menu-sm-show.aside-menu-fixed .app-footer {
+    margin-right: 250px;
+  }
+  ::ng-deep html:not([dir="rtl"]) .aside-menu-sm-show.breadcrumb-fixed .breadcrumb {
+    right: 250px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  ::ng-deep .sidebar-show .main, .aside-menu-show .main {
+    position: relative;
+  }
+  ::ng-deep .aside-menu-show .main::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-animation: opacity 0.25s;
+    animation: opacity 0.25s;
+  }
+}
+
+::ng-deep .p-menuitem-icon{
+  margin-right: 0.5rem;
+}
+
+::ng-deep .p-panelmenu-header-action{
+  padding: .5rem 0;
+  font-size: .875rem;
+  color: #1e293b;
+}
+
+::ng-deep .p-accordion-header-link{
+  border: none !important;
+  padding: 0 !important;
+}
+
+::ng-deep .p-accordion-content{
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 10px;
+}
+
+::ng-deep .p-accordion-header-text{
+  font-size: .875rem;
+  color: #1e293b;
+}
+
+::ng-depp .p-accordion-tab {
+  outline: none !important;
+}

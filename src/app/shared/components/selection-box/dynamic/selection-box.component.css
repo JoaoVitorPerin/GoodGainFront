@@ -1,0 +1,11 @@
+.selection-box {
+    position: absolute;
+    pointer-events: none;
+
+    background-color: var(--primary);
+    border: 2px dashed var(--primary-hover);
+    border-radius: 2px;
+
+    opacity: 0.5;
+    z-index: 1;
+}

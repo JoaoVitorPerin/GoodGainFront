@@ -1,0 +1,33 @@
+<div class="grid">
+  @for (produto of produtos; track produto; let index = $index) {
+    <div class="{{ grid }} cursor-pointer">
+      <div class="flex flex-column p-2 border-round-lg" style="border: 1px solid #e2e8f0">
+        <div class="flex flex-row justify-content-between px-1 mb-2">
+          <img [src]="produto?.imagem" alt="Produto" [width]="imgWidth" [height]="imgHeight" class="cursor-pointer border-round-lg"
+            (click)="visualizarProduto(produto)">
+          <div class="flex flex-column justify-content-center pl-3">
+            <p class="font-sm text-limit-1">{{ produto?.produto_id }} - EAN: {{ produto?.ean }}</p>
+            <p class="font-sm text-limit-1">{{ produto?.nm_produto }}</p>
+          </div>
+          <span class="border-circle w-1rem h-1rem" [style]="{backgroundColor: '#' + (produto?.semaforo ?? 'fff')}"></span>
+        </div>
+        <div class="flex flex-row justify-content-between px-2 mb-2">
+          <app-preco [preco]="produto?.preco" orientacao="horizontal" [tamanho]="tamanho" />
+          <app-estoque-local [produto]="produto" />
+          <app-estoque-rede [produto]="produto" />
+        </div>
+        @if(!bloquearBotaoAcao) {
+          <div class="flex flex-row">
+            <app-botao-preco />
+          </div>
+        }
+        <!--
+          <p-button [label]="getLabelBotao(index)" size="small" styleClass="mt-2"
+          [appAtalhoEvento]="index + 1" [alt]="alt" [ctrl]="ctrl" [shift]="shift" (evento)="onProdutoSelecionado(produto)" (onClick)="onProdutoSelecionado(produto)" />
+        } -->
+
+      </div>
+    </div>
+  }
+</div>
+<app-visualizar-produto />

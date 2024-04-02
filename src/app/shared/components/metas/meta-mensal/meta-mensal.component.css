@@ -1,0 +1,30 @@
+.grafico-mensal {
+	background-color: #f8b216;
+	border-radius: 5px;
+	color: #fff;
+}
+
+::ng-deep .grafico-mensal canvas {
+	background-color: #f8b216;
+}
+
+.scroll-grafico{
+	overflow-y: auto;
+}
+
+.scroll-grafico::-webkit-scrollbar{
+	width: 5px;
+	scrollbar-width: thin;
+}
+
+.scroll-grafico::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+.scroll-grafico::-webkit-scrollbar-thumb {
+	background: #c0bfbf;
+}
+
+.scroll-grafico::-webkit-scrollbar-thumb:hover {
+	background: #c0bfbf;
+}
