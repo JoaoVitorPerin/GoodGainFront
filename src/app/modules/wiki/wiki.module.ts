@@ -29,4 +29,4 @@ import { TreeListModule } from 'src/app/shared/components/treelist/treelist.modu
     TreeListModule
   ]
 })
-export class UsuariosModule { }
+export class WikiModule { }

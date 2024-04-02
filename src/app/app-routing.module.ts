@@ -6,7 +6,8 @@ import { PermissaoNegadaComponent } from './core/permissao-negada/permissao-nega
 import { AutenticacaoGuard } from './core/guards/autenticacao.guard';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './modules/home/home.component';
+import { HomeComponent as HomeInicial } from './core/home/home.component';
+import { WikiComponent } from './modules/wiki/wiki.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -18,8 +19,12 @@ const APP_ROUTES: Routes = [
     component: CadastroUsuarioComponent
   },
   {
+    path: 'home',
+    component: HomeInicial
+  },
+  {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -38,12 +43,15 @@ const APP_ROUTES: Routes = [
         component: NaoEncontradaComponent,
       },
       {
-        path: 'home',
-        component: HomeComponent,
+        path: 'wiki',
+        loadChildren: () => 
+          import(
+            './modules/wiki/wiki.module'
+          ).then(m => m.WikiModule)
       },
       {
         path: '**',
-        redirectTo: 'login'
+        redirectTo: 'home'
       }
     ],
   },
