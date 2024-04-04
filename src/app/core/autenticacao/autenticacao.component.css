@@ -28,3 +28,7 @@
 ::ng-deep button{
   height: 50px;
 }
+
+.telaDireita{
+  background: url(../../../assets/img/trader2.webp) no-repeat;
+}

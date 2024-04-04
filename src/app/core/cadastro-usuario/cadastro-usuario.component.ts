@@ -62,17 +62,20 @@ export class CadastroUsuarioComponent implements OnInit{
             }
 
           } else {
-            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
+            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
           }
         }, error: () => {
-          this.toastrService.mostrarToastrDanger('Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
+          this.toastrService.mostrarToastrDanger('Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
         }
       })
 
     } else {
-      this.toastrService.mostrarToastrDanger('Informe o login e senha para prosseguir')
+      this.toastrService.mostrarToastrDanger('Informe todos os dados para prosseguir com o cadastro.')
     }
 
   }
 
+  redirectLogin(){
+    this.router.navigate(['login'])
+  }
 }

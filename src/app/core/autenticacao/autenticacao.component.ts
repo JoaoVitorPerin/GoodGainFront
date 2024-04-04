@@ -29,8 +29,12 @@ export class AutenticacaoComponent implements OnInit {
 
   @ViewChild('modalInserirDigital') modalInserirDigital: TemplateRef<any>
 
-  formLogin: FormGroup
-
+  formLogin: FormGroup;
+  formRecuperacaoSenha: FormGroup;
+  formNovaSenha: FormGroup;
+  mostrarFormCodigo: boolean = false;
+  mostrarEsqueceuSenha: boolean = false;
+  
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
               private localService: LocalService,
@@ -43,6 +47,17 @@ export class AutenticacaoComponent implements OnInit {
     this.formLogin = this.formBuilder.group({
       username: [null, Validators.required],
       password: [null, Validators.required],
+    })
+
+    this.formRecuperacaoSenha = this.formBuilder.group({
+      email: [null, Validators.required]
+    })
+
+    this.formNovaSenha = this.formBuilder.group({
+      email: [null, Validators.required],
+      codigo: [null, Validators.required],
+      password: [null, Validators.required],
+      confirm_password: [null, Validators.required]
     })
   }
 
@@ -58,7 +73,6 @@ export class AutenticacaoComponent implements OnInit {
               this.tokenService.setToken(dados?.data)
               this.router.navigate(['dashboard', 'vendas'])
             }
-
           } else {
             this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
           }
@@ -73,8 +87,32 @@ export class AutenticacaoComponent implements OnInit {
 
   }
 
+  enviarEmailRecuperacaoSenha(): void {
+    this.formRecuperacaoSenha.markAllAsTouched()
+
+    if(this.formRecuperacaoSenha.valid){
+      this.toastrService.mostrarToastrSuccess('E-mail enviado com sucesso. Verifique sua caixa de entrada e spam!.')
+      console.log(this.formRecuperacaoSenha.getRawValue())
+      this.mostrarFormCodigo = true;
+    } 
+  }
+
+  enviarNovaSenha(): void {
+    this.formNovaSenha.markAllAsTouched()
+    if(this.formNovaSenha.valid){
+      this.toastrService.mostrarToastrSuccess('Senha alterada com sucesso.')
+      console.log(this.formNovaSenha.getRawValue())
+      this.mostrarFormCodigo = false;
+      this.mostrarEsqueceuSenha = false;
+      console.log(this.mostrarEsqueceuSenha && this.mostrarFormCodigo)
+    } 
+  }
+
+  alternarFormulario() {
+    this.mostrarEsqueceuSenha = !this.mostrarEsqueceuSenha;
+  }
+
   redirectCadastro(){
     this.router.navigate(['cadastro'])
   }
-
 }
