@@ -9,6 +9,7 @@ import { FormModule } from 'src/app/shared/components/form/form.module';
 import { ButtonModule } from 'primeng/button';
 import { ElementoFocoDirective } from 'src/app/shared/directives/elemento-foco.directive';
 import { AtalhoEventoDirective } from 'src/app/shared/directives/atalho-evento.directive';
+import { validatorSenhaForte, confirmPasswordValidator } from '../../shared/validator/validatorForm';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -43,9 +44,10 @@ export class CadastroUsuarioComponent implements OnInit{
       cpf: [null, Validators.required],
       dataNascimento: [null, Validators.required],
       username: [null, Validators.required],
-      password: [null, Validators.required],
-      confirmPassword: [null, Validators.required],
-    })
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, validatorSenhaForte()]],
+      confirmPassword: [null, [Validators.required, validatorSenhaForte()]],
+    },{ validators: confirmPasswordValidator })
   }
 
   register(): void {

@@ -27,3 +27,8 @@
     max-height: 2.3rem!important;
     height: 2.2rem!important;
   }
+  
+  ::ng-deep .p-overlaypanel-content{
+    font-size: .75rem;
+    width: 300px;
+  }

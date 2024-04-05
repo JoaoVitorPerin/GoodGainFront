@@ -9,6 +9,7 @@ import { FormModule } from './../../shared/components/form/form.module';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from "@angular/router";
 import { LocalService } from "src/app/modules/gestao-venda-mais/local/local.service";
+import { confirmPasswordValidator, validatorSenhaForte } from 'src/app/shared/validator/validatorForm';
 
 @Component({
   selector: 'app-autenticacao',
@@ -50,15 +51,15 @@ export class AutenticacaoComponent implements OnInit {
     })
 
     this.formRecuperacaoSenha = this.formBuilder.group({
-      email: [null, Validators.required]
+      email: [null, [Validators.required, Validators.email]]
     })
 
     this.formNovaSenha = this.formBuilder.group({
-      email: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
       codigo: [null, Validators.required],
-      password: [null, Validators.required],
-      confirm_password: [null, Validators.required]
-    })
+      password: [null, [Validators.required, validatorSenhaForte()]],
+      confirm_password: [null, [Validators.required, validatorSenhaForte()]]
+    },{ validators: confirmPasswordValidator })
   }
 
   login(): void {

@@ -3,8 +3,8 @@
     <div class="col-12 md:col-4 container-login flex flex-column justify-content-center row-gap-4">
       <a class="flex align-items-center cursor-pointer" (click)=redirectLogin()><i class="material-symbols-outlined mr-2 text-primary">arrow_back</i>Voltar ao login</a>
       <img src="../../../assets/icons/logoGGdescritivoVerde.svg" alt="Logo" width="250">
-      <p class="text-6xl font-bold">Cadastre-se!</p>
-      <p class="text-lg font-light">E acesse uma plataforma completa sobre o mundo de trader esportivo!</p>
+      <p class="text-2xl font-bold">Cadastre-se!</p>
+      <p class="text-sm font-light">E acesse uma plataforma completa sobre o mundo de trader esportivo!</p>
       <form [(formGroup)]="formCadastro" class="w-100">
         <div class="grid flex justify-content-center">
             <div class="col-12 mb-2">
@@ -22,22 +22,24 @@
             <div class="col-12 mb-2">
                 <app-form type="text" id="username" [appElementoFoco]="'username'" [atalho]="'6'" [ctrl]="true" label="Usuário" formControlName="username" placeholder="Digite um usuário" ngDefaultControl [required]="true" erro="Informe o seu username!"/>
             </div>
-            <div class="col-12 mb-3">
-                <app-form type="password" id="password" [appElementoFoco]="'password'" [atalho]="'7'" [ctrl]="true" label="Senha" formControlName="password" placeholder="Digite sua senha" ngDefaultControl [required]="true" erro="Informe uma senha!"/>
+            <div class="col-12 mb-2">
+              <app-form type="text" id="email" [appElementoFoco]="'email'" [atalho]="'6'" [ctrl]="true" label="Email" formControlName="email" placeholder="Digite um usuário" ngDefaultControl [required]="true" erro="Informe um email válido!"/>
             </div>
             <div class="col-12 mb-3">
-                <app-form type="password" id="confirmPassword" [appElementoFoco]="'confirmPassword'" [atalho]="'8'" [ctrl]="true" label="Confirmar Senha" formControlName="confirmPassword" placeholder="Confirme sua senha" ngDefaultControl [required]="true" erro="Confirme a sua senha!"/>
+                <app-form type="password" id="password" [appElementoFoco]="'password'" [atalho]="'7'" [ctrl]="true" label="Senha" formControlName="password" placeholder="Digite sua senha" ngDefaultControl [required]="true" erro="Informe uma senha válida!" ajuda="Para sua segurança, sua nova senha deve conter 8 ou mais caracteres, letra maiúscula(M), letra minúscula(m), símbolos(!) e números(1)"/>
+            </div>
+            <div class="col-12 mb-3">
+                <app-form type="password" id="confirmPassword" [appElementoFoco]="'confirmPassword'" [atalho]="'8'" [ctrl]="true" label="Confirmar Senha" formControlName="confirmPassword" placeholder="Confirme sua senha" ngDefaultControl [required]="true" erro="As senhas não coincidem!"/>
             </div>
           <div class="col-12 mt-3">
-            <p-button label="Cadastrar-se" size="large" styleClass="d-flex justify-content-center mt-3"
-              [appAtalhoEvento]="'Enter'" (evento)="register()" (click)="register()" />
+            <p-button label="Cadastrar-se" size="large" styleClass="d-flex justify-content-center mt-3"  (evento)="register()" (click)="register()" />
           </div>
           
         </div>
       </form>
     </div>
     <div class="col-12 hidden justify-content-center align-items-center md:col-8 md:flex p-0">
-      <img src="../../../assets/img/trader3.webp" alt="Img trader esportivo" style="width: 100%; height: auto; max-width: 100%; object-fit: cover;">
+      <img src="../../../assets/img/trader3.webp" alt="Img trader esportivo" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover;">
     </div>
   </div>
 </div>

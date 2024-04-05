@@ -3,8 +3,8 @@
     @if(!this.mostrarEsqueceuSenha && !this.mostrarFormCodigo){
       <div class="col-12 md:col-4 container-login flex flex-column justify-content-center row-gap-4">
         <img src="../../../assets/icons/logoGGdescritivoVerde.svg" alt="Logo" width="250">
-        <p class="text-6xl font-bold">Bem-vindo</p>
-        <p class="text-lg font-light">Para prosseguir, informe seu usuário e senha.</p>
+        <p class="text-2xl font-bold">Bem-vindo</p>
+        <p class="text-sm font-light">Para prosseguir, informe seu usuário e senha.</p>
         <form [(formGroup)]="formLogin" class="w-100">
           <div class="grid flex justify-content-center">
             <div class="col-12 mb-2">
@@ -20,8 +20,8 @@
             <div class="col-12 mt-3">
               <p-button label="Entrar" size="large" styleClass="d-flex justify-content-center mt-3"
                 [appAtalhoEvento]="'Enter'" (evento)="login()" (click)="login()" />
-                <p class="mt-2 text-center text-xs">Não consegue acessar? <a class="redefinirSenha" (click)="alternarFormulario()">Clique aqui.</a></p>
-                <p class="mt-3 text-center">Não possuí uma conta? <a class="redefinirSenha" (click)=redirectCadastro()>Cadastre-se!</a></p>
+                <p class="mt-2 text-center text-xs font-light">Não consegue acessar? <a class="redefinirSenha" (click)="alternarFormulario()">Clique aqui.</a></p>
+                <p class="mt-3 text-center text-sm font-light">Não possuí uma conta? <a class="redefinirSenha" (click)=redirectCadastro()>Cadastre-se!</a></p>
             </div>
             
           </div>
@@ -38,7 +38,7 @@
             <div class="col-12 mb-2">
                 <app-form type="text"
                 id="email" [appElementoFoco]="'email'" [atalho]="'1'" [ctrl]="true"
-                label="Email" formControlName="email" placeholder="Digite seu email" ngDefaultControl [required]="true" erro="Informe o seu email!"/>
+                label="Email" formControlName="email" placeholder="Digite seu email" ngDefaultControl [required]="true" erro="Informe um email válido!"/>
             </div>
             <div class="col-12 mt-1">
               <p-button label="Enviar email" size="large" styleClass="d-flex justify-content-center mt-3" [appAtalhoEvento]="'Enter'" (evento)="login()" (click)="enviarEmailRecuperacaoSenha()" />
@@ -56,7 +56,7 @@
               <div class="col-12 mb-2">
                 <app-form type="text"
                 id="email" [appElementoFoco]="'email'" [atalho]="'1'" [ctrl]="true"
-                label="Email" formControlName="email" placeholder="Digite seu email" ngDefaultControl [required]="true" erro="Informe o email!"/>
+                label="Email" formControlName="email" placeholder="Digite seu email" ngDefaultControl [required]="true" erro="Informe um email válido!"/>
               </div>
               <div class="col-12 mb-2">
                   <app-form type="text"
@@ -66,16 +66,16 @@
               <div class="col-12 mb-2">
                 <app-form type="password"
                   id="password" [appElementoFoco]="'password'" [atalho]="'3'" [ctrl]="true"
-                  label="Nova senha" formControlName="password" placeholder="Digite sua senha" ngDefaultControl [required]="true" erro="Informe a senha!"/>
+                  label="Nova senha" formControlName="password" placeholder="Digite sua senha" ngDefaultControl [required]="true" erro="Informe uma senha válida!" ajuda="Para sua segurança, sua nova senha deve conter 8 ou mais caracteres, letra maiúscula(M), letra minúscula(m), símbolos(!) e números(1)"/>
               </div>
               <div class="col-12 mb-2">
                 <app-form type="password"
                   id="confirm_password" [appElementoFoco]="'confirm_password'" [atalho]="'4'" [ctrl]="true"
-                  label="Confirme a nova senha" formControlName="confirm_password" placeholder="Confirme a sua senha" ngDefaultControl [required]="true" erro="Informe a confirmação de senha!"/>
+                  label="Confirme a nova senha" formControlName="confirm_password" placeholder="Confirme a sua senha" ngDefaultControl [required]="true" erro="As senhas não coincidem!"/>
               </div>
               <div class="col-12 mt-1">
                 <p-button label="Salvar nova senha" size="large" styleClass="d-flex justify-content-center mt-3" [appAtalhoEvento]="'Enter'" (evento)="login()" (click)="enviarNovaSenha()" />
-                <p class="mt-2 text-center">Não recebeu o código? <a class="redefinirSenha" (click)="enviarEmailRecuperacaoSenha()">Clique aqui.</a></p>
+                <p class="mt-2 text-center text-xs font-light">Não recebeu o código? <a class="redefinirSenha" (click)="enviarEmailRecuperacaoSenha()">Clique aqui.</a></p>
               </div>
             </div>
           </form>

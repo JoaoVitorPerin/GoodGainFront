@@ -7,7 +7,6 @@ import { AutenticacaoGuard } from './core/guards/autenticacao.guard';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent as HomeInicial } from './core/home/home.component';
-import { WikiComponent } from './modules/wiki/wiki.component';
 
 const APP_ROUTES: Routes = [
   {

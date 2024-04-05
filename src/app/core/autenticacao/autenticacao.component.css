@@ -32,3 +32,8 @@
 .telaDireita{
   background: url(../../../assets/img/trader2.webp) no-repeat;
 }
+  
+::ng-deep .p-overlaypanel-content{
+  font-size: .75rem;
+  width: 300px;
+}
