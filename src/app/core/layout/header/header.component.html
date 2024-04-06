@@ -5,17 +5,10 @@
       <img src="../../../../assets/icons/logoGGdescritivoVerde.svg" alt="Good Gain" class="logoProduto">
     </div>
     <div class="col-4">
-      <!-- <app-steps [steps]="steps" [readonly]="true"></app-steps> -->
     </div>
     <div class="col-4 flex justify-content-end flex-nowrap align-items-center">
-      <app-menu-produtos app-menu-produtos [items]='itemsProdutos'></app-menu-produtos>
       <p-avatar styleClass="cursor-pointer" size="normal" shape="circle"
         [appAtalhoEvento]="'Tab'" [shift]="true" (evento)="toggleMenuPerfil()" (click)="toggleMenuPerfil()" [style]="{'background-color':'#EFF3F8', 'color': '#05FF00'}"><span class="material-symbols-outlined"> person</span></p-avatar>
     </div>
   </div>
-  @if(validaDashboard){
-  <div class="w-full submenu">
-    <app-submenu [items]="itemsSubMenu"></app-submenu>
-  </div>
-  }
 </header>

@@ -5,7 +5,7 @@ export const environment = {
   WEBSOCKET_ATIVO: false,
   TEMPO_ARMAZENAMENTO_SESSAO: 720,
   API_WS: '',
-  API_BACK: `https://saojoaoperformanceapi.voaitech.com.br/`,
-  API_ONLINE: 'https://saojoaoperformanceapi.voaitech.com.br/',
+  API_BACK: `https://goodgainapi.com.br/`,
+  API_ONLINE: 'https://goodgainapi.com.br/',
   VERSAO: appVersion
 };

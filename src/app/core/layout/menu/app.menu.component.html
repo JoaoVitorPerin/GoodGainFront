@@ -1,11 +1,5 @@
 <ul class="layout-menu">
   <li>
-    <ng-container *ngFor="let item of favoritos; let i = index;">
-      <app-menuitem app-menuitem [item]="item" [index]="i" [root]="true"></app-menuitem>
-    </ng-container>
-  </li>
-
-  <li>
     <ng-container *ngFor="let item of model; let i = index;">
       <app-menuitem app-menuitem [item]="item" [index]="i" [root]="true"></app-menuitem>
     </ng-container>

@@ -10,6 +10,8 @@ import { FuzzyMatcher } from "../../ts/util";
 import { ModalService } from "src/app/shared/components/modal/modal.service";
 import { ModalConfirmacaoService } from "src/app/shared/components/modal-confirmacao/modal-confirmacao.service";
 import { LayoutService } from '../app.layout.service';
+import { menuItem } from 'src/app/shared/models/menu-item.model';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-menu',
@@ -23,7 +25,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   @ViewChild('modalPreVenda') modalPreVenda: TemplateRef<any>;
 
   data: any;
-  favoritos: Array<any> = [];
 
   permissoes$: Observable<any>;
   permissoesSolicitadas: string[];
@@ -31,11 +32,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
 
   dayjs = dayjs;
 
-  visualizarFavoritos: boolean;
-
-  stringPesquisa: string;
-
-  private sessaoMenus: any;
   private sessaoPermissoes: any;
 
   readonly API = environment.API_BACK;
@@ -43,10 +39,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
 
   listaMenus: Array<any> = [];
 
-  parouDigitar: boolean;
   pesquisa: any = [];
   fuzzyMatcherScore: any;
-
+  menus: MenuItem[] = [];
   model: any[] = [];
   modelDefault: any[] = [];
   modelPesquisa: any[] = [];
@@ -67,52 +62,33 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.fuzzyMatcherScore = FuzzyMatcher.scoreValue
   }
 
-  async ngOnInit() {
-
-    this.sessaoMenus = this.menuService.getSessaoMenus()
-
-    this.tipo = this.router.url.split('/')[3]
-    this.passo = this.router.url.split('/')[4]
-
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
-      this.tipo = this.router.url.split('/')[3]
-      this.passo = this.router.url.split('/')[4]
-    });
-
-    const storageSessao = {
-      start: this.dayjs().format('YYYY-MM-DD HH:mm'),
-      expire: this.dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm')
-    }
-
-    if (this.sessaoMenus) {
-      if (this.dayjs().isAfter(this.dayjs(this.sessaoMenus?.expire))) {
-        this.layoutService.dadosMenus$.subscribe((dados) => {
-          this.construirMenus(dados);  
-        });
-        this.menuService.setSessaoMenus(storageSessao)
-      } else {
-        this.model = this.menuService.getMenusStorage();
-        this.modelDefault = this.menuService.getMenusStorage();
+  ngOnInit() {
+    this.menus = [
+      {
+        "label": "Simulação",
+        "icon": "ifl",
+        "routerLink": "simulacao",
+      },
+      {
+        "label": "Dashboard",
+        "icon": "monitoring",
+        "routerLink": "dashboard",
+      },
+      {
+        "label": "Recomendação",
+        "icon": "emergency_heat",
+        "routerLink": "recomendacao",
       }
-    } else {
-      this.menuService.setSessaoMenus(storageSessao);
-      this.layoutService.dadosMenus$.subscribe((dados) => {
-        this.construirMenus(dados);  
-      });
-    }
-    this.pegarPermissoes(this.model);
+    ]
 
+    this.construirMenus(this.menus)
   }
   
-  async construirMenus(dados): Promise<any> {
-    if(!dados?.lista_menus) return
+  construirMenus(dados){
     let menus = [];
-    const menuLateral = dados.lista_menus
-      .filter(menu => menu?.menu_id === 'principal')
-      .map(menu => menu.dados);
-
-    menus = this.montarArvore(menuLateral[0])
-
+    console.log("dados -> ", dados)
+    menus = this.montarArvore(dados)
+    console.log("menus -> ", menus)
     this.model = menus?.map(menu => {
       return this.construirMenu(menu)
     })
@@ -121,19 +97,19 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       label: '',
       items: this.model
     }]
+
     this.modelDefault = this.model
-    this.menuService.setMenusStorage(this.model)
   }
 
-  montarArvore(menu : any) : any {
+  montarArvore(menusItems : any) : any {
     const menus = [];
-    menu.forEach(menu => {
+    menusItems.forEach(menu => {
       menus.push({
-        icone: `${menu.icone}`,
+        icone: `${menu.icon}`,
         icon_material: true,
-        nome: menu.nome,
+        nome: menu.label,
         filhos: menu.lista_filhos && Array.isArray(menu.lista_filhos) && menu.lista_filhos.length > 0 ? this.montarArvore(menu.lista_filhos) : [],
-        url: menu.url,
+        url: menu.routerLink,
       })
     })
 
@@ -141,7 +117,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
 
   construirMenu(menuItem: any): any {
-
     menuItem = {
       id: menuItem.id,
       menu_pai: menuItem.menuitempai_id,
@@ -158,33 +133,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       ctrl: menuItem?.ctrl,
       shift: menuItem?.shift
     }
-
-    if (menuItem?.is_favorito) {
-      if (this.favoritos[0] && this.favoritos[0].items[0]) {
-        this.favoritos[0].items[0].items.push(menuItem)
-      } else {
-        this.favoritos.push({
-          visible: true,
-          items: [{
-            icon: "pi pi-fw pi-star",
-            label: 'Favoritos',
-            items: [menuItem]
-          }]
-        })
-      }
-    }
-
-    if (!menuItem?.items?.length) {
-      this.modelPesquisa.push(menuItem);
-    }
-
-    if (menuItem.items.length) {
-      menuItem.items = menuItem.items.map(filho => {
-        filho.pai_nome = menuItem.label
-        return this.construirMenu(filho)
-      });
-    }
-
+    console.log("menu item -> ", menuItem)
     return menuItem
   }
 
@@ -253,40 +202,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     item.show = !isShow;
   }
 
-  filtrarMenus(ev): void {
-
-    const termoPesquisado = ev?.target?.value
-    setTimeout(() => {
-      this.parouDigitar = ev?.target?.value === termoPesquisado;
-      if (this.parouDigitar) {
-        if (!termoPesquisado || termoPesquisado?.length <= 1) {
-          this.model = this.modelDefault
-        } else {
-          this.pesquisa = this.modelPesquisa
-            .map((menu) => {
-              const string_pesquisa = `${menu?.pai_nome} ${menu?.label}`
-              return ({
-                value: menu,
-                score: this.fuzzyMatcherScore(string_pesquisa, termoPesquisado)
-              });
-            })
-            .sort((a, b) => {
-              return (((a.score > b.score) && -1) || ((a.score < b.score) && 1) || 0);
-            })
-            .slice(0, 20).map((pontuacao) => {
-              return (pontuacao.value)
-            })
-
-          this.model = [{
-            label: '',
-            items: this.pesquisa
-          }]
-        }
-      }
-    }, 350);
-
-  }
-
   ngOnDestroy(): void {
     if (this.subs?.length) {
       this.subs.forEach(sub => {
@@ -294,18 +209,4 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       })
     }
   }
-
-  logout(): void {
-    this.modalConfirmacaoService.abrirModalConfirmacao(
-      'Sair',
-      'Deseja sair? Caso prossiga, todas as alterações que não foram salvas serão perdidas.',
-      {
-        icone: 'pi pi-info-circle',
-        callbackAceitar: () => {
-          this.router.navigate(['login']);
-        }
-      }
-    )
-  }
-
 }
