@@ -4,9 +4,7 @@ import { environment } from 'src/environments/environment';
 import * as dayjs from 'dayjs'
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { LocalService } from "src/app/modules/gestao-venda-mais/local/local.service";
 import { title } from "../../ts/util";
-import { AdminService } from 'src/app/modules/admin/admin.service';
 import { MenuService } from '../menu/app.menu.service';
 
 @Component({
@@ -54,8 +52,6 @@ export class AppAsideComponent implements OnInit, OnDestroy {
 
   constructor(public layoutService: LayoutService,
               private route: ActivatedRoute,
-              private localService: LocalService,
-              private adminService: AdminService,
               private menuService: MenuService) { }
 
   ngOnInit(): void {
@@ -69,22 +65,6 @@ export class AppAsideComponent implements OnInit, OnDestroy {
     })
 
     this.dataAtual = this.dayjs().format('DD/MM/YYYY')
-
-    this.buscarValorEmCaixa()
-
-    this.subs.push(
-      this.localService.vlrCaixa$.subscribe(() => {
-        this.buscarValorEmCaixa()
-      })
-    )
-
-    this.buscarMetas()
-
-    this.subs.push(
-      this.localService.metas$.subscribe(() => {
-        this.buscarMetas()
-      })
-    )
     
     this.sessaoMenus = this.menuService.getSessaoMenus()
 
@@ -175,30 +155,6 @@ export class AppAsideComponent implements OnInit, OnDestroy {
     }
 
     return menuItem
-  }
-
-  buscarMetas(): void {
-    this.localService.buscarMetas().subscribe({
-      next: (dados) => {
-        this.metaDiaria = dados?.meta_diaria
-        this.RealizadoDiario = dados?.realizado_diario
-        this.metaMensal = dados?.meta_mensal
-        this.realizadoMensal = dados?.realizado_mensal
-      }
-    })
-  }
-
-  buscarValorEmCaixa(): void {
-    this.localService.buscarValorCaixa().subscribe({
-      next: (dados) => {
-        this.vlrCaixa = +dados?.valor_caixa
-        this.limiteSangria = +dados?.limite_sangria
-      }
-    })
-  }
-
-  visualizarMetas(): void {
-    this.localService.atualizarDadosMetas({})
   }
 
   toggleMenuConfiguracoes() {

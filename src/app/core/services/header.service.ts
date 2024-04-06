@@ -26,7 +26,7 @@ export class HeaderService {
       Accept: 'application/json',
       Authorization: this.acesso,
       ...adicionais
-    });
+    }); 
 
     return this.headers;
   }

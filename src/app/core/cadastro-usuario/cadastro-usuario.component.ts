@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LocalService } from 'src/app/modules/gestao-venda-mais/local/local.service';
 import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
@@ -31,7 +30,6 @@ export class CadastroUsuarioComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
-              private localService: LocalService,
               private tokenService: TokenService,
               private router: Router){}
 
@@ -54,26 +52,8 @@ export class CadastroUsuarioComponent implements OnInit{
 
     this.formCadastro.markAllAsTouched()
 
-    if(this.formCadastro.valid){
-      this.localService.login(this.formCadastro.getRawValue()).subscribe({
-        next: (dados) => {
-          if(dados.status){
-            if(dados?.data){
-              this.tokenService.setToken(dados?.data)
-              this.router.navigate(['dashboard', 'vendas'])
-            }
-
-          } else {
-            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
-          }
-        }, error: () => {
-          this.toastrService.mostrarToastrDanger('Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
-        }
-      })
-
-    } else {
-      this.toastrService.mostrarToastrDanger('Informe todos os dados para prosseguir com o cadastro.')
-    }
+    // if(this.formCadastro.valid){
+    // }
 
   }
 

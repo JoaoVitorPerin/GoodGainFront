@@ -1,4 +1,3 @@
-import { GestaoVendaMaisComponent } from './modules/gestao-venda-mais/gestao-venda-mais.component';
 // Angular
 import { NgModule, isDevMode} from '@angular/core';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
@@ -30,8 +29,6 @@ import { ModalConfirmacaoModule } from "./shared/components/modal-confirmacao/mo
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { AppLayoutModule } from "./core/layout/app.layout.module";
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { AdminComponent } from './modules/admin/admin.component';
 
 // Import the plugin code
 import 'filepond-plugin-image-preview';
@@ -48,9 +45,6 @@ registerLocaleData(localePt, 'pt-br');
   declarations: [
     AppComponent,
     LoaderGeralComponent,
-    GestaoVendaMaisComponent,
-    DashboardComponent,
-    AdminComponent
   ],
   imports: [
     CommonModule,

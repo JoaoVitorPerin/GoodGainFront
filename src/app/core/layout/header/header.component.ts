@@ -1,10 +1,8 @@
-import { AdminService } from './../../../modules/admin/admin.service';
 import { MenuService } from './../menu/app.menu.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Event, NavigationEnd, Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
 import { Subscription } from "rxjs";
-import { LocalService } from "src/app/modules/gestao-venda-mais/local/local.service";
 import { getIniciais } from "../../ts/util";
 import { LayoutService } from '../app.layout.service';
 import dayjs from 'dayjs';
@@ -39,11 +37,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private layoutService: LayoutService,
-    private localService: LocalService,
     private menuService: MenuService,
     private route: ActivatedRoute,
-    private router: Router,
-    private adminService: AdminService) {}
+    private router: Router) {}
 
   ngOnInit(): void {
     this.validaDashboard = this.router.url.includes('dashboard');

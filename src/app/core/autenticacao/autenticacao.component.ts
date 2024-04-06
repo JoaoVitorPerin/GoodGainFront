@@ -8,7 +8,6 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } 
 import { FormModule } from './../../shared/components/form/form.module';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from "@angular/router";
-import { LocalService } from "src/app/modules/gestao-venda-mais/local/local.service";
 import { confirmPasswordValidator, validatorSenhaForte } from 'src/app/shared/validator/validatorForm';
 
 @Component({
@@ -38,7 +37,6 @@ export class AutenticacaoComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
-              private localService: LocalService,
               private tokenService: TokenService,
               private router: Router){}
 
@@ -67,25 +65,25 @@ export class AutenticacaoComponent implements OnInit {
     this.formLogin.markAllAsTouched()
 
     if(this.formLogin.valid){
-      this.localService.login(this.formLogin.getRawValue()).subscribe({
-        next: (dados) => {
-          if(dados.status){
-            if(dados?.data){
-              this.tokenService.setToken(dados?.data)
-              this.router.navigate(['dashboard', 'vendas'])
-            }
-          } else {
-            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
-          }
-        }, error: () => {
-          this.toastrService.mostrarToastrDanger('Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
-        }
-      })
+    //   this.localService.login(this.formLogin.getRawValue()).subscribe({
+    //     next: (dados) => {
+    //       if(dados.status){
+    //         if(dados?.data){
+    //           this.tokenService.setToken(dados?.data)
+    //           this.router.navigate(['dashboard', 'vendas'])
+    //         }
+    //       } else {
+    //         this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
+    //       }
+    //     }, error: () => {
+    //       this.toastrService.mostrarToastrDanger('Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
+    //     }
+    //   })
 
-    } else {
-      this.toastrService.mostrarToastrDanger('Informe o login e senha para prosseguir')
+    // } else {
+    //   this.toastrService.mostrarToastrDanger('Informe o login e senha para prosseguir')
+    // }
     }
-
   }
 
   enviarEmailRecuperacaoSenha(): void {

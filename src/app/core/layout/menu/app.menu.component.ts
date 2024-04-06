@@ -1,4 +1,3 @@
-import { LocalService } from 'src/app/modules/gestao-venda-mais/local/local.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
@@ -10,7 +9,6 @@ import { PermissaoService } from 'src/app/core/services/permissao.service';
 import { FuzzyMatcher } from "../../ts/util";
 import { ModalService } from "src/app/shared/components/modal/modal.service";
 import { ModalConfirmacaoService } from "src/app/shared/components/modal-confirmacao/modal-confirmacao.service";
-import { AdminService } from 'src/app/modules/admin/admin.service';
 import { LayoutService } from '../app.layout.service';
 
 @Component({
@@ -63,10 +61,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   constructor(private menuService: MenuService,
     private permissaoService: PermissaoService,
     private router: Router,
-    private localService: LocalService,
     private modalService: ModalService,
     private modalConfirmacaoService: ModalConfirmacaoService,
-    private adminService: AdminService,
     private layoutService: LayoutService) {
     this.fuzzyMatcherScore = FuzzyMatcher.scoreValue
   }
@@ -81,7 +77,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.tipo = this.router.url.split('/')[3]
       this.passo = this.router.url.split('/')[4]
-      this.localService.atualizarMenu(true)
     });
 
     const storageSessao = {
