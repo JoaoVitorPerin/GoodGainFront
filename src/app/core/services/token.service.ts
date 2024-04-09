@@ -29,7 +29,7 @@ export class TokenService {
 
   getJwtDecoded(): any {
     try {
-      return jwtDecode(this.getToken().token_aplicativo);
+      return jwtDecode(this.getToken());
     }
     catch (error) {
       //

@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ElementoFocoDirective } from 'src/app/shared/directives/elemento-foco.directive';
 import { AtalhoEventoDirective } from 'src/app/shared/directives/atalho-evento.directive';
 import { validatorSenhaForte, confirmPasswordValidator } from '../../shared/validator/validatorForm';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -31,11 +32,13 @@ export class CadastroUsuarioComponent implements OnInit{
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
               private tokenService: TokenService,
-              private router: Router){}
+              private router: Router,
+              private loginService: LoginService){}
 
   ngOnInit(): void {
     this.tokenService.clearToken()
 
+    //TODO: validators de senha forte, confirmar as duas senha e data nao posterior
     this.formCadastro = this.formBuilder.group({
       nome: [null, Validators.required],
       sobrenome: [null, Validators.required],
@@ -43,17 +46,32 @@ export class CadastroUsuarioComponent implements OnInit{
       dataNascimento: [null, Validators.required],
       username: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, validatorSenhaForte()]],
-      confirmPassword: [null, [Validators.required, validatorSenhaForte()]],
-    },{ validators: confirmPasswordValidator })
+      password: [null, [Validators.required]],
+      confirmPassword: [null, [Validators.required]],
+    })
   }
 
   register(): void {
-
+    console.log(this.formCadastro.valid)
     this.formCadastro.markAllAsTouched()
 
-    // if(this.formCadastro.valid){
-    // }
+    if(this.formCadastro.valid){
+      this.loginService.cadastro(this.formCadastro.getRawValue()).subscribe({
+        next: (dados) => {
+          if(dados.status){
+              this.toastrService.mostrarToastrSuccess('Cadastro realizado com sucesso!')
+              this.redirectLogin()
+          } else {
+            this.toastrService.mostrarToastrDanger('Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
+          }
+        }, error: () => {
+          this.toastrService.mostrarToastrDanger('Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
+        }
+      })
+
+    } else {
+      this.toastrService.mostrarToastrDanger('Informe todos os campos de cadastro!')
+    }
 
   }
 

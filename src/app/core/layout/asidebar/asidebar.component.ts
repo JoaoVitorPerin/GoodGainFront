@@ -1,10 +1,10 @@
+import { TokenService } from './../../services/token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LayoutService } from '../app.layout.service';
 import { environment } from 'src/environments/environment';
 import * as dayjs from 'dayjs'
 import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
-import { title } from "../../ts/util";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MenuService } from '../menu/app.menu.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class AppAsideComponent implements OnInit, OnDestroy {
   API_BACK: string = environment.API_BACK
 
   //TODO: verificar como buscar o nome do funcionário
-  funcionario: string = 'Fulano Beltrano'
+  funcionario: string = ''
   iniciais: string
 
   vlrCaixa: number = 0
@@ -52,31 +52,12 @@ export class AppAsideComponent implements OnInit, OnDestroy {
 
   constructor(public layoutService: LayoutService,
               private route: ActivatedRoute,
-              private menuService: MenuService) { }
+              private menuService: MenuService,
+              private tokenService: TokenService,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(dados => {
-      if(dados?.tipo === 'recarga'){
-        this.tipo = 'caixa'
-      } else {
-        this.tipo = dados?.tipo
-      }
-      this.tipoDescritivo = title(this.tipo)
-    })
-
-    this.dataAtual = this.dayjs().format('DD/MM/YYYY')
-    
-    this.sessaoMenus = this.menuService.getSessaoMenus()
-
-    if (this.sessaoMenus) {
-      if (this.dayjs().isAfter(this.dayjs(this.sessaoMenus?.expire))) {
-        this.buscarMenus();
-      } else {
-        this.items = this.menuService.getMenuPerfilStorage()
-      }
-    } else {
-      this.buscarMenus();
-    }
+    this.buscarInfosToken()
   }
 
   ngOnDestroy(): void {
@@ -85,16 +66,6 @@ export class AppAsideComponent implements OnInit, OnDestroy {
         sub.unsubscribe()
       }
     }
-  }
-
-  buscarMenus(): void {
-    this.layoutService.dadosMenus$.subscribe((dados) => {
-      if(dados){
-        this.construirMenusHeader(dados, 'perfil')
-      }else{
-        this.layoutService.getTodosMenus();
-      }
-    });
   }
 
   construirMenusHeader(dados, menu_tipo): void {
@@ -161,4 +132,12 @@ export class AppAsideComponent implements OnInit, OnDestroy {
       this.layoutService.showConfigSidebar()
   }
 
+  buscarInfosToken(){
+    const token = this.tokenService.getJwtDecoded()
+    this.funcionario = `${token.cli_info.nome} ${token.cli_info.sobrenome}`
+  }
+
+  logout(){
+    this.router.navigate(['/logout'])
+  }
 }

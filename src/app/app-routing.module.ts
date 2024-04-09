@@ -7,11 +7,18 @@ import { AutenticacaoGuard } from './core/guards/autenticacao.guard';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent as HomeInicial } from './core/home/home.component';
+import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
+import { LogoutGuard } from './core/guards/logout.guard';
 
 const APP_ROUTES: Routes = [
   {
     path: 'login',
     component: AutenticacaoComponent
+  },
+  {
+    path: 'logout',
+    canActivate: [LogoutGuard],
+    children: []
   },
   {
     path: 'cadastro',
@@ -23,8 +30,8 @@ const APP_ROUTES: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    canActivate: [LoginRedirectGuard],
+    children: []
   },
   {
     path: '',
@@ -50,13 +57,13 @@ const APP_ROUTES: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'home'
-      }
+        redirectTo: '404'
+      },
     ],
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'home',
     data: { animationState: 'FullPath' },
   },
 ];

@@ -1,3 +1,4 @@
+import { LoginService } from './../services/login.service';
 import { TokenService } from 'src/app/core/services/token.service';
 import { CommonModule } from '@angular/common';
 import { AtalhoEventoDirective } from 'src/app/shared/directives/atalho-evento.directive';
@@ -38,7 +39,8 @@ export class AutenticacaoComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
               private tokenService: TokenService,
-              private router: Router){}
+              private router: Router,
+              private loginService: LoginService){}
 
   ngOnInit(): void {
     this.tokenService.clearToken()
@@ -65,24 +67,20 @@ export class AutenticacaoComponent implements OnInit {
     this.formLogin.markAllAsTouched()
 
     if(this.formLogin.valid){
-    //   this.localService.login(this.formLogin.getRawValue()).subscribe({
-    //     next: (dados) => {
-    //       if(dados.status){
-    //         if(dados?.data){
-    //           this.tokenService.setToken(dados?.data)
-    //           this.router.navigate(['dashboard', 'vendas'])
-    //         }
-    //       } else {
-    //         this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
-    //       }
-    //     }, error: () => {
-    //       this.toastrService.mostrarToastrDanger('Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
-    //     }
-    //   })
-
-    // } else {
-    //   this.toastrService.mostrarToastrDanger('Informe o login e senha para prosseguir')
-    // }
+      this.loginService.login(this.formLogin.getRawValue()).subscribe({
+        next: (dados) => {
+          if(dados.status){
+            this.tokenService.setToken(dados?.token)
+            this.router.navigate(['wiki', 'forms'])
+          } else {
+            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
+          }
+        }, error: () => {
+          this.toastrService.mostrarToastrDanger('Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
+        }
+      })
+    } else {
+      this.toastrService.mostrarToastrDanger('Informe o login e senha para prosseguir')
     }
   }
 

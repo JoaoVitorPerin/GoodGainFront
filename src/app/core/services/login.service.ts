@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HeaderService } from './header.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +12,32 @@ export class LoginService {
 
   private data: any;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private headerService: HeaderService
+  ) {
   }
 
-  login(form: any): Observable<any> {
-    localStorage.removeItem('separador');
-    for (const key of Object.keys(localStorage)) {
-      if (key.indexOf('cached') > -1) {
-        localStorage.removeItem(key);
-      }
-    }
-    this.data = new FormData();
-    this.data.append('username', form.usuario.value);
-    this.data.append('password', form.senha.value);
-    return this.http.post<any>(this.API_BACK + 'login', this.data);
+  login(dados): Observable<any> {
+    this.data = {
+      ...dados,
+    };
+
+    return this.http.post<any>(`${this.API_BACK}login`, this.data, {
+      headers: this.headerService.getHeader(),
+    });
   }
+
+  cadastro(dados): Observable<any> {
+    this.data = {
+      ...dados,
+    };
+
+    return this.http.post<any>(`${this.API_BACK}cadastro`, this.data, {
+      headers: this.headerService.getHeader(),
+    });
+  }
+
 
   redefinirSenha(form: any): any {
     const data = new FormData();

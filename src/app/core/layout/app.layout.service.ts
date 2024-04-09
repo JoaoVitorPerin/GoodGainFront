@@ -229,12 +229,4 @@ export class LayoutService {
     window.location.href = '/'
   }
 
-  getTodosMenus(){
-    if (this.dadosMenus.getValue() === null) {
-      this.http.get<any>(this.API_BACK + 'core/sistema/configuracao/menu').subscribe(
-        result => this.dadosMenus.next(result),
-        error => console.error(error)
-      );
-    }
-  }
 }

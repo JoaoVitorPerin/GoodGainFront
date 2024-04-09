@@ -86,9 +86,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   
   construirMenus(dados){
     let menus = [];
-    console.log("dados -> ", dados)
     menus = this.montarArvore(dados)
-    console.log("menus -> ", menus)
     this.model = menus?.map(menu => {
       return this.construirMenu(menu)
     })
@@ -133,7 +131,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       ctrl: menuItem?.ctrl,
       shift: menuItem?.shift
     }
-    console.log("menu item -> ", menuItem)
     return menuItem
   }
 

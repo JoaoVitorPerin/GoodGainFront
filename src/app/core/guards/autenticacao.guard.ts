@@ -11,14 +11,12 @@ export class AutenticacaoGuard  {
 
   private verificacaoLogin(): boolean {
 
-    return true;
-
-    const token = this.tokenService.getToken();
+    const token = this.tokenService.getJwtDecoded();
 
     if (token) {
       const date = new Date();
-      const datetoken = new Date(token.expire);
-      if (datetoken > date) {
+      const datetoken = new Date(token.exp);
+      if (datetoken < date) {
         return true;
       }
     }
