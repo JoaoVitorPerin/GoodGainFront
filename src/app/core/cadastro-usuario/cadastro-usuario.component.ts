@@ -53,14 +53,13 @@ export class CadastroUsuarioComponent implements OnInit{
   register(): void {
 
     this.formCadastro.markAllAsTouched()
-
+    console.log(this.formCadastro)
     if(this.formCadastro.valid){
-      this.localService.login(this.formCadastro.getRawValue()).subscribe({
+      this.localService.cadastrarCliente(this.formCadastro.getRawValue()).subscribe({
         next: (dados) => {
           if(dados.status){
             if(dados?.data){
-              this.tokenService.setToken(dados?.data)
-              this.router.navigate(['dashboard', 'vendas'])
+              this.router.navigate(['login'])
             }
 
           } else {
