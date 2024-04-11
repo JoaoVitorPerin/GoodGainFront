@@ -137,6 +137,10 @@ export class AppAsideComponent implements OnInit, OnDestroy {
     this.funcionario = `${token.cli_info.nome} ${token.cli_info.sobrenome}`
   }
 
+  perfil(){
+    this.router.navigate(['/perfil'])
+  }
+
   logout(){
     this.router.navigate(['/logout'])
   }

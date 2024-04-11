@@ -9,6 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent as HomeInicial } from './core/home/home.component';
 import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
 import { LogoutGuard } from './core/guards/logout.guard';
+import { PerfilComponent } from './modules/perfil/perfil.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -54,6 +55,10 @@ const APP_ROUTES: Routes = [
           import(
             './modules/wiki/wiki.module'
           ).then(m => m.WikiModule)
+      },
+      {
+        path: 'perfil',
+        component: PerfilComponent
       },
       {
         path: '**',

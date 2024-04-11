@@ -2,7 +2,7 @@
   <div class="grid">
     <div class="col-12 flex justify-content-between align-items-center">
       <p-avatar styleClass="cursor-pointer" size="normal" shape="circle"
-        [appAtalhoEvento]="'Tab'" [shift]="true" [style]="{'background-color':'#EFF3F8', 'color': '#05FF00'}"><span class="material-symbols-outlined"> person</span></p-avatar>
+        [appAtalhoEvento]="'Tab'" [shift]="true" [style]="{'background-color':'#EFF3F8', 'color': '#05FF00'}"><span class="material-symbols-outlined" (click)="perfil()"> person</span></p-avatar>
       <p class="font-semibold font-lg">{{ funcionario }}</p>
       <span class="material-symbols-outlined cursor-pointer" (click)="toggleMenuConfiguracoes()">
         manufacturing
