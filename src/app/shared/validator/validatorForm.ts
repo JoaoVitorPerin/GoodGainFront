@@ -9,7 +9,7 @@ export function validatorSenhaForte(): ValidatorFn {
 }
 export const confirmPasswordValidator: ValidatorFn = (formGroup: FormGroup): ValidationErrors | null => {
     const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirm_password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
   
     return password && confirmPassword && password === confirmPassword ? null : { notSame: true };
 };

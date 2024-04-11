@@ -10,6 +10,7 @@ import { ElementoFocoDirective } from 'src/app/shared/directives/elemento-foco.d
 import { AtalhoEventoDirective } from 'src/app/shared/directives/atalho-evento.directive';
 import { validatorSenhaForte, confirmPasswordValidator } from '../../shared/validator/validatorForm';
 import { LoginService } from '../services/login.service';
+import * as dayjs from 'dayjs'
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -27,7 +28,9 @@ import { LoginService } from '../services/login.service';
   styleUrl: './cadastro-usuario.component.css'
 })
 export class CadastroUsuarioComponent implements OnInit{
-  formCadastro: FormGroup
+  formCadastro: FormGroup;
+  maxDate: any;
+  dayjs = dayjs;
 
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
@@ -38,7 +41,8 @@ export class CadastroUsuarioComponent implements OnInit{
   ngOnInit(): void {
     this.tokenService.clearToken()
 
-    //TODO: validators de senha forte, confirmar as duas senha e data nao posterior
+    this.maxDate = new Date(this.dayjs().toDate());
+
     this.formCadastro = this.formBuilder.group({
       nome: [null, Validators.required],
       sobrenome: [null, Validators.required],
@@ -46,9 +50,9 @@ export class CadastroUsuarioComponent implements OnInit{
       dataNascimento: [null, Validators.required],
       username: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-      confirmPassword: [null, [Validators.required]],
-    })
+      password: [null, [Validators.required, validatorSenhaForte()]],
+      confirmPassword: [null, [Validators.required, validatorSenhaForte()]],
+    },{ validators: confirmPasswordValidator })
   }
 
   register(): void {
