@@ -38,6 +38,22 @@ export class LoginService {
     });
   }
 
+  buscarUserByCpf(cpf: any): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'cliente', {
+      headers: this.headerService.getHeader(),
+      params: {cpf: cpf}
+  });
+  }
+
+  editarUser(dados: any): Observable<any> {
+    this.data = {
+      ...dados,
+    };
+
+    return this.http.put<any>(`${this.API_BACK}cliente`, this.data, {
+      headers: this.headerService.getHeader(),
+    });
+  }
 
   redefinirSenha(form: any): any {
     const data = new FormData();

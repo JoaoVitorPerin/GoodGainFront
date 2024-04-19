@@ -1,0 +1,6 @@
+.redefinirSenha{
+    cursor: pointer;
+}
+.redefinirSenha::after{
+    color: #039700;
+}
