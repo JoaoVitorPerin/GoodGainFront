@@ -33,7 +33,7 @@ export class LoginService {
       ...dados,
     };
 
-    return this.http.post<any>(`${this.API_BACK}cadastro`, this.data, {
+    return this.http.post<any>(`${this.API_BACK}cliente`, this.data, {
       headers: this.headerService.getHeader(),
     });
   }
