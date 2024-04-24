@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,8 @@ import * as dayjs from 'dayjs'
 import { LoginService } from 'src/app/core/services/login.service';
 import * as moment from 'moment';
 import { PerfilService } from './perfil.service';
+import { ModalService } from 'src/app/shared/components/modal/modal.service';
+import { confirmPasswordValidator, validatorSenhaForte } from 'src/app/shared/validator/validatorForm';
 
 @Component({
   selector: 'app-perfil',
@@ -30,6 +32,7 @@ import { PerfilService } from './perfil.service';
 export class PerfilComponent implements OnInit{
   formPerfil: FormGroup;
   formPreferencias: FormGroup;
+  formNovaSenha: FormGroup;
   maxDate: any;
   dayjs = dayjs;
   buttonSalvar: any;
@@ -40,11 +43,14 @@ export class PerfilComponent implements OnInit{
   itemsEsporte: any = [];
   itemsTipoAposta: any = [];
 
+  @ViewChild('modalRedefinirSenha') modalRedefinirSenha: TemplateRef<any>;
+
   constructor(private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private tokenService: TokenService,
     private loginService: LoginService,
     private perfilService: PerfilService,
+    private modalService: ModalService,
     private router: Router){}
 
   ngOnInit(){
@@ -52,6 +58,12 @@ export class PerfilComponent implements OnInit{
       esporte: [null],
       opcoes_apostas: [null]
     });
+
+    this.formNovaSenha = this.formBuilder.group({
+      oldPassword: [null, Validators.required],
+      password: [null, [Validators.required, validatorSenhaForte()]],
+      confirmPassword: [null, [Validators.required, validatorSenhaForte()]]
+    },{ validators: confirmPasswordValidator });
 
     this.formPerfil = this.formBuilder.group({
       nome: [null, Validators.required],
@@ -167,6 +179,27 @@ export class PerfilComponent implements OnInit{
       }
     }, error => {
       this.toastrService.mostrarToastrDanger('Erro ao editar preferências!');
+    });
+  }
+
+  abrirModalRedefinirSenha(){
+    this.modalService.abrirModal('Redefinir senha', this.modalRedefinirSenha, [], {larguraDesktop: '50'});
+  }
+
+  onSubmitNovaSenha(){
+    const dados = {
+      ...this.formNovaSenha.getRawValue(),
+      cpf: this.cpfUser
+    }
+    this.perfilService.redefinirSenha(dados).subscribe((res) => {
+      if(res.status){
+        this.toastrService.mostrarToastrSuccess('Senha redefinida com sucesso!');
+        this.modalService.fecharModal();
+      }else{
+        this.toastrService.mostrarToastrDanger('Erro ao redefinir senha!')
+      }
+    }, error => {
+      this.toastrService.mostrarToastrDanger('Erro ao redefinir senha!');
     });
   }
 }

@@ -49,7 +49,7 @@
         <div class="flex align-items-center justify-content-between">
             <p class="font-medium text-xl text-900 mb-3">Minhas informações:</p>
             <div class="flex align-items-end gap-3">
-                <button pButton pRipple label="Redefinir Senha" icon="pi pi-pencil" style="width: 250px!important;"></button>
+                <button pButton pRipple label="Redefinir Senha" icon="pi pi-pencil" style="width: 250px!important;" (click)="abrirModalRedefinirSenha()"></button>
                 <button pButton pRipple label="Editar" icon="pi pi-pencil" style="width: 150px!important;" (click)="toggleCamposDisable()"></button>
             </div>
         </div>
@@ -93,3 +93,26 @@
         </ul>
     </div>
 </div>
+
+<ng-template #modalRedefinirSenha>
+    <div class="modal-body">
+        <form [formGroup]="formNovaSenha">
+            <div class="row mt-3">
+                <div class="col-12 mb-3">
+                    <app-form type="password" id="oldPassword" label="Senha" formControlName="oldPassword" placeholder="Digite sua senha" ngDefaultControl [required]="true" erro="Informe uma senha válida!" ajuda="Para sua segurança, sua nova senha deve conter 8 ou mais caracteres, letra maiúscula(M), letra minúscula(m), símbolos(!) e números(1)"/>
+                </div>
+                <div class="col-12 mb-3">
+                    <app-form type="password" id="password" label="Senha" formControlName="password" placeholder="Digite sua senha" ngDefaultControl [required]="true" erro="Informe uma senha válida!" ajuda="Para sua segurança, sua nova senha deve conter 8 ou mais caracteres, letra maiúscula(M), letra minúscula(m), símbolos(!) e números(1)"/>
+                </div>
+                <div class="col-12 mb-3">
+                    <app-form type="password" id="confirmPassword" label="Confirmar Senha" formControlName="confirmPassword" placeholder="Confirme sua senha" ngDefaultControl [required]="true" erro="As senhas não coincidem!"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="flex justify-content-end">
+            <button pButton pRipple label="Salvar" icon="pi pi-check" style="width: 150px!important;" (click)="onSubmitNovaSenha()" class="mt-2"></button>
+        </div>
+    </div>
+</ng-template>

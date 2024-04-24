@@ -34,4 +34,10 @@ export class PerfilService {
       headers: this.headerService.getHeader({ 'Content-Type': 'application/json' }),
     });
   }
+
+  redefinirSenha(dados: any): any {
+    return this.http.post<any>(`${this.API_BACK}alterar/senha`, dados, {
+      headers: this.headerService.getHeader(),
+    });
+  }
 }
