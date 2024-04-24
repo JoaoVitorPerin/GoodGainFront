@@ -76,23 +76,22 @@ export class PerfilComponent implements OnInit{
         this.username = dados.cliente.username;
         this.cpfUser = dados.cliente.cpf;
         this.emailUser = dados.cliente.email;
+        
+        this.buscarPreferencias();
 
         const data = { ...dados.cliente };
         data.data_nascimento = data.data_nascimento ? moment(data.data_nascimento, 'YYYYMMDD').format('DD/MM/YYYY') : null;
         this.formPerfil.patchValue(data);
-
-        this.buscarPreferencias();
       }, error: () => {
         this.toastrService.mostrarToastrDanger('Nao foi possivel buscar os dados do username, contate o suporte!')
       }
     })
-
-    
   }
 
   buscarPreferencias(){
     this.perfilService.buscarPreferencias(this.cpfUser).subscribe({
       next: (dados) => {
+        console.log(dados)
         this.formPreferencias.patchValue(dados);
       }, error: () => {
         this.toastrService.mostrarToastrDanger('Nao foi possivel buscar as preferencias, contate o suporte!')

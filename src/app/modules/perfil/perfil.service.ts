@@ -19,12 +19,9 @@ export class PerfilService {
   }
 
   buscarPreferencias(cpf): Observable<any> {
-    this.data = {
-      cpf: cpf
-    };
-
-    return this.http.post<any>(`${this.API_BACK}preferencias`, this.data, {
-      headers: this.headerService.getHeader(),
+    return this.http.get<any>(this.API_BACK + 'preferencias', {
+        headers: this.headerService.getHeader(),
+        params: {cpf: cpf}
     });
   }
 }
