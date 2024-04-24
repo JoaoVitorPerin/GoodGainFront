@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -35,6 +36,9 @@ export class PerfilComponent implements OnInit{
   username: any = '--';
   cpfUser: any = '--';
   emailUser: any = '--';
+  
+  itemsEsporte: any = [];
+  itemsTipoAposta: any = [];
 
   constructor(private formBuilder: FormBuilder,
     private toastrService: ToastrService,
@@ -45,8 +49,8 @@ export class PerfilComponent implements OnInit{
 
   ngOnInit(){
     this.formPreferencias = this.formBuilder.group({
-      esportes: [null],
-      tipo_aposta: [null]
+      esporte: [null],
+      opcoes_apostas: [null]
     });
 
     this.formPerfil = this.formBuilder.group({
@@ -91,8 +95,15 @@ export class PerfilComponent implements OnInit{
   buscarPreferencias(){
     this.perfilService.buscarPreferencias(this.cpfUser).subscribe({
       next: (dados) => {
-        console.log(dados)
-        this.formPreferencias.patchValue(dados);
+        this.itemsEsporte = dados.dados.esporte?.map(item => ({
+          value: item.id,
+          label: item.nome
+        }));
+
+        this.itemsTipoAposta = dados.dados.opcoes_apostas?.map(item => ({
+          value: item.id,
+          label: item.informacao
+        }));
       }, error: () => {
         this.toastrService.mostrarToastrDanger('Nao foi possivel buscar as preferencias, contate o suporte!')
       }
@@ -131,6 +142,28 @@ export class PerfilComponent implements OnInit{
       }
     }, error => {
       this.toastrService.mostrarToastrDanger('Erro ao editar usuário!');
+    });
+  }
+
+  onSubmitPreferencias(){
+    if (this.formPreferencias.getRawValue().invalid) {
+      this.formPreferencias?.markAllAsTouched()
+      return;
+    }
+
+    const dados = {
+      ...this.formPreferencias.getRawValue(),
+      cpf: this.cpfUser
+    }
+
+    this.perfilService.enviarPreferencias(dados).subscribe((res) => {
+      if(res.status){
+        this.toastrService.mostrarToastrSuccess('Preferências editadas com sucesso!');
+      }else{
+        this.toastrService.mostrarToastrDanger('Erro ao editar preferências!')
+      }
+    }, error => {
+      this.toastrService.mostrarToastrDanger('Erro ao editar preferências!');
     });
   }
 }

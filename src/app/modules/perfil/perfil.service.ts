@@ -24,4 +24,14 @@ export class PerfilService {
         params: {cpf: cpf}
     });
   }
+
+  enviarPreferencias(dados): Observable<any> {
+    this.data = {
+      ...dados,
+    };
+
+    return this.http.post<any>(`${this.API_BACK}preferencias`, JSON.stringify(this.data), {
+      headers: this.headerService.getHeader({ 'Content-Type': 'application/json' }),
+    });
+  }
 }
