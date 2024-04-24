@@ -10,6 +10,7 @@ import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import * as dayjs from 'dayjs'
 import { LoginService } from 'src/app/core/services/login.service';
 import * as moment from 'moment';
+import { PerfilService } from './perfil.service';
 
 @Component({
   selector: 'app-perfil',
@@ -27,6 +28,7 @@ import * as moment from 'moment';
 })
 export class PerfilComponent implements OnInit{
   formPerfil: FormGroup;
+  formPreferencias: FormGroup;
   maxDate: any;
   dayjs = dayjs;
   buttonSalvar: any;
@@ -38,9 +40,15 @@ export class PerfilComponent implements OnInit{
     private toastrService: ToastrService,
     private tokenService: TokenService,
     private loginService: LoginService,
+    private perfilService: PerfilService,
     private router: Router){}
 
   ngOnInit(){
+    this.formPreferencias = this.formBuilder.group({
+      esportes: [null],
+      tipo_aposta: [null]
+    });
+
     this.formPerfil = this.formBuilder.group({
       nome: [null, Validators.required],
       sobrenome: [null, Validators.required],
@@ -72,8 +80,22 @@ export class PerfilComponent implements OnInit{
         const data = { ...dados.cliente };
         data.data_nascimento = data.data_nascimento ? moment(data.data_nascimento, 'YYYYMMDD').format('DD/MM/YYYY') : null;
         this.formPerfil.patchValue(data);
+
+        this.buscarPreferencias();
       }, error: () => {
         this.toastrService.mostrarToastrDanger('Nao foi possivel buscar os dados do username, contate o suporte!')
+      }
+    })
+
+    
+  }
+
+  buscarPreferencias(){
+    this.perfilService.buscarPreferencias(this.cpfUser).subscribe({
+      next: (dados) => {
+        this.formPreferencias.patchValue(dados);
+      }, error: () => {
+        this.toastrService.mostrarToastrDanger('Nao foi possivel buscar as preferencias, contate o suporte!')
       }
     })
   }
