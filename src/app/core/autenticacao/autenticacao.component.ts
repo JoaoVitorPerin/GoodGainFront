@@ -33,8 +33,8 @@ export class AutenticacaoComponent implements OnInit {
   formLogin: FormGroup;
   formRecuperacaoSenha: FormGroup;
   formNovaSenha: FormGroup;
-  mostrarFormCodigo: boolean = false;
-  mostrarEsqueceuSenha: boolean = false;
+  mostrarFormCodigo: boolean = true;
+  mostrarEsqueceuSenha: boolean = true;
   
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
@@ -58,7 +58,7 @@ export class AutenticacaoComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       codigo: [null, Validators.required],
       password: [null, [Validators.required, validatorSenhaForte()]],
-      confirm_password: [null, [Validators.required, validatorSenhaForte()]]
+      confirmPassword: [null, [Validators.required, validatorSenhaForte()]]
     },{ validators: confirmPasswordValidator })
   }
 
@@ -105,13 +105,22 @@ export class AutenticacaoComponent implements OnInit {
 
   enviarNovaSenha(): void {
     this.formNovaSenha.markAllAsTouched()
+    
     if(this.formNovaSenha.valid){
-      this.toastrService.mostrarToastrSuccess('Senha alterada com sucesso.')
-      console.log(this.formNovaSenha.getRawValue())
-      this.mostrarFormCodigo = false;
-      this.mostrarEsqueceuSenha = false;
-      console.log(this.mostrarEsqueceuSenha && this.mostrarFormCodigo)
-    } 
+      this.loginService.validarRedefinirSenha(this.formNovaSenha.getRawValue()).subscribe({
+        next: (dados) => {
+          if(dados.status){
+            this.toastrService.mostrarToastrSuccess('Senha alterada com sucesso.');
+            this.mostrarFormCodigo = false;
+            this.mostrarEsqueceuSenha = false;
+          } else {
+            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível redefinir a senha. Tente novamente e caso persista o erro, contate o suporte.')
+          }
+        }, error: () => {
+          this.toastrService.mostrarToastrDanger('Não foi possível redefinir a senha. Tente novamente e caso persista o erro, contate o suporte.')
+        }
+      })
+    }
   }
 
   alternarFormulario() {

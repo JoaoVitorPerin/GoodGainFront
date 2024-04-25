@@ -76,4 +76,14 @@ export class LoginService {
       params: dados
     });
   }
+
+  validarRedefinirSenha(dados: any): Observable<any> {
+    this.data = {
+      ...dados,
+    };
+
+    return this.http.post<any>(`${this.API_BACK}verificar/codigo`, this.data, {
+      headers: this.headerService.getHeader(),
+    });
+  }
 }

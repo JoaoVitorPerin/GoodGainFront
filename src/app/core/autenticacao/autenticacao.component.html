@@ -70,11 +70,11 @@
               </div>
               <div class="col-12 mb-2">
                 <app-form type="password"
-                  id="confirm_password" [appElementoFoco]="'confirm_password'" [atalho]="'4'" [ctrl]="true"
-                  label="Confirme a nova senha" formControlName="confirm_password" placeholder="Confirme a sua senha" ngDefaultControl [required]="true" erro="As senhas não coincidem!"/>
+                  id="confirmPassword" [appElementoFoco]="'confirmPassword'" [atalho]="'4'" [ctrl]="true"
+                  label="Confirme a nova senha" formControlName="confirmPassword" placeholder="Confirme a sua senha" ngDefaultControl [required]="true" erro="As senhas não coincidem!"/>
               </div>
               <div class="col-12 mt-1">
-                <p-button label="Salvar nova senha" size="large" styleClass="d-flex justify-content-center mt-3" [appAtalhoEvento]="'Enter'" (evento)="login()" (click)="enviarNovaSenha()" />
+                <p-button label="Salvar nova senha" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarNovaSenha()" />
                 <p class="mt-2 text-center text-xs font-light">Não recebeu o código? <a class="redefinirSenha" (click)="enviarEmailRecuperacaoSenha()">Clique aqui.</a></p>
               </div>
             </div>
