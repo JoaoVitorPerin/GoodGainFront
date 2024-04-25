@@ -33,9 +33,9 @@ export class AutenticacaoComponent implements OnInit {
   formLogin: FormGroup;
   formRecuperacaoSenha: FormGroup;
   formNovaSenha: FormGroup;
-  mostrarFormCodigo: boolean = true;
-  mostrarEsqueceuSenha: boolean = true;
-  
+  mostrarFormCodigo: boolean = false;
+  mostrarEsqueceuSenha: boolean = false;
+
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
               private tokenService: TokenService,
@@ -100,12 +100,12 @@ export class AutenticacaoComponent implements OnInit {
           this.toastrService.mostrarToastrDanger('Não foi possível enviar o e-mail de recuperação de senha. Tente novamente e caso persista o erro, contate o suporte.')
         }
       })
-    } 
+    }
   }
 
   enviarNovaSenha(): void {
     this.formNovaSenha.markAllAsTouched()
-    
+
     if(this.formNovaSenha.valid){
       this.loginService.validarRedefinirSenha(this.formNovaSenha.getRawValue()).subscribe({
         next: (dados) => {
