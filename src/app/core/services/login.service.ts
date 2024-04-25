@@ -42,7 +42,7 @@ export class LoginService {
     return this.http.get<any>(this.API_BACK + 'cliente', {
       headers: this.headerService.getHeader(),
       params: {cpf: cpf}
-  });
+    });
   }
 
   editarUser(dados: any): Observable<any> {
@@ -68,5 +68,12 @@ export class LoginService {
     this.data.matricula = form.usuarioSenhaResetada
     this.data.senha_padrao = form.passwordPadraoSenhaResetada
     return this.http.post<any>(this.API_BACK + 'nova/senha', this.data);
+  }
+
+  enviarEmailRecuperacaoSenha(dados: any): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'verificar/codigo', {
+      headers: this.headerService.getHeader(),
+      params: dados
+    });
   }
 }

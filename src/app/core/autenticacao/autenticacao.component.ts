@@ -88,9 +88,18 @@ export class AutenticacaoComponent implements OnInit {
     this.formRecuperacaoSenha.markAllAsTouched()
 
     if(this.formRecuperacaoSenha.valid){
-      this.toastrService.mostrarToastrSuccess('E-mail enviado com sucesso. Verifique sua caixa de entrada e spam!.')
-      console.log(this.formRecuperacaoSenha.getRawValue())
-      this.mostrarFormCodigo = true;
+      this.loginService.enviarEmailRecuperacaoSenha(this.formRecuperacaoSenha.getRawValue()).subscribe({
+        next: (dados) => {
+          if(dados.status){
+            this.toastrService.mostrarToastrSuccess('E-mail enviado com sucesso. Verifique sua caixa de entrada e spam!.')
+            this.mostrarFormCodigo = true;
+          } else {
+            this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível enviar o e-mail de recuperação de senha. Tente novamente e caso persista o erro, contate o suporte.')
+          }
+        }, error: () => {
+          this.toastrService.mostrarToastrDanger('Não foi possível enviar o e-mail de recuperação de senha. Tente novamente e caso persista o erro, contate o suporte.')
+        }
+      })
     } 
   }
 
