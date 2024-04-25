@@ -40,4 +40,13 @@ export class PerfilService {
       headers: this.headerService.getHeader(),
     });
   }
+
+  excluirConta(dados: any): any {
+    return this.http.delete<any>(`${this.API_BACK}cliente`, {
+      headers: this.headerService.getHeader(),
+      params: dados
+    });
+  }
+
+
 }

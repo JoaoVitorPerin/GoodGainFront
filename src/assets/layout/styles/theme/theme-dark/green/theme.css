@@ -2282,21 +2282,21 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 
 .p-button.p-button-danger, .p-buttonset.p-button-danger > .p-button, .p-splitbutton.p-button-danger > .p-button {
   color: #1c2127;
-  background: #FCA5A5;
-  border: 1px solid #FCA5A5;
+  background: #dc2626;
+  border: 1px solid #dc2626;
 }
 .p-button.p-button-danger:enabled:hover, .p-buttonset.p-button-danger > .p-button:enabled:hover, .p-splitbutton.p-button-danger > .p-button:enabled:hover {
-  background: #fb7d7d;
+  background: #ef4444;
   color: #1c2127;
-  border-color: #fb7d7d;
+  border-color: #ef4444;
 }
 .p-button.p-button-danger:enabled:focus, .p-buttonset.p-button-danger > .p-button:enabled:focus, .p-splitbutton.p-button-danger > .p-button:enabled:focus {
   box-shadow: 0 0 0 1px #fdc0c0;
 }
 .p-button.p-button-danger:enabled:active, .p-buttonset.p-button-danger > .p-button:enabled:active, .p-splitbutton.p-button-danger > .p-button:enabled:active {
-  background: #f95454;
+  background: #ef4444;
   color: #1c2127;
-  border-color: #f95454;
+  border-color: #ef4444;
 }
 .p-button.p-button-danger.p-button-outlined, .p-buttonset.p-button-danger > .p-button.p-button-outlined, .p-splitbutton.p-button-danger > .p-button.p-button-outlined {
   background-color: transparent;

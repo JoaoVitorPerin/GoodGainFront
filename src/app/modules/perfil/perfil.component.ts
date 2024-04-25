@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { PerfilService } from './perfil.service';
 import { ModalService } from 'src/app/shared/components/modal/modal.service';
 import { confirmPasswordValidator, validatorSenhaForte } from 'src/app/shared/validator/validatorForm';
+import { ModalConfirmacaoService } from 'src/app/shared/components/modal-confirmacao/modal-confirmacao.service';
 
 @Component({
   selector: 'app-perfil',
@@ -51,6 +52,7 @@ export class PerfilComponent implements OnInit{
     private loginService: LoginService,
     private perfilService: PerfilService,
     private modalService: ModalService,
+    private modalConfirmacaoService: ModalConfirmacaoService,
     private router: Router){}
 
   ngOnInit(){
@@ -201,5 +203,28 @@ export class PerfilComponent implements OnInit{
     }, error => {
       this.toastrService.mostrarToastrDanger('Erro ao redefinir senha!');
     });
+  }
+
+  excluirConta(){
+    this.modalConfirmacaoService.abrirModalConfirmacao(
+      'Atenção',
+      `Deseja realmente exluir sua conta?`,
+      {
+        icone: 'pi pi-info-circle',
+        callbackAceitar: () => {
+          const dados = {
+            cpf: this.cpfUser,
+          }
+          this.perfilService.excluirConta(dados).subscribe((data: any) => {
+            if(data.status){
+              this.toastrService.mostrarToastrSuccess(data.descricao ? data.descricao : 'Conta excluída com sucesso!');
+              this.router.navigate(['/login']);
+            }
+          }, error => {
+            this.toastrService.mostrarToastrDanger(`Erro ao exluir a conta!`);
+          });
+        }
+      }
+    );
   }
 }

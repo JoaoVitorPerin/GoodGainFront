@@ -29,6 +29,7 @@ import { ModalConfirmacaoModule } from "./shared/components/modal-confirmacao/mo
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { AppLayoutModule } from "./core/layout/app.layout.module";
+import { ButtonModule } from 'primeng/button';
 
 // Import the plugin code
 import 'filepond-plugin-image-preview';
@@ -65,6 +66,7 @@ registerLocaleData(localePt, 'pt-br');
     ToastrModule,
     ModalModule,
     ModalConfirmacaoModule,
+    ButtonModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
