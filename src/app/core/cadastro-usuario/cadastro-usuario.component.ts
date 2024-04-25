@@ -11,6 +11,7 @@ import { AtalhoEventoDirective } from 'src/app/shared/directives/atalho-evento.d
 import { validatorSenhaForte, confirmPasswordValidator } from '../../shared/validator/validatorForm';
 import { LoginService } from '../services/login.service';
 import * as dayjs from 'dayjs'
+import moment from 'moment';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -56,11 +57,16 @@ export class CadastroUsuarioComponent implements OnInit{
   }
 
   register(): void {
-    console.log(this.formCadastro.valid)
     this.formCadastro.markAllAsTouched()
 
     if(this.formCadastro.valid){
-      this.loginService.cadastro(this.formCadastro.getRawValue()).subscribe({
+
+      const dados = {
+        ...this.formCadastro.getRawValue(),
+        data_nascimento: moment(this.formPerfil.value.data_nascimento, 'DD/MM/YYYY').format('YYYYMMDD')
+      }
+
+      this.loginService.cadastro(dados).subscribe({
         next: (dados) => {
           if(dados.status){
               this.toastrService.mostrarToastrSuccess('Cadastro realizado com sucesso!')

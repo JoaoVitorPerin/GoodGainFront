@@ -1,13 +1,14 @@
 import { environment } from 'src/environments/environment';
 import { TokenService } from './../services/token.service';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AutenticacaoGuard  {
 
   readonly API_BACK: string = environment.API_BACK
 
-  constructor(private tokenService: TokenService) { }
+  constructor(private tokenService: TokenService, private router: Router) { }
 
   private verificacaoLogin(): boolean {
 
@@ -22,7 +23,7 @@ export class AutenticacaoGuard  {
     }
 
     this.tokenService.clearToken();
-
+    this.router.navigate(['/home'])
     return false;
   }
 
