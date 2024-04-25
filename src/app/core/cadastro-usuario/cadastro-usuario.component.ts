@@ -63,7 +63,7 @@ export class CadastroUsuarioComponent implements OnInit{
 
       const dados = {
         ...this.formCadastro.getRawValue(),
-        data_nascimento: moment(this.formPerfil.value.data_nascimento, 'DD/MM/YYYY').format('YYYYMMDD')
+        data_nascimento: moment(this.formCadastro.value.data_nascimento, 'DD/MM/YYYY').format('YYYYMMDD')
       }
 
       this.loginService.cadastro(dados).subscribe({
