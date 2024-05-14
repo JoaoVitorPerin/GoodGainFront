@@ -10,6 +10,8 @@ import { HomeComponent as HomeInicial } from './core/home/home.component';
 import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
 import { LogoutGuard } from './core/guards/logout.guard';
 import { PerfilComponent } from './modules/perfil/perfil.component';
+import { HomeConfrontosComponent } from './modules/home-confrontos/home-confrontos.component';
+import { VisualizarConfrontoComponent } from './modules/home-confrontos/visualizar-confronto/visualizar-confronto.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -38,8 +40,8 @@ const APP_ROUTES: Routes = [
     path: '',
     component: AppLayoutComponent,
     data: { animationState: 'AppLayoutComponent' },
-    canLoad: [AutenticacaoGuard],
-    canActivateChild: [AutenticacaoGuard],
+    //canLoad: [AutenticacaoGuard],
+    //canActivateChild: [AutenticacaoGuard],
     children: [
       {
         path: '403',
@@ -48,6 +50,14 @@ const APP_ROUTES: Routes = [
       {
         path: '404',
         component: NaoEncontradaComponent,
+      },
+      {
+        path: 'confrontos',
+        component: HomeConfrontosComponent
+      },
+      {
+        path: 'confrontos/:id',
+        component: VisualizarConfrontoComponent
       },
       {
         path: 'wiki',

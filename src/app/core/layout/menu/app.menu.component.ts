@@ -65,6 +65,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.menus = [
       {
+        "label": "Próximos confrontos",
+        "icon": "emergency_heat",
+        "routerLink": "confrontos",
+      },
+      {
         "label": "Simulação",
         "icon": "ifl",
         "routerLink": "simulacao",
@@ -74,11 +79,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         "icon": "monitoring",
         "routerLink": "dashboard",
       },
-      {
-        "label": "Recomendação",
-        "icon": "emergency_heat",
-        "routerLink": "recomendacao",
-      }
     ]
 
     this.construirMenus(this.menus)

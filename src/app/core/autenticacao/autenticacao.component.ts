@@ -71,7 +71,7 @@ export class AutenticacaoComponent implements OnInit {
         next: (dados) => {
           if(dados.status){
             this.tokenService.setToken(dados?.token)
-            this.router.navigate(['wiki', 'forms'])
+            this.router.navigate(['confrontos'])
           } else {
             this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
           }

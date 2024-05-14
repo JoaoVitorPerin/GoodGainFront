@@ -1,0 +1,68 @@
+{
+    "campeonatos":[
+        {
+            "nome": "Campeonato Brasileiro",
+            "times": [
+                {
+                    "id": 1,
+                    "nome": "Flamengo",
+                    "pontos": 0
+                },
+                {
+                    "id": 2,
+                    "nome": "Vasco",
+                    "pontos": 0
+                },
+                {
+                    "id": 3,
+                    "nome": "Fluminense",
+                    "pontos": 0
+                },
+                {
+                    "id": 4,
+                    "nome": "Botafogo",
+                    "pontos": 0
+                },
+                {
+                    "id": 5,
+                    "nome": "Coritiba",
+                    "pontos": 0
+                }
+            ],
+            "proximos_eventos":[
+                {
+                    "id": 1,
+                    "campeonato": "Campeonato Brasileiro",
+                    "time1": {
+                        "id": 1,
+                        "nome": "Flamengo",
+                        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/22/Logo_Flamengo_crest_1980-2018.png"
+                    },
+                    "time2": {
+                        "id": 2,
+                        "nome": "Vasco",
+                        "logo": "https://upload.wikimedia.org/wikipedia/pt/1/16/CR_Vasco_da_Gama_%C3%81frica_do_Sul.png"
+                    },
+                    "data": "01/01/2020",
+                    "local": "Maracanã"
+                },
+                {
+                    "id": 2,
+                    "campeonato": "Campeonato Brasileiro",
+                    "time1": {
+                        "id": 5,
+                        "nome": "Coritiba",
+                        "logo": "https://logodownload.org/wp-content/uploads/2017/02/coritiba-logo-escudo.png"
+                    },
+                    "time2": {
+                        "id": 2,
+                        "nome": "Vasco",
+                        "logo": "https://upload.wikimedia.org/wikipedia/pt/1/16/CR_Vasco_da_Gama_%C3%81frica_do_Sul.png"
+                    },
+                    "data": "01/01/2020",
+                    "local": "Couto Pereira"
+                }
+            ]
+        }
+    ]
+}

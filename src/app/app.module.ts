@@ -37,6 +37,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filep
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js';
 import { registerPlugin } from 'filepond';
+import { HomeConfrontosModule } from './modules/home-confrontos/home-confrontos.module';
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
@@ -67,6 +68,7 @@ registerLocaleData(localePt, 'pt-br');
     ModalModule,
     ModalConfirmacaoModule,
     ButtonModule,
+    HomeConfrontosModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
