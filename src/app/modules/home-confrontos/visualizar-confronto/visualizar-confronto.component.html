@@ -1,2 +1,112 @@
-<p>{{dadosConfronto[0].time1.nome}}</p>
-<p>{{dadosConfronto[0].time2.nome}}</p>
+
+<p-card>
+    <div class="flex align-items-center justify-content-between">
+        <a class="cursor-pointer" (click)="voltarHome()"><i class="material-symbols-outlined text-primary">arrow_back</i></a>
+        <p class="font-bold text-xs">{{dadosConfronto[0].data}} - {{dadosConfronto[0].local}} - {{dadosConfronto[0].campeonato}}</p>
+        <div></div>
+    </div>
+    <div class="flex align-items-center justify-content-around my-3">
+        <div class="flex align-items-center justify-content-center gap-3">
+            <div class="flex flex-column justify-content-center align-items-end">
+                <p class="text-xs">Gols: {{dadosConfronto[0].time1.gols}}</p>
+                <p class="text-xs">Passes: {{dadosConfronto[0].time1.passes_certos}}</p>
+                <p class="text-xs">Faltas: {{dadosConfronto[0].time1.faltas}}</p>
+                <p class="text-xs flex align-items-center"><span class="material-symbols-outlined text-yellow-500">style</span>: {{dadosConfronto[0].time1.cartoes_amarelos}}</p>
+                <p class="text-xs flex align-items-center"><span class="material-symbols-outlined text-red-500 ">style</span>: {{dadosConfronto[0].time1.cartoes_vermelhos}}</p>
+            </div>
+            <div class="flex flex-column justify-content-center align-items-center gap-2">
+                <img [src]="dadosConfronto[0].time1.logo" [alt]="dadosConfronto[0].time1.nome" style="max-width: 4rem;">
+                <p class="font-lg font-bold">{{dadosConfronto[0].time1.nome}}</p>
+            </div>
+        </div>
+        <span class="material-symbols-outlined text-primary text-4xl">close</span>
+        <div class="flex align-items-center justify-content-center gap-3">
+            <div class="flex flex-column justify-content-center align-items-center gap-2">
+                <img [src]="dadosConfronto[0].time2.logo" [alt]="dadosConfronto[0].time2.nome" style="max-width: 4rem;">
+                <p class="font-lg font-bold">{{dadosConfronto[0].time2.nome}}</p>
+            </div>
+            <div class="flex flex-column justify-content-center align-items-start">
+                <p class="text-xs">Gols: {{dadosConfronto[0].time2.gols}}</p>
+                <p class="text-xs">Passes: {{dadosConfronto[0].time2.passes_certos}}</p>
+                <p class="text-xs">Faltas: {{dadosConfronto[0].time2.faltas}}</p>
+                <p class="text-xs flex align-items-center"><span class="material-symbols-outlined text-yellow-500">style</span>: {{dadosConfronto[0].time2.cartoes_amarelos}}</p>
+                <p class="text-xs flex align-items-center"><span class="material-symbols-outlined text-red-500 ">style</span>: {{dadosConfronto[0].time2.cartoes_vermelhos}}</p>
+            </div>
+        </div>
+    </div>
+</p-card>
+
+<h1 class="text-primary font-2xl">Possíveis apostas:</h1>
+<div class="grid">
+    @for(aposta of dadosConfronto[0]?.apostas; track aposta){
+        <div class="col-4">
+            <a class="cursor-pointer" (click)="abrirDetalhesAposta(aposta)">
+                <p-card>
+                    <div class="flex align-items-center justify-content-between">
+                        <p class="font-bold text-xs">{{aposta.tipo}}</p>
+                        @if(aposta.status_id == 1){
+                            <p class="font-bold text-primary text-sm">{{aposta.status}}</p>
+                        } @else if(aposta.status_id == 2){
+                            <p class="font-bold text-yellow-500 text-sm">{{aposta.status}}</p>
+                        } @else if(aposta.status_id == 3){
+                            <p class="font-bold text-red-500 text-sm">{{aposta.status}}</p>
+                        } @else{
+                            <p class="font-bold text-sm">{{aposta.status}}</p>
+                        }
+                    </div>
+                    <p class="font-light text-xs">{{aposta.descricao}}</p>
+                </p-card>
+            </a>
+        </div>
+    }
+</div>
+
+@if(mostrarDetalhesAposta){
+<div class="aposta-detalhes" [@inOutAnimationFast]="mostrarDetalhesAposta">
+    <div class="flex align-items-center justify-content-between mb-3">
+        <div></div>
+        <p class="text-center">Dados das Apostas</p>
+        <a class="cursor-pointer mt-2" (click)="fecharDetalhesAposta()"><i class="material-symbols-outlined text-primary">close</i></a>
+    </div>
+    <div class="border-1 border-round-lg border-solid border-primary p-3">
+        <div class="flex justify-content-center">
+            <p class="text-xxs">{{dadosConfronto[0].data}} - {{dadosConfronto[0].campeonato}} - {{dadosConfronto[0].local}}</p>
+        </div>
+        <div class="flex align-items-center justify-content-around py-2">
+            <div class="flex flex-column align-items-center justify-content-center">
+                <img [src]="dadosConfronto[0].time1.logo" [alt]="dadosConfronto[0].time1.nome" style="max-width: 2rem;">
+                <p class="font-base">{{dadosConfronto[0].time1.nome}}</p>
+            </div>
+            <span class="material-symbols-outlined text-primary text-4xl">close</span>
+            <div class="flex flex-column align-items-center justify-content-center">
+                <img [src]="dadosConfronto[0].time2.logo" [alt]="dadosConfronto[0].time2.nome" style="max-width: 2rem;">
+                <p class="font-base">{{dadosConfronto[0].time2.nome}}</p>
+            </div>
+        </div>
+
+        @if(apostaAtual.status_id == 1){
+            <p class="font-bold text-primary text-sm">Sugestão: {{apostaAtual.status}}</p>
+        } @else if(apostaAtual.status_id == 2){
+            <p class="font-bold text-yellow-500 text-sm">Sugestão: {{apostaAtual.status}}</p>
+        } @else if(apostaAtual.status_id == 3){
+            <p class="font-bold text-red-500 text-sm">Sugestão: {{apostaAtual.status}}</p>
+        } @else{
+            <p class="font-bold text-sm">Sugestão: {{apostaAtual.status}}</p>
+        }
+        
+        <p class="font-bold text-sm mt-2">Odds disponíveis:</p>
+        <form [formGroup]="formAposta" class="flex flex-column gap-4">
+            <p-selectButton 
+            [options]="listaOdds"
+            formControlName="vlrOddSelecionada"
+            optionLabel="name" 
+            optionValue="value" />
+
+            <app-form type="dinheiro" id="valor" formControlName="valor" placeholder="Digite o valor" ngDefaultControl [required]="true" erro="Informe um valor válido!" [required]="true" />
+
+            <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarAposta()" />
+        </form>
+        
+    </div>
+</div>
+}

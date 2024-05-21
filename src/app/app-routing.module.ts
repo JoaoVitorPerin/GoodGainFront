@@ -40,8 +40,8 @@ const APP_ROUTES: Routes = [
     path: '',
     component: AppLayoutComponent,
     data: { animationState: 'AppLayoutComponent' },
-    //canLoad: [AutenticacaoGuard],
-    //canActivateChild: [AutenticacaoGuard],
+    canLoad: [AutenticacaoGuard],
+    canActivateChild: [AutenticacaoGuard],
     children: [
       {
         path: '403',

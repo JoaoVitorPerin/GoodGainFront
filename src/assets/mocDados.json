@@ -36,13 +36,53 @@
                     "time1": {
                         "id": 1,
                         "nome": "Flamengo",
-                        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/22/Logo_Flamengo_crest_1980-2018.png"
+                        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/22/Logo_Flamengo_crest_1980-2018.png",
+                        "gols": 10,
+                        "passes_certos": "78%",
+                        "faltas": 33,
+                        "cartoes_amarelos": 2,
+                        "cartoes_vermelhos": 0
                     },
                     "time2": {
                         "id": 2,
                         "nome": "Vasco",
-                        "logo": "https://upload.wikimedia.org/wikipedia/pt/1/16/CR_Vasco_da_Gama_%C3%81frica_do_Sul.png"
+                        "logo": "https://upload.wikimedia.org/wikipedia/pt/1/16/CR_Vasco_da_Gama_%C3%81frica_do_Sul.png",
+                        "gols": 5,
+                        "passes_certos": "70%",
+                        "faltas": 30,
+                        "cartoes_amarelos": 3,
+                        "cartoes_vermelhos": 1
                     },
+                    "apostas": [
+                        {
+                            "tipo": "2,5+ gols",
+                            "odd": [{"casa": "Betfair", "valor": 1.8}, {"casa": "Betano", "valor": 1.82}],
+                            "status": "Muito recomendado",
+                            "status_id": 1,
+                            "descricao": "Ambos os times têm ataques eficientes"
+                        },
+                        {
+                            "tipo": "Ambos marcam",
+                            "odd": [{"casa": "Betfair", "valor": 1.7}, {"casa": "Betano", "valor": 1.88}],
+                            "status": "Recomendado",
+                            "status_id": 2,
+                            "descricao": "Os dois times têm capacidade de marcar"
+                        },
+                        {
+                            "tipo": "Flamengo vence",
+                            "odd": [{"casa": "Bet365", "valor": 2}, {"casa": "Betano", "valor": 1.82}],
+                            "status": "Recomendado",
+                            "status_id": 2,
+                            "descricao": "Flamengo tem melhor desempenho histórico"
+                        },
+                        {
+                            "tipo": "Empate",
+                            "odd": [{"casa": "Betfair", "valor": 3}, {"casa": "Betfair", "valor": 3.1}],
+                            "status": "Não recomendado",
+                            "status_id": 3,
+                            "descricao": "Improvável dado o histórico de confrontos"
+                        }
+                    ],
                     "data": "01/01/2020",
                     "local": "Maracanã"
                 },
@@ -52,13 +92,54 @@
                     "time1": {
                         "id": 5,
                         "nome": "Coritiba",
-                        "logo": "https://logodownload.org/wp-content/uploads/2017/02/coritiba-logo-escudo.png"
+                        "logo": "https://logodownload.org/wp-content/uploads/2017/02/coritiba-logo-escudo.png",
+                        "gols": 34,
+                        "passes_certos": "75%",
+                        "faltas": 25,
+                        "cartoes_amarelos": 1,
+                        "cartoes_vermelhos": 1
                     },
                     "time2": {
                         "id": 2,
                         "nome": "Vasco",
-                        "logo": "https://upload.wikimedia.org/wikipedia/pt/1/16/CR_Vasco_da_Gama_%C3%81frica_do_Sul.png"
+                        "logo": "https://upload.wikimedia.org/wikipedia/pt/1/16/CR_Vasco_da_Gama_%C3%81frica_do_Sul.png",
+                        "gols": 5,
+                        "passes_certos": "70%",
+                        "faltas": 30,
+                        "cartoes_amarelos": 3,
+                        "cartoes_vermelhos": 1
                     },
+                    "apostas": [
+                        {
+                            "tipo": "2,5+ gols",
+                            "odd": [{"casa": "Bet365", "valor": 2.7}, {"casa": "Betano", "valor": 2.5}],
+                            "status": "Muito recomendado",
+                            "status_id": 1,
+                            "descricao": "Coritiba tem um ataque muito forte e o Vasco tem uma defesa fraca"
+                        },
+                        {
+                            "tipo": "Ambos marcam",
+                            "odd": [{"casa": "Betfair", "valor": 1.82}, {"casa": "Betano", "valor": 1.43}],
+                            "status": "Recomendado",
+                            "status_id": 2,
+                            "descricao": "Coritiba tem um ataque muito forte e o Vasco tem uma defesa fraca"
+
+                        },
+                        {
+                            "tipo": "Vasco vence",
+                            "odd": [{"casa": "Betfair", "valor": 2.9}, {"casa": "Bet365", "valor": 3}],
+                            "status": "Não recomendado",
+                            "status_id": 3,
+                            "descricao": "Coritiba tem um ataque muito forte e o Vasco tem uma defesa fraca"
+                        },
+                        {
+                            "tipo": "Empate",
+                            "odd": [{"casa": "Betfair", "valor": 2.2}, {"casa": "Betano", "valor": 1.82}],
+                            "status": "Recomendado",
+                            "status_id": 2,
+                            "descricao": "Coritiba tem um ataque muito forte e o Vasco tem uma defesa fraca"
+                        }
+                    ],
                     "data": "01/01/2020",
                     "local": "Couto Pereira"
                 }
