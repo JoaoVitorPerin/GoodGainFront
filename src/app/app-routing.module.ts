@@ -12,6 +12,7 @@ import { LogoutGuard } from './core/guards/logout.guard';
 import { PerfilComponent } from './modules/perfil/perfil.component';
 import { HomeConfrontosComponent } from './modules/home-confrontos/home-confrontos.component';
 import { VisualizarConfrontoComponent } from './modules/home-confrontos/visualizar-confronto/visualizar-confronto.component';
+import { HomeSimulacaoComponent } from './modules/home-simulacao/home-simulacao.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -50,6 +51,10 @@ const APP_ROUTES: Routes = [
       {
         path: '404',
         component: NaoEncontradaComponent,
+      },
+      {
+        path: 'simulacao',
+        component: HomeSimulacaoComponent
       },
       {
         path: 'confrontos',
