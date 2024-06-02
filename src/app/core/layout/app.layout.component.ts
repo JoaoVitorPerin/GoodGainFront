@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NavigationEnd, Router, Event } from '@angular/router';
+import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { AppSidebarComponent } from './sidebar/app.sidebar.component';
 import { MenuService } from './menu/app.menu.service';
@@ -10,7 +10,7 @@ import { LayoutService } from './app.layout.service';
   templateUrl: './app.layout.component.html',
   styleUrl: './app.layout.component.css'
 })
-export class AppLayoutComponent implements OnDestroy, OnInit {
+export class AppLayoutComponent implements OnDestroy {
 
   urlHome: any
   temSubmenu: boolean = false;
@@ -52,16 +52,6 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
 
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.hideMenu();
-    });
-  }
-
-  ngOnInit(): void {
-    this.temSubmenu = this.router.url.includes('dashboard');
-
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.temSubmenu = this.router.url.includes('dashboard');
-      }
     });
   }
 
