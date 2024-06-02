@@ -31,4 +31,10 @@ export class HomeSimulacaoService {
       params: {campeonato_id: campeonato_id}
     });
   }
+
+  enviarSimulacao(data: any): Observable<any> {
+    return this.http.post<any>(this.API_BACK + 'simulacao', data, {
+      headers: this.headerService.getHeader()
+    });
+  }
 }

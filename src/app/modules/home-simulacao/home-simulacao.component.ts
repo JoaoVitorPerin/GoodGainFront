@@ -5,6 +5,9 @@ import { FormModule } from 'src/app/shared/components/form/form.module';
 import { HomeSimulacaoService } from './home-simulacao.service';
 import { ButtonModule } from 'primeng/button';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
+import { TokenService } from 'src/app/core/services/token.service';
+import { PerfilService } from '../perfil/perfil.service';
+import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 
 @Component({
   selector: 'app-home-simulacao',
@@ -20,9 +23,11 @@ import { LayoutService } from 'src/app/core/layout/app.layout.service';
   styleUrl: './home-simulacao.component.css'
 })
 export class HomeSimulacaoComponent implements OnInit {
+  cpfUser: any;
   formSimulacao: FormGroup;
   itemsTimes: any;
   itemsCampeonato: any;
+  itemsTipoAposta: any;
 
   timeDisponiveis: any;
   timesParaTime1: any;
@@ -34,20 +39,27 @@ export class HomeSimulacaoComponent implements OnInit {
   constructor(
     private simulacaoService: HomeSimulacaoService,
     private formBuilder: FormBuilder,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private tokenService: TokenService,
+    private perfilService: PerfilService,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit() {
     this.formSimulacao = this.formBuilder.group({
+      cpf_user: [null],
       campeonato: [null, Validators.required],
       time1: [null, Validators.required],
       time2: [null, Validators.required],
       odd: [null, Validators.required],
       valor: [null, Validators.required],
+      tipoAposta: [null, Validators.required],
     });
 
+    this.buscarInfosPerfil();
     this.buscarDadosCampeonato();
-    
+    this.buscarPreferencias();
+
     this.formSimulacao.get('campeonato').valueChanges.subscribe(value => {
       if (value) {
         this.buscarDadosTimePorCampeonato(value);
@@ -89,6 +101,24 @@ export class HomeSimulacaoComponent implements OnInit {
     });
   }
 
+  buscarPreferencias(){
+    this.perfilService.buscarPreferencias(this.cpfUser).subscribe({
+      next: (dados) => {
+        this.itemsTipoAposta = dados.dados.opcoes_apostas?.map(item => ({
+          value: item.id,
+          label: item.informacao
+        }));
+      }, error: () => {
+        this.toastrService.mostrarToastrDanger('Nao foi possivel buscar as preferencias, contate o suporte!')
+      }
+    })
+  }
+
+  buscarInfosPerfil(){
+    this.cpfUser = this.tokenService.getJwtDecoded().cli_info.cpf;
+    this.formSimulacao.get('cpf_user').setValue(this.cpfUser);
+  }
+
   buscarDadosTimePorCampeonato(campeonatoId: string) {
     this.simulacaoService.buscarTimePorCampeonato(campeonatoId).subscribe({
       next: (dados) => {
@@ -124,7 +154,16 @@ export class HomeSimulacaoComponent implements OnInit {
     this.formSimulacao.markAllAsTouched();
 
     if (this.formSimulacao.valid) {
-      console.log(this.formSimulacao.getRawValue());
+      this.simulacaoService.enviarSimulacao(this.formSimulacao.getRawValue()).subscribe({
+        next: () => {
+          this.formSimulacao.reset();
+          this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastrService.mostrarToastrDanger('Erro ao realizar aposta, tente novamente!');
+        }
+      });
     }
   }
 }
