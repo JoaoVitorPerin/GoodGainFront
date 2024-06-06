@@ -32,7 +32,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuModule } from 'primeng/menu';
 import { MenuPerfilComponent } from './menu-perfil/menu-perfil.component';
 import { AccordionModule } from 'primeng/accordion';
-
+import { CardModule } from 'primeng/card';
 
 @NgModule({
     declarations: [
@@ -70,7 +70,8 @@ import { AccordionModule } from 'primeng/accordion';
         MenubarModule,
         MenuModule,
         PanelMenuModule,
-        AccordionModule
+        AccordionModule,
+        CardModule
     ]
 })
 export class AppLayoutModule { }

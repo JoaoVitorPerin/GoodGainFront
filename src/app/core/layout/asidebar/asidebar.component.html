@@ -9,12 +9,28 @@
       </span>
     </div>
     <p-divider></p-divider>
-    <div id="historico-aposta">
+    <h1 class="font-semibold font-lg"> Histórico de aposta:</h1>
+    <div id="historico-aposta" class="w-full" style="overflow-y: auto; height: 60vh;">
       @for(aposta of historico; track aposta){
-        <div class="flex justify-content-between align-items-center">
-          <p class="font-semibold">aaaa</p>
-          <p class="font-semibold"></p>
-        </div>
+        <p-card>
+          <div class="flex align-items-center justify-content-center">
+              <a class="text-sm text-primary">{{aposta.campeonato__nome}}</a>
+          </div>
+          <hr class="p-0 m-0 py-1" style="border-top-color: var(--primary-color);">
+          <div class="flex align-items-center justify-content-around my-3">
+              <div class="flex flex-column justify-content-center align-items-center gap-2">
+                  <p class="font-lg font-bold">{{reduzirNomeClube(aposta.time_1__nome)}}</p>
+              </div>
+              <span class="material-symbols-outlined text-primary text-4xl">close</span>
+              <div class="flex flex-column justify-content-center align-items-center gap-2">
+                  <p class="font-lg font-bold">{{reduzirNomeClube(aposta.time_2__nome)}}</p>
+              </div>
+          </div>
+          <div class="flex align-items-center justify-content-between">
+            <p class="text-sm text-primary">Valor: R${{aposta.valor}}</p>
+            <p class="text-sm text-primary">Odd: {{aposta.odd}}x</p>
+          </div>
+      </p-card>
       }
     </div>
     <div class="col-12 flex" style="position: fixed; bottom: 5px;">

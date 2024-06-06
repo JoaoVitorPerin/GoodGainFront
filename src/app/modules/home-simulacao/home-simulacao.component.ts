@@ -205,7 +205,6 @@ export class HomeSimulacaoComponent implements OnInit {
   }
 
   enviarSimulacao(apostar?: boolean) {
-    console.log(apostar)
     this.formSimulacao.markAllAsTouched();
 
     if (this.formSimulacao.valid) {
@@ -231,7 +230,7 @@ export class HomeSimulacaoComponent implements OnInit {
           next: (res) => {
             console.log(this.isAposta)
             this.isAposta = true;
-            if(res.descricao_resultado === 'Não recomendada'){
+            if(res.descricao_resultado == 'Não recomendada'){
               this.toastrService.mostrarToastrDanger(`Essa aposta é ${res.descricao_resultado}!`);
             } else{
               this.toastrService.mostrarToastrSuccess(`Essa aposta é ${res.descricao_resultado}!`);

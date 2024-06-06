@@ -77,7 +77,7 @@ export class AppAsideComponent implements OnInit, OnDestroy {
   buscarDadosHistorico(){
     this.subs.push(this.simulacaoService.buscarApostasUsuario(this.tokenService.getJwtDecoded().cli_info.cpf).subscribe(
       (res: any) => {
-        console.log(res)
+        this.historico = res.lista_apostas_cliente;
       },
       (error: any) => {
         console.error(error)
@@ -160,5 +160,12 @@ export class AppAsideComponent implements OnInit, OnDestroy {
 
   logout(){
     this.router.navigate(['/logout'])
+  }
+
+  reduzirNomeClube(nome){
+    const splitName = nome.split(' ');
+    const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
+
+    return longestName;
   }
 }

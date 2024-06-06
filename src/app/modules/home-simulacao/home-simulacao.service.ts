@@ -39,7 +39,7 @@ export class HomeSimulacaoService {
   }
 
   buscarApostasUsuario(cpf:any): Observable<any> {
-    return this.http.get<any>(this.API_BACK + 'historico/apostas/cliente', {
+    return this.http.get<any>(this.API_BACK + 'historico', {
       headers: this.headerService.getHeader(),
       params: {cpf_user: cpf}
     });
