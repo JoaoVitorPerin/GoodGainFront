@@ -8,7 +8,7 @@ import * as mocDados from 'src/assets/mocDados.json'
 @Injectable({
   providedIn: 'root'
 })
-export class HomeSimulacaoService {
+export class DashboardService {
   private readonly API_BACK = environment.API_BACK;
 
   private data: any;
@@ -19,22 +19,10 @@ export class HomeSimulacaoService {
   ) {
   }
 
-  buscarCampeonato(): Observable<any> {
-    return this.http.get<any>(this.API_BACK + 'campeonato', {
-      headers: this.headerService.getHeader()
-    });
-  }
-
-  buscarTimePorCampeonato(campeonato_id: any): Observable<any> {
-    return this.http.get<any>(this.API_BACK + 'times/championship', {
+  buscarDados(cpf: any): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'dashboard', {
       headers: this.headerService.getHeader(),
-      params: {campeonato_id: campeonato_id}
-    });
-  }
-
-  enviarSimulacao(data: any): Observable<any> {
-    return this.http.post<any>(this.API_BACK + 'simular/aposta', data, {
-      headers: this.headerService.getHeader()
+      params: {cpf_user: cpf}
     });
   }
 }

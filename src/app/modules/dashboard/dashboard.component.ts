@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { TokenService } from 'src/app/core/services/token.service';
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +14,15 @@ import { TokenService } from 'src/app/core/services/token.service';
 })
 export class DashboardComponent implements OnInit{
   nomeUser: any;
+  cpfUser: any;
 
   dataCampeonatos: any;
   basicOptions: any;
   tipoAposta: any;
 
   constructor(
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private dashboardService: DashboardService
   ){}
 
   ngOnInit() {
@@ -135,9 +138,22 @@ export class DashboardComponent implements OnInit{
       };
 
       this.buscarInfosPerfil();
+      this.buscarDadosDashboard();
   }
 
   buscarInfosPerfil(){
     this.nomeUser = `${this.tokenService.getJwtDecoded().cli_info.nome} ${this.tokenService.getJwtDecoded().cli_info.sobrenome}`;
+    this.cpfUser = this.tokenService.getJwtDecoded().cli_info.cpf
+  }
+
+  buscarDadosDashboard(){
+    this.dashboardService.buscarDados(this.cpfUser).subscribe({
+      next: (dados) => {
+        console.log(dados)
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 }
