@@ -1,132 +1,133 @@
 <section class="grid">
-  <ng-container *ngIf="!isMobile; else mobileLayout">
-      <div class="col-4 flex flex-column align-items-center">
-          <ng-container *ngIf="formSimulacao.get('time1').value">
-              <p class="font-bold font-xl">Time A:</p>
-              <div *ngIf="timeLogo1">
-                  <img [src]="timeLogo1" alt="{{ dadosTime1?.info.competitor.name }} Logo" width="100"/>
-              </div>
-              <p class="text-xl text-primary">{{ dadosTime1?.info.competitor.name }}</p>
-              <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimea }}</p>
-              <p class="text-xs mt-3">Gols marcados: {{ dadosTime1?.info.goals_for }}</p>
-              <p class="text-xs">Gols sofridos: {{ dadosTime1?.info.goals_against }}</p>
-              <p class="text-xs">Diferença de Gols: {{ dadosTime1?.info.goals_diff }}</p>
-              <p class="text-xs mt-3">Jogos: {{ dadosTime1?.info.played }}</p>
-              <p class="text-xs">Vitórias: {{ dadosTime1?.info.win }}</p>
-              <p class="text-xs">Derrotas: {{ dadosTime1?.info.loss }}</p>
-              <p class="text-xs">Empates: {{ dadosTime1?.info.draw }}</p>
-          </ng-container>
-      </div>
+    <ng-container *ngIf="!isMobile; else mobileLayout">
+        <div class="col-4 flex flex-column align-items-center">
+            <ng-container *ngIf="formSimulacao.get('time1').value">
+                <p class="font-bold font-xl">Time A:</p>
+                <div *ngIf="timeLogo1">
+                    <img [src]="timeLogo1" alt="{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }} Logo" width="100"/>
+                </div>
+                <p class="text-xl text-primary">{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }}</p>
+                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimea }}</p>
+                <p class="text-xs mt-3">Gols marcados: {{ dadosTime1?.info?.competitor?.goals_for ?? dadosTime1?.info.goals_for }}</p>
+                <p class="text-xs">Gols sofridos: {{ dadosTime1?.info?.competitor?.goals_against ?? dadosTime1?.info.goals_against }}</p>
+                <p class="text-xs">Diferença de Gols: {{ dadosTime1?.info?.competitor?.goals_diff ?? dadosTime1?.info.goals_diff }}</p>
+                <p class="text-xs mt-3">Jogos: {{ dadosTime1?.info?.competitor?.played ?? dadosTime1?.info.played }}</p>
+                <p class="text-xs">Vitórias: {{ dadosTime1?.info?.competitor?.win ?? dadosTime1?.info.win }}</p>
+                <p class="text-xs">Derrotas: {{ dadosTime1?.info?.competitor?.loss ?? dadosTime1?.info.loss }}</p>
+                <p class="text-xs">Empates: {{ dadosTime1?.info?.competitor?.draw ?? dadosTime1?.info.draw }}</p>
+            </ng-container>
+        </div>
+    
+        <div class="col-4 flex flex-column align-items-center justify-content-center">
+            <p class="font-bold font-xl">Simular uma partida:</p>
+            <form [formGroup]="formSimulacao">
+                <div class="col-12 mb-2">
+                    <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
+                </div>
+                <ng-container *ngIf="formSimulacao.get('campeonato').value">
+                    <div class="col-12 mb-2">
+                        <app-form type="select" id="time1" label="Time 1" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <app-form type="select" id="time2" label="Time 2" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
+                    <div class="col-12 mb-2">
+                        <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <app-form type="float" id="odd" label="Odd imaginada" formControlName="odd" placeholder="Digite o valor da odd" ngDefaultControl></app-form>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
+                    </div>
+                    <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarAposta()"></p-button>
+                </ng-container>
+            </form>
+        </div>
+    
+        <div class="col-4 flex flex-column align-items-center">
+            <ng-container *ngIf="formSimulacao.get('time2').value">
+                <p class="font-bold font-xl">Time B:</p>
+                <div *ngIf="timeLogo2">
+                    <img [src]="timeLogo2" alt="{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }} Logo" width="100"/>
+                </div>
+                <p class="text-xl text-primary">{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }}</p>
+                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimeb }}</p>
+                <p class="text-xs mt-3">Gols marcados: {{ dadosTime2?.info?.competitor?.goals_for ?? dadosTime2?.info.goals_for }}</p>
+                <p class="text-xs">Gols sofridos: {{ dadosTime2?.info?.competitor?.goals_against ?? dadosTime2?.info.goals_against }}</p>
+                <p class="text-xs">Diferença de Gols: {{ dadosTime2?.info?.competitor?.goals_diff ?? dadosTime2?.info.goals_diff }}</p>
+                <p class="text-xs mt-3">Jogos: {{ dadosTime2?.info?.competitor?.played ?? dadosTime2?.info.played }}</p>
+                <p class="text-xs">Vitórias: {{ dadosTime2?.info?.competitor?.win ?? dadosTime2?.info.win }}</p>
+                <p class="text-xs">Derrotas: {{ dadosTime2?.info?.competitor?.loss ?? dadosTime2?.info.loss }}</p>
+                <p class="text-xs">Empates: {{ dadosTime2?.info?.competitor?.draw ?? dadosTime2?.info.draw }}</p>
+            </ng-container>
+        </div>
+    </ng-container>
   
-      <div class="col-4 flex flex-column align-items-center justify-content-center">
-          <p class="font-bold font-xl">Simular uma partida:</p>
-          <form [formGroup]="formSimulacao">
-              <div class="col-12 mb-2">
-                  <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
-              </div>
-              <ng-container *ngIf="formSimulacao.get('campeonato').value">
-                  <div class="col-12 mb-2">
-                      <app-form type="select" id="time1" label="Time 1" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
-                  </div>
-                  <div class="col-12 mb-2">
-                      <app-form type="select" id="time2" label="Time 2" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
-                  </div>
-              </ng-container>
-              <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
-                  <div class="col-12 mb-2">
-                      <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
-                  </div>
-                  <div class="col-12 mb-2">
-                      <app-form type="float" id="odd" label="Odd imaginada" formControlName="odd" placeholder="Digite o valor da odd" ngDefaultControl></app-form>
-                  </div>
-                  <div class="col-12 mb-2">
-                      <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
-                  </div>
-                  <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarAposta()"></p-button>
-              </ng-container>
-          </form>
-      </div>
+    <ng-template #mobileLayout>
+        <div class="mb-3 col-12 flex flex-column align-items-center justify-content-center">
+            <p class="font-bold font-xl">Simular uma partida:</p>
+            <form [formGroup]="formSimulacao">
+                <div class="col-12 mb-2">
+                    <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
+                </div>
+                <ng-container *ngIf="formSimulacao.get('campeonato').value">
+                    <div class="col-12 mb-2">
+                        <app-form type="select" id="time1" label="Time 1" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <app-form type="select" id="time2" label="Time 2" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
+                    <div class="col-12 mb-2">
+                        <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <app-form type="float" id="odd" label="Odd imaginada" formControlName="odd" placeholder="Digite o valor da odd" ngDefaultControl></app-form>
+                    </div>
+                    <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarAposta()"></p-button>
+                </ng-container>
+            </form>
+        </div>
   
-      <div class="col-4 flex flex-column align-items-center">
-          <ng-container *ngIf="formSimulacao.get('time2').value">
-              <p class="font-bold font-xl">Time B:</p>
-              <div *ngIf="timeLogo2">
-                  <img [src]="timeLogo2" alt="{{ dadosTime2?.info.competitor.name }} Logo" width="100"/>
-              </div>
-              <p class="text-xl text-primary">{{ dadosTime2?.info.competitor.name }}</p>
-              <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimeb }}</p>
-              <p class="text-xs mt-3">Gols marcados: {{ dadosTime2?.info.goals_for }}</p>
-              <p class="text-xs">Gols sofridos: {{ dadosTime2?.info.goals_against }}</p>
-              <p class="text-xs">Diferença de Gols: {{ dadosTime2?.info.goals_diff }}</p>
-              <p class="text-xs mt-3">Jogos: {{ dadosTime2?.info.played }}</p>
-              <p class="text-xs">Vitórias: {{ dadosTime2?.info.win }}</p>
-              <p class="text-xs">Derrotas: {{ dadosTime2?.info.loss }}</p>
-              <p class="text-xs">Empates: {{ dadosTime2?.info.draw }}</p>
-          </ng-container>
-      </div>
-  </ng-container>
-
-  <ng-template #mobileLayout>
-      <div class="mb-3 col-12 flex flex-column align-items-center justify-content-center">
-          <p class="font-bold font-xl">Simular uma partida:</p>
-          <form [formGroup]="formSimulacao">
-              <div class="col-12 mb-2">
-                  <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
-              </div>
-              <ng-container *ngIf="formSimulacao.get('campeonato').value">
-                  <div class="col-12 mb-2">
-                      <app-form type="select" id="time1" label="Time 1" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
-                  </div>
-                  <div class="col-12 mb-2">
-                      <app-form type="select" id="time2" label="Time 2" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
-                  </div>
-              </ng-container>
-              <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
-                  <div class="col-12 mb-2">
-                      <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
-                  </div>
-                  <div class="col-12 mb-2">
-                      <app-form type="float" id="odd" label="Odd imaginada" formControlName="odd" placeholder="Digite o valor da odd" ngDefaultControl></app-form>
-                  </div>
-                  <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarAposta()"></p-button>
-              </ng-container>
-          </form>
-      </div>
-
-      <div class="col-6 flex flex-column align-items-center">
-          <ng-container *ngIf="formSimulacao.get('time1').value">
-              <p class="font-bold font-xl">Time A:</p>
-              <div *ngIf="timeLogo1">
-                <img [src]="timeLogo1" alt="{{ dadosTime1?.info.competitor.name }} Logo" width="70"/>
-              </div>
-              <p class="text-xl text-primary">{{ dadosTime1?.info.competitor.name }}</p>
-              <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimea }}</p>
-              <p class="text-xs mt-3">Gols marcados: {{ dadosTime1?.info.goals_for }}</p>
-              <p class="text-xs">Gols sofridos: {{ dadosTime1?.info.goals_against }}</p>
-              <p class="text-xs">Diferença de Gols: {{ dadosTime1?.info.goals_diff }}</p>
-              <p class="text-xs mt-3">Jogos: {{ dadosTime1?.info.played }}</p>
-              <p class="text-xs">Vitórias: {{ dadosTime1?.info.win }}</p>
-              <p class="text-xs">Derrotas: {{ dadosTime1?.info.loss }}</p>
-              <p class="text-xs">Empates: {{ dadosTime1?.info.draw }}</p>
-          </ng-container>
-      </div>
-
-      <div class="col-6 flex flex-column align-items-center">
-          <ng-container *ngIf="formSimulacao.get('time2').value">
-              <p class="font-bold font-xl">Time B:</p>
-              <div *ngIf="timeLogo2">
-                <img [src]="timeLogo2" alt="{{ dadosTime2?.info.competitor.name }} Logo" width="70"/>
-              </div>
-              <p class="text-xl text-primary">{{ dadosTime2?.info.competitor.name }}</p>
-              <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimeb }}</p>
-              <p class="text-xs mt-3">Gols marcados: {{ dadosTime2?.info.goals_for }}</p>
-              <p class="text-xs">Gols sofridos: {{ dadosTime2?.info.goals_against }}</p>
-              <p class="text-xs">Diferença de Gols: {{ dadosTime2?.info.goals_diff }}</p>
-              <p class="text-xs mt-3">Jogos: {{ dadosTime2?.info.played }}</p>
-              <p class="text-xs">Vitórias: {{ dadosTime2?.info.win }}</p>
-              <p class="text-xs">Derrotas: {{ dadosTime2?.info.loss }}</p>
-              <p class="text-xs">Empates: {{ dadosTime2?.info.draw }}</p>
-          </ng-container>
-      </div>
-  </ng-template>
-</section>
+        <div class="col-6 flex flex-column align-items-center">
+            <ng-container *ngIf="formSimulacao.get('time1').value">
+                <p class="font-bold font-xl">Time A:</p>
+                <div *ngIf="timeLogo1">
+                    <img [src]="timeLogo1" alt="{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }} Logo" width="70"/>
+                </div>
+                <p class="text-xl text-primary">{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }}</p>
+                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimea }}</p>
+                <p class="text-xs mt-3">Gols marcados: {{ dadosTime1?.info?.competitor?.goals_for ?? dadosTime1?.info.goals_for }}</p>
+                <p class="text-xs">Gols sofridos: {{ dadosTime1?.info?.competitor?.goals_against ?? dadosTime1?.info.goals_against }}</p>
+                <p class="text-xs">Diferença de Gols: {{ dadosTime1?.info?.competitor?.goals_diff ?? dadosTime1?.info.goals_diff }}</p>
+                <p class="text-xs mt-3">Jogos: {{ dadosTime1?.info?.competitor?.played ?? dadosTime1?.info.played }}</p>
+                <p class="text-xs">Vitórias: {{ dadosTime1?.info?.competitor?.win ?? dadosTime1?.info.win }}</p>
+                <p class="text-xs">Derrotas: {{ dadosTime1?.info?.competitor?.loss ?? dadosTime1?.info.loss }}</p>
+                <p class="text-xs">Empates: {{ dadosTime1?.info?.competitor?.draw ?? dadosTime1?.info.draw }}</p>
+            </ng-container>
+        </div>
+  
+        <div class="col-6 flex flex-column align-items-center">
+            <ng-container *ngIf="formSimulacao.get('time2').value">
+                <p class="font-bold font-xl">Time B:</p>
+                <div *ngIf="timeLogo2">
+                    <img [src]="timeLogo2" alt="{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }} Logo" width="70"/>
+                </div>
+                <p class="text-xl text-primary">{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }}</p>
+                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimeb }}</p>
+                <p class="text-xs mt-3">Gols marcados: {{ dadosTime2?.info?.competitor?.goals_for ?? dadosTime2?.info.goals_for }}</p>
+                <p class="text-xs">Gols sofridos: {{ dadosTime2?.info?.competitor?.goals_against ?? dadosTime2?.info.goals_against }}</p>
+                <p class="text-xs">Diferença de Gols: {{ dadosTime2?.info?.competitor?.goals_diff ?? dadosTime2?.info.goals_diff }}</p>
+                <p class="text-xs mt-3">Jogos: {{ dadosTime2?.info?.competitor?.played ?? dadosTime2?.info.played }}</p>
+                <p class="text-xs">Vitórias: {{ dadosTime2?.info?.competitor?.win ?? dadosTime2?.info.win }}</p>
+                <p class="text-xs">Derrotas: {{ dadosTime2?.info?.competitor?.loss ?? dadosTime2?.info.loss }}</p>
+                <p class="text-xs">Empates: {{ dadosTime2?.info?.competitor?.draw ?? dadosTime2?.info.draw }}</p>
+            </ng-container>
+        </div>
+    </ng-template>
+  </section>
+  

@@ -83,9 +83,12 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time1').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime1 = this.timeDisponiveis.find(time => time.info.competitor.id === value);
+        console.log(this.timeDisponiveis)
+        this.dadosTime1 = this.timeDisponiveis.find(time => time.info?.competitor?.id ?? time.info.id === value);
         this.atualizarItemsTimes();
-        const timeInfo = await this.buscarLogoDoTime(this.dadosTime1.info.competitor.name.split(' ')[0]);
+        const splitName = this.dadosTime1.info?.competitor?.name.split(' ') ?? this.dadosTime1.info.name.split(' ');
+        const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
+        const timeInfo = await this.buscarLogoDoTime(longestName);
         if (timeInfo) {
           this.timeLogo1 = timeInfo.logo;
           this.estadiotimea = timeInfo.stadium;
@@ -100,8 +103,10 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time2').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime2 = this.timeDisponiveis.find(time => time.info.competitor.id === value);
-        const timeInfo = await this.buscarLogoDoTime(this.dadosTime2.info.competitor.name.split(' ')[0]);
+        this.dadosTime2 = this.timeDisponiveis.find(time => time.info?.competitor?.id ?? time.info.id === value);
+        const splitName = this.dadosTime2.info?.competitor?.name.split(' ') ?? this.dadosTime2.info.name.split(' ');
+        const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
+        const timeInfo = await this.buscarLogoDoTime(longestName);
         if (timeInfo) {
           this.timeLogo2 = timeInfo.logo;
           this.estadiotimeb = timeInfo.stadium;
@@ -181,19 +186,19 @@ export class HomeSimulacaoComponent implements OnInit {
   atualizarItemsTimes() {
     const time1Id = this.formSimulacao.get('time1').value;
     const time2Id = this.formSimulacao.get('time2').value;
-
+    
     this.timesParaTime1 = this.timeDisponiveis
-      .filter(time => time.info.competitor.id !== time2Id)
+      .filter(time => time.info?.competitor?.id ?? time.info.id !== time2Id)
       .map(item => ({
-        value: item.info.competitor.id,
-        label: item.info.competitor.name
+        value: item.info.competitor?.id ?? item.info.id,
+        label: item.info.competitor?.name ?? item.info.name
       }));
 
     this.timesParaTime2 = this.timeDisponiveis
-      .filter(time => time.info.competitor.id !== time1Id)
+      .filter(time => time.info?.competitor?.id ?? time.info.id !== time1Id)
       .map(item => ({
-        value: item.info.competitor.id,
-        label: item.info.competitor.name
+        value: item.info.competitor?.id ?? item.info.id,
+        label: item.info.competitor?.name ?? item.info.name
       }));
   }
 
