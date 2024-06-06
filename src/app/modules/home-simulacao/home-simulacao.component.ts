@@ -85,8 +85,7 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time1').valueChanges.subscribe(async value => {
       if (value) {
-        console.log(this.timeDisponiveis)
-        this.dadosTime1 = this.timeDisponiveis.find(time => time.info?.competitor?.id ?? time.info.id === value);
+        this.dadosTime1 = this.timeDisponiveis.find(time => (time.info?.competitor?.id ?? time.info.id) === value);
         this.atualizarItemsTimes();
         const splitName = this.dadosTime1.info?.competitor?.name.split(' ') ?? this.dadosTime1.info.name.split(' ');
         const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
@@ -105,7 +104,7 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time2').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime2 = this.timeDisponiveis.find(time => time.info?.competitor?.id ?? time.info.id === value);
+        this.dadosTime2 = this.timeDisponiveis.find(time => (time.info?.competitor?.id ?? time.info.id) === value);
         const splitName = this.dadosTime2.info?.competitor?.name.split(' ') ?? this.dadosTime2.info.name.split(' ');
         const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
         const timeInfo = await this.buscarLogoDoTime(longestName);
@@ -188,19 +187,19 @@ export class HomeSimulacaoComponent implements OnInit {
   atualizarItemsTimes() {
     const time1Id = this.formSimulacao.get('time1').value;
     const time2Id = this.formSimulacao.get('time2').value;
-    
+
     this.timesParaTime1 = this.timeDisponiveis
-      .filter(time => time.info?.competitor?.id ?? time.info.id !== time2Id)
+      .filter(time => (time.info?.competitor?.id ?? time.info.id) !== time2Id)
       .map(item => ({
-        value: item.info.competitor?.id ?? item.info.id,
-        label: item.info.competitor?.name ?? item.info.name
+        value: item.info?.competitor?.id ?? item.info.id,
+        label: item.info?.competitor?.name ?? item.info.name
       }));
 
     this.timesParaTime2 = this.timeDisponiveis
-      .filter(time => time.info?.competitor?.id ?? time.info.id !== time1Id)
+      .filter(time => (time.info?.competitor?.id ?? time.info.id) !== time1Id)
       .map(item => ({
-        value: item.info.competitor?.id ?? item.info.id,
-        label: item.info.competitor?.name ?? item.info.name
+        value: item.info?.competitor?.id ?? item.info.id,
+        label: item.info?.competitor?.name ?? item.info.name
       }));
   }
 
@@ -208,48 +207,43 @@ export class HomeSimulacaoComponent implements OnInit {
     this.formSimulacao.markAllAsTouched();
 
     if (this.formSimulacao.valid) {
-      if(apostar){
+      if (apostar) {
         const dados = {
           ...this.formSimulacao.getRawValue(),
           is_aposta: true
-        }
+        };
 
         this.simulacaoService.enviarSimulacao(dados).subscribe({
           next: () => {
-              this.isAposta = false;
-              this.formSimulacao.reset();
-              this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
+            this.isAposta = false;
+            this.formSimulacao.reset();
+            this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
           },
           error: (error) => {
             console.error(error);
             this.toastrService.mostrarToastrDanger('Erro ao realizar aposta, tente novamente!');
           }
         });
-      } else{
+      } else {
         this.simulacaoService.enviarSimulacao(this.formSimulacao.getRawValue()).subscribe({
           next: (res) => {
-            console.log(this.isAposta)
             this.isAposta = true;
-            if(res.descricao_resultado == 'Não recomendada'){
-              this.toastrService.mostrarToastrDanger(`Essa aposta é ${res.descricao_resultado}!`);
-            } else{
-              this.toastrService.mostrarToastrSuccess(`Essa aposta é ${res.descricao_resultado}!`);
+            if (res.descricao_resultado == 'Não recomendado') {
+              this.toastrService.mostrarToastrDanger(`Essa aposta é NÃO RECOMENDADA! Pois a probabilidade de ganho é baixa!`);
+            } else {
+              this.toastrService.mostrarToastrSuccess(`Essa aposta é RECOMENDADA! Pois a probabilidade de ganho é alta!`);
             }
-            console.log(this.isAposta)
           },
           error: (error) => {
             console.error(error);
             this.toastrService.mostrarToastrDanger('Erro ao realizar aposta, tente novamente!');
           }
         });
-
-        console.log(this.isAposta)
       }
-      
     }
   }
-  
-  cancelarSimulacao(){
+
+  cancelarSimulacao() {
     this.isAposta = false;
   }
 }
