@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { TokenService } from 'src/app/core/services/token.service';
 import { DashboardService } from './dashboard.service';
 import { toLocaleFixed } from 'src/app/core/ts/util';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { EChartsOption } from 'echarts';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     ChartModule,
-    NgxEchartsDirective
+    NgxEchartsDirective,
+    ButtonModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -19,7 +25,10 @@ import { EChartsOption } from 'echarts';
     provideEcharts(),
   ]
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
+  @ViewChild('chartCampeonato', { static: false }) chartCampeonatoElement: ElementRef;
+  @ViewChild('chartTipo', { static: false }) chartTipoElement: ElementRef;
+
   nomeUser: any;
   cpfUser: any;
 
@@ -35,72 +44,71 @@ export class DashboardComponent implements OnInit{
   constructor(
     private tokenService: TokenService,
     private dashboardService: DashboardService
-  ){}
+  ) { }
 
   ngOnInit() {
-      this.buscarInfosPerfil();
-      this.buscarDadosDashboard();
+    this.buscarInfosPerfil();
+    this.buscarDadosDashboard();
 
-      this.chartCampeonatoOption = {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-              type: 'cross',
-              crossStyle: {
-                  color: '#999'
-              }
+    this.chartCampeonatoOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
           }
-        },
-        xAxis: [{
-          type: 'category',
+        }
+      },
+      xAxis: [{
+        type: 'category',
+        data: [],
+      }],
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
           data: [],
-        }],
-        yAxis: {
-          type: 'value',
+          type: 'bar',
+          color: '#05FF00',
         },
-        series: [
-          {
-            data: [],
-            type: 'bar',
-            color: '#05FF00',
-          },
-        ],
-      };
+      ],
+    };
 
-      this.chartTipoOption = {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-              type: 'cross',
-              crossStyle: {
-                  color: '#999'
-              }
+    this.chartTipoOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
           }
-        },
-        xAxis: [{
-          type: 'category',
+        }
+      },
+      xAxis: [{
+        type: 'category',
+        data: [],
+      }],
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
           data: [],
-        }],
-        yAxis: {
-          type: 'value',
+          type: 'bar',
+          color: '#05FF00',
         },
-        series: [
-          {
-            data: [],
-            type: 'bar',
-            color: '#05FF00',
-          },
-        ],
-      };
+      ],
+    };
   }
 
-  buscarInfosPerfil(){
+  buscarInfosPerfil() {
     this.nomeUser = `${this.tokenService.getJwtDecoded().cli_info.nome} ${this.tokenService.getJwtDecoded().cli_info.sobrenome}`;
     this.cpfUser = this.tokenService.getJwtDecoded().cli_info.cpf;
   }
 
-  buscarDadosDashboard(){
-
+  buscarDadosDashboard() {
     this.dashboardService.buscarDados(this.cpfUser).subscribe({
       next: (res) => {
         this.dadosCards = {
@@ -124,15 +132,45 @@ export class DashboardComponent implements OnInit{
     });
   }
 
-  returnTipoAposta(tipo: string, listaTipo: any){
+  returnTipoAposta(tipo: string, listaTipo: any) {
     const tipoAposta = listaTipo.find((item: any) => item.id === parseInt(tipo));
     return tipoAposta.informacao;
   }
 
-  returnCampeonato(campeonato: any, listaCampeonato: any){
-    console.log(campeonato, listaCampeonato);
+  returnCampeonato(campeonato: any, listaCampeonato: any) {
     const nomeCampeonato = listaCampeonato.find((item: any) => item.id === campeonato);
-    console.log(nomeCampeonato);
     return nomeCampeonato.nome;
   }
+
+  exportToExcelCampeonato() {
+    const data = this.chartCampeonatoOption.series[0].data.map((value: number, index: number) => ({
+      Campeonato: this.chartCampeonatoOption.xAxis[0].data[index],
+      Valor: value
+    }));
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'campeonato_data');
+  }
+
+  exportToExcelTipo() {
+    const data = this.chartTipoOption.series[0].data.map((value: number, index: number) => ({
+      Tipo: this.chartTipoOption.xAxis[0].data[index],
+      Valor: value
+    }));
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'tipo_data');
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
 }
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';

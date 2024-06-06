@@ -32,11 +32,14 @@
         <p class="font-medium text-xl text-900 mb-3">Minhas preferências:</p>
         <form [formGroup]="formPreferencias" class="">
             <div class="grid">
-                <div class="col-12 md:col-6 mb-2">
+                <div class="col-12 md:col-4 mb-2">
                     <app-form type="select-multiplo" id="esporte" label="Esportes" formControlName="esporte" [items]="itemsEsporte" placeholder="Selecione um esporte" ngDefaultControl/>
                 </div>
-                <div class="col-12 md:col-6 mb-2">
+                <div class="col-12 md:col-4 mb-2">
                     <app-form type="select-multiplo" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="opcoes_apostas" placeholder="Selecione um tipo de aposta" ngDefaultControl/>
+                </div>
+                <div class="col-12 md:col-4 mb-2">
+                    <app-form type="dinheiro" id="stack_aposta" label="Stack aposta" formControlName="stack_aposta" placeholder="Digite uma stack" ngDefaultControl/>
                 </div>
             </div>
             <div class="flex align-items-center justify-content-end">

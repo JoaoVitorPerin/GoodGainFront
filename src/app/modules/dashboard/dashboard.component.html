@@ -28,13 +28,20 @@
 <div class="grid">
     <div class="col-12 md:col-6">
         <div class="card">
-            <p class="text-primary font-sm font-bold">Campeonatos mais apostados:</p>
+            <div class="flex align-items-center justify-content-between">
+                <p class="text-primary font-sm font-bold">Campeonatos mais apostados:</p>
+                <a class="text-primary material-symbols-outlined cursor-pointer" (click)="exportToExcelCampeonato()">download</a>
+            </div>
+            
             <div echarts [options]="chartCampeonatoOption" class="demo-chart"></div>
         </div>
     </div>
     <div class="col-12 md:col-6">
         <div class="card">
-            <p class="text-primary font-sm font-bold">Tipos mais apostados:</p>
+            <div class="flex align-items-center justify-content-between">
+                <p class="text-primary font-sm font-bold">Tipos mais apostados:</p>
+                <a class="text-primary material-symbols-outlined cursor-pointer" (click)="exportToExcelTipo()">download</a>
+            </div>
             <div echarts [options]="chartTipoOption" class="demo-chart"></div>
         </div>
     </div>

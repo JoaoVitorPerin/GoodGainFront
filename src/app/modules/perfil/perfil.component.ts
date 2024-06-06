@@ -58,7 +58,8 @@ export class PerfilComponent implements OnInit{
   ngOnInit(){
     this.formPreferencias = this.formBuilder.group({
       esporte: [null],
-      opcoes_apostas: [null]
+      opcoes_apostas: [null],
+      stack_aposta : [null]
     });
 
     this.formNovaSenha = this.formBuilder.group({
