@@ -3,25 +3,25 @@
     <div class="col-6 md:col-3">
         <div class="card">
             <p class="text-primary font-sm">Apostas realizadas:</p>
-            <p class="text-primary font-2xl font-bold">123</p>
+            <p class="text-primary font-2xl font-bold">{{dadosCards?.qtd_apostas ?? '--'}}</p>
         </div>
     </div>
     <div class="col-6 md:col-3">
         <div class="card">
             <p class="text-primary font-sm">Odd média:</p>
-            <p class="text-primary font-2xl font-bold">2.32</p>
+            <p class="text-primary font-2xl font-bold">{{dadosCards?.odd_media ? toLocaleFixed(dadosCards.odd_media) : '--'}}</p>
         </div>
     </div>
     <div class="col-6 md:col-3">
         <div class="card">
             <p class="text-primary font-sm">Valor médio:</p>
-            <p class="text-primary font-2xl font-bold">R$ 23.89</p>
+            <p class="text-primary font-2xl font-bold">R$ {{dadosCards?.valor_medio ? toLocaleFixed(dadosCards.valor_medio) : '--'}}</p>
         </div>
     </div>
     <div class="col-6 md:col-3">
         <div class="card">
             <p class="text-primary font-sm">Principal tipo de aposta:</p>
-            <p class="text-primary font-2xl font-bold">+8.5 escanteios</p>
+            <p class="text-primary font-2xl font-bold">{{dadosCards?.tipoAposta ?? '--'}}</p>
         </div>
     </div>
 </div>
@@ -29,13 +29,13 @@
     <div class="col-12 md:col-6">
         <div class="card">
             <p class="text-primary font-sm font-bold">Campeonatos mais apostados:</p>
-            <p-chart type="bar" [data]="dataCampeonatos" [options]="basicOptions" />
+            <div echarts [options]="chartCampeonatoOption" class="demo-chart"></div>
         </div>
     </div>
     <div class="col-12 md:col-6">
         <div class="card">
             <p class="text-primary font-sm font-bold">Tipos mais apostados:</p>
-            <p-chart type="bar" [data]="tipoAposta" [options]="basicOptions" />
+            <div echarts [options]="chartTipoOption" class="demo-chart"></div>
         </div>
     </div>
 </div>
