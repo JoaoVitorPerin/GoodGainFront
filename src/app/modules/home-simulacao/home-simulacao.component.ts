@@ -8,6 +8,17 @@ import { LayoutService } from 'src/app/core/layout/app.layout.service';
 import { TokenService } from 'src/app/core/services/token.service';
 import { PerfilService } from '../perfil/perfil.service';
 import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
+import axios from 'axios';
+
+interface Team {
+  strTeam: string;
+  strTeamBadge: string;
+  strStadium: string;
+}
+
+interface ApiResponse {
+  teams: Team[];
+}
 
 @Component({
   selector: 'app-home-simulacao',
@@ -20,7 +31,7 @@ import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
     ButtonModule
   ],
   templateUrl: './home-simulacao.component.html',
-  styleUrl: './home-simulacao.component.css'
+  styleUrls: ['./home-simulacao.component.css']
 })
 export class HomeSimulacaoComponent implements OnInit {
   cpfUser: any;
@@ -35,6 +46,10 @@ export class HomeSimulacaoComponent implements OnInit {
   dadosTime1: any;
   dadosTime2: any;
   isMobile = this.layoutService.isMobile();
+  timeLogo1: string | null = null;
+  timeLogo2: string | null = null;
+  estadiotimea: string | null = null;
+  estadiotimeb: string | null = null;
 
   constructor(
     private simulacaoService: HomeSimulacaoService,
@@ -66,25 +81,57 @@ export class HomeSimulacaoComponent implements OnInit {
       }
     });
 
-    this.formSimulacao.get('time1').valueChanges.subscribe(value => {
+    this.formSimulacao.get('time1').valueChanges.subscribe(async value => {
       if (value) {
         this.dadosTime1 = this.timeDisponiveis.find(time => time.info.competitor.id === value);
         this.atualizarItemsTimes();
+        const timeInfo = await this.buscarLogoDoTime(this.dadosTime1.info.competitor.name.split(' ')[0]);
+        if (timeInfo) {
+          this.timeLogo1 = timeInfo.logo;
+          this.estadiotimea = timeInfo.stadium;
+        }
       } else {
         this.dadosTime1 = null;
+        this.timeLogo1 = null;
+        this.estadiotimea = null;
         this.atualizarItemsTimes();
       }
     });
 
-    this.formSimulacao.get('time2').valueChanges.subscribe(value => {
+    this.formSimulacao.get('time2').valueChanges.subscribe(async value => {
       if (value) {
         this.dadosTime2 = this.timeDisponiveis.find(time => time.info.competitor.id === value);
-        this.atualizarItemsTimes();
+        const timeInfo = await this.buscarLogoDoTime(this.dadosTime2.info.competitor.name.split(' ')[0]);
+        if (timeInfo) {
+          this.timeLogo2 = timeInfo.logo;
+          this.estadiotimeb = timeInfo.stadium;
+        }
       } else {
         this.dadosTime2 = null;
-        this.atualizarItemsTimes();
+        this.timeLogo2 = null;
+        this.estadiotimeb = null;
       }
     });
+  }
+
+  async buscarLogoDoTime(teamName: string): Promise<{ logo: string | null, stadium: string | null }> {
+    const apiKey = '3'; // Substitua pela sua chave de API do TheSportsDB
+    const url = `https://www.thesportsdb.com/api/v1/json/${apiKey}/searchteams.php?t=${encodeURIComponent(teamName)}`;
+
+    try {
+      const response = await axios.get<ApiResponse>(url);
+      const data = response.data;
+
+      if (data.teams && data.teams.length > 0) {
+        const team = data.teams[0];
+        return { logo: team.strTeamBadge, stadium: team.strStadium };
+      } else {
+        return { logo: null, stadium: null };
+      }
+    } catch (error) {
+      console.error('Error fetching team logo and stadium:', error);
+      return { logo: null, stadium: null };
+    }
   }
 
   buscarDadosCampeonato() {
@@ -111,7 +158,7 @@ export class HomeSimulacaoComponent implements OnInit {
       }, error: () => {
         this.toastrService.mostrarToastrDanger('Nao foi possivel buscar as preferencias, contate o suporte!')
       }
-    })
+    });
   }
 
   buscarInfosPerfil(){
