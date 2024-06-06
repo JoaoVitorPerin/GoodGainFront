@@ -51,6 +51,8 @@ export class HomeSimulacaoComponent implements OnInit {
   estadiotimea: string | null = null;
   estadiotimeb: string | null = null;
 
+  isAposta:boolean = false;
+
   constructor(
     private simulacaoService: HomeSimulacaoService,
     private formBuilder: FormBuilder,
@@ -202,20 +204,53 @@ export class HomeSimulacaoComponent implements OnInit {
       }));
   }
 
-  enviarAposta() {
+  enviarSimulacao(apostar?: boolean) {
+    console.log(apostar)
     this.formSimulacao.markAllAsTouched();
 
     if (this.formSimulacao.valid) {
-      this.simulacaoService.enviarSimulacao(this.formSimulacao.getRawValue()).subscribe({
-        next: () => {
-          this.formSimulacao.reset();
-          this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
-        },
-        error: (error) => {
-          console.error(error);
-          this.toastrService.mostrarToastrDanger('Erro ao realizar aposta, tente novamente!');
+      if(apostar){
+        const dados = {
+          ...this.formSimulacao.getRawValue(),
+          is_aposta: true
         }
-      });
+
+        this.simulacaoService.enviarSimulacao(dados).subscribe({
+          next: () => {
+              this.isAposta = false;
+              this.formSimulacao.reset();
+              this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
+          },
+          error: (error) => {
+            console.error(error);
+            this.toastrService.mostrarToastrDanger('Erro ao realizar aposta, tente novamente!');
+          }
+        });
+      } else{
+        this.simulacaoService.enviarSimulacao(this.formSimulacao.getRawValue()).subscribe({
+          next: (res) => {
+            console.log(this.isAposta)
+            this.isAposta = true;
+            if(res.descricao_resultado === 'Não recomendada'){
+              this.toastrService.mostrarToastrDanger(`Essa aposta é ${res.descricao_resultado}!`);
+            } else{
+              this.toastrService.mostrarToastrSuccess(`Essa aposta é ${res.descricao_resultado}!`);
+            }
+            console.log(this.isAposta)
+          },
+          error: (error) => {
+            console.error(error);
+            this.toastrService.mostrarToastrDanger('Erro ao realizar aposta, tente novamente!');
+          }
+        });
+
+        console.log(this.isAposta)
+      }
+      
     }
+  }
+  
+  cancelarSimulacao(){
+    this.isAposta = false;
   }
 }

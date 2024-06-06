@@ -37,4 +37,11 @@ export class HomeSimulacaoService {
       headers: this.headerService.getHeader()
     });
   }
+
+  buscarApostasUsuario(cpf:any): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'historico/apostas/cliente', {
+      headers: this.headerService.getHeader(),
+      params: {cpf_user: cpf}
+    });
+  }
 }

@@ -22,4 +22,10 @@ export class HomeConfrontosService {
   buscarDados(){
     return mocDados;
   }
+
+  buscarProximosConfrontos(): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'futuros/eventos', {
+      headers: this.headerService.getHeader(),
+    });
+  }
 }

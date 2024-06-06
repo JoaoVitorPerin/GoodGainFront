@@ -14,6 +14,17 @@ export class HomeConfrontosComponent implements OnInit{
   ) {}
 
   ngOnInit(){
-    this.dadosConfrontos = this.homeConfrontosService.buscarDados().campeonatos[0];
+    this.buscarProximosEventos();
+  }
+
+  buscarProximosEventos(){
+    this.homeConfrontosService.buscarProximosConfrontos().subscribe(
+      (response) => {
+        this.dadosConfrontos = response.dados;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

@@ -6,6 +6,7 @@ import * as dayjs from 'dayjs'
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MenuService } from '../menu/app.menu.service';
+import { HomeSimulacaoService } from 'src/app/modules/home-simulacao/home-simulacao.service';
 
 @Component({
     selector: 'app-main-asidebar',
@@ -16,7 +17,6 @@ export class AppAsideComponent implements OnInit, OnDestroy {
 
   API_BACK: string = environment.API_BACK
 
-  //TODO: verificar como buscar o nome do funcionário
   funcionario: string = ''
   iniciais: string
 
@@ -42,6 +42,8 @@ export class AppAsideComponent implements OnInit, OnDestroy {
   model: any[] = [];
   modelDefault: any[] = [];
 
+  historico: any[] = []
+
   get visible(): boolean {
       return this.layoutService.state.profileSidebarVisible;
   }
@@ -54,10 +56,14 @@ export class AppAsideComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private menuService: MenuService,
               private tokenService: TokenService,
-              private router: Router) { }
+              private router: Router,
+              private simulacaoService: HomeSimulacaoService,
+            ) { }
 
   ngOnInit(): void {
     this.buscarInfosToken()
+
+    this.buscarDadosHistorico()
   }
 
   ngOnDestroy(): void {
@@ -66,6 +72,17 @@ export class AppAsideComponent implements OnInit, OnDestroy {
         sub.unsubscribe()
       }
     }
+  }
+
+  buscarDadosHistorico(){
+    this.subs.push(this.simulacaoService.buscarApostasUsuario(this.tokenService.getJwtDecoded().cli_info.cpf).subscribe(
+      (res: any) => {
+        console.log(res)
+      },
+      (error: any) => {
+        console.error(error)
+      }
+    ))
   }
 
   construirMenusHeader(dados, menu_tipo): void {
