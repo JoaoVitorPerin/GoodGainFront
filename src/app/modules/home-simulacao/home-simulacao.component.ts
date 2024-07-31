@@ -189,17 +189,17 @@ export class HomeSimulacaoComponent implements OnInit {
     const time2Id = this.formSimulacao.get('time2').value;
 
     this.timesParaTime1 = this.timeDisponiveis
-      .filter(time => (time.info?.competitor?.id ?? time.info.id) !== time2Id)
+      .filter(time => (time.info?.team.id) !== time2Id)
       .map(item => ({
-        value: item.info?.competitor?.id ?? item.info.id,
-        label: item.info?.competitor?.name ?? item.info.name
+        value: item.info?.team?.id,
+        label: item.info?.team?.name
       }));
 
     this.timesParaTime2 = this.timeDisponiveis
-      .filter(time => (time.info?.competitor?.id ?? time.info.id) !== time1Id)
+      .filter(time => (time.info?.team.id) !== time1Id)
       .map(item => ({
-        value: item.info?.competitor?.id ?? item.info.id,
-        label: item.info?.competitor?.name ?? item.info.name
+        value: item.info?.team?.id,
+        label: item.info?.team?.name
       }));
   }
 

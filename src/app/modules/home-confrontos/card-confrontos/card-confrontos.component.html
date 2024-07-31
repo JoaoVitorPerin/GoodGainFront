@@ -1,13 +1,15 @@
 <p-card>
     <div class="flex align-items-center justify-content-center">
-        <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+        <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
     </div>
     <div class="flex align-items-center justify-content-around my-3">
         <div class="flex flex-column justify-content-center align-items-center gap-2">
+            <img [src]="dados.time_a__logo" height="50">
             <p class="font-lg font-bold">{{dados.time_a__nome}}</p>
         </div>
         <span class="material-symbols-outlined text-primary text-4xl">close</span>
         <div class="flex flex-column justify-content-center align-items-center gap-2">
+            <img [src]="dados.time_b__logo" height="50">
             <p class="font-lg font-bold">{{dados.time_b__nome}}</p>
         </div>
     </div>
