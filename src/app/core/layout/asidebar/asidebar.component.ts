@@ -7,6 +7,7 @@ import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MenuService } from '../menu/app.menu.service';
 import { HomeSimulacaoService } from 'src/app/modules/home-simulacao/home-simulacao.service';
+import { AsidebarService } from '../../services/asidebar.service';
 
 @Component({
     selector: 'app-main-asidebar',
@@ -58,12 +59,14 @@ export class AppAsideComponent implements OnInit, OnDestroy {
               private tokenService: TokenService,
               private router: Router,
               private simulacaoService: HomeSimulacaoService,
+              private asidebarService: AsidebarService,
             ) { }
 
   ngOnInit(): void {
     this.buscarInfosToken()
 
     this.buscarDadosHistorico()
+    this.asidebarService.triggerHistorico$.subscribe(() => this.buscarDadosHistorico());
   }
 
   ngOnDestroy(): void {

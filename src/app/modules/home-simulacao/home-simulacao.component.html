@@ -54,10 +54,10 @@
                 </div>
                 <ng-container *ngIf="formSimulacao.get('campeonato').value">
                     <div class="col-12 mb-2">
-                        <app-form type="select" id="time1" label="Time 1" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
                     </div>
                     <div class="col-12 mb-2">
-                        <app-form type="select" id="time2" label="Time 2" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">

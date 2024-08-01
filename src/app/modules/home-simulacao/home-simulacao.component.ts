@@ -10,6 +10,7 @@ import { PerfilService } from '../perfil/perfil.service';
 import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import { FieldsetModule } from 'primeng/fieldset';
 import axios from 'axios';
+import { AsidebarService } from 'src/app/core/services/asidebar.service';
 
 interface Team {
   strTeam: string;
@@ -61,7 +62,8 @@ export class HomeSimulacaoComponent implements OnInit {
     private layoutService: LayoutService,
     private tokenService: TokenService,
     private perfilService: PerfilService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private asidebarService: AsidebarService
   ) {
 
   }
@@ -84,6 +86,10 @@ export class HomeSimulacaoComponent implements OnInit {
     this.buscarPreferencias();
 
     this.formSimulacao.get('campeonato').valueChanges.subscribe(value => {
+      this.formSimulacao.get('time1').setValue(null);
+      this.formSimulacao.get('time2').setValue(null);
+      this.dadosTime1 = null;
+      this.dadosTime2 = null;
       if (value) {
         this.buscarDadosTimePorCampeonato(value);
       }
@@ -212,6 +218,7 @@ export class HomeSimulacaoComponent implements OnInit {
             this.isAposta = false;
             this.formSimulacao.reset();
             this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
+            this.asidebarService.triggerHistorico();
           },
           error: (error) => {
             console.error(error);
