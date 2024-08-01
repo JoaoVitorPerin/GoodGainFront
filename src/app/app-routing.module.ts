@@ -71,6 +71,13 @@ const APP_ROUTES: Routes = [
         component: LogIntegracaoComponent
       },
       {
+        path: 'usuarios',
+        loadChildren: () =>
+          import(
+            './modules/usuarios/usuarios.module'
+          ).then(m => m.UsuariosModule)
+      },
+      {
         path: 'dashboard',
         component: DashboardComponent
       },
