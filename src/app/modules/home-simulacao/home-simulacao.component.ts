@@ -8,6 +8,7 @@ import { LayoutService } from 'src/app/core/layout/app.layout.service';
 import { TokenService } from 'src/app/core/services/token.service';
 import { PerfilService } from '../perfil/perfil.service';
 import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
+import { FieldsetModule } from 'primeng/fieldset';
 import axios from 'axios';
 
 interface Team {
@@ -28,7 +29,8 @@ interface ApiResponse {
     FormModule,
     FormsModule,
     CommonModule,
-    ButtonModule
+    ButtonModule,
+    FieldsetModule
   ],
   templateUrl: './home-simulacao.component.html',
   styleUrls: ['./home-simulacao.component.css']
@@ -45,7 +47,7 @@ export class HomeSimulacaoComponent implements OnInit {
   timesParaTime2: any;
   dadosTime1: any;
   dadosTime2: any;
-  isMobile = this.layoutService.isMobile();
+  isMobile = window.innerWidth < 768;
   timeLogo1: string | null = null;
   timeLogo2: string | null = null;
   estadiotimea: string | null = null;
@@ -60,9 +62,13 @@ export class HomeSimulacaoComponent implements OnInit {
     private tokenService: TokenService,
     private perfilService: PerfilService,
     private toastrService: ToastrService
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
+    window.addEventListener('resize', this.onResize.bind(this));
+
     this.formSimulacao = this.formBuilder.group({
       cpf_user: [null],
       campeonato: [null, Validators.required],
@@ -85,59 +91,47 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time1').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime1 = this.timeDisponiveis.find(time => (time.info?.competitor?.id ?? time.info.id) === value);
-        this.atualizarItemsTimes();
-        const splitName = this.dadosTime1.info?.competitor?.name.split(' ') ?? this.dadosTime1.info.name.split(' ');
-        const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
-        const timeInfo = await this.buscarLogoDoTime(longestName);
-        if (timeInfo) {
-          this.timeLogo1 = timeInfo.logo;
-          this.estadiotimea = timeInfo.stadium;
+        this.dadosTime1 = this.timeDisponiveis.find(time => (time.info?.team?.id) === value);
+
+        this.dadosTime1 = {
+          ...this.dadosTime1,
+          cartoes: {
+            amarelo: this.sumCards(this.dadosTime1.info.cards.yellow),
+            vermelho: this.sumCards(this.dadosTime1.info.cards.red)
+          },
+          forma: this.refactorFormaTime(this.dadosTime1.info.form)
         }
+        console.log(this.dadosTime1);
+
+        this.atualizarItemsTimes();
       } else {
         this.dadosTime1 = null;
-        this.timeLogo1 = null;
-        this.estadiotimea = null;
         this.atualizarItemsTimes();
       }
     });
 
     this.formSimulacao.get('time2').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime2 = this.timeDisponiveis.find(time => (time.info?.competitor?.id ?? time.info.id) === value);
-        const splitName = this.dadosTime2.info?.competitor?.name.split(' ') ?? this.dadosTime2.info.name.split(' ');
-        const longestName = splitName.reduce((longest, currentWord) => currentWord.length > longest.length ? currentWord : longest, '');
-        const timeInfo = await this.buscarLogoDoTime(longestName);
-        if (timeInfo) {
-          this.timeLogo2 = timeInfo.logo;
-          this.estadiotimeb = timeInfo.stadium;
+        this.dadosTime2 = this.timeDisponiveis.find(time => (time.info?.team?.id) === value);
+
+        this.dadosTime2 = {
+          ...this.dadosTime2,
+          cartoes: {
+            amarelo: this.sumCards(this.dadosTime2.info.cards.yellow),
+            vermelho: this.sumCards(this.dadosTime2.info.cards.red),
+          },
+          forma: this.refactorFormaTime(this.dadosTime2.info.form)
         }
+        this.atualizarItemsTimes();
       } else {
         this.dadosTime2 = null;
-        this.timeLogo2 = null;
-        this.estadiotimeb = null;
+        this.atualizarItemsTimes();
       }
     });
   }
 
-  async buscarLogoDoTime(teamName: string): Promise<{ logo: string | null, stadium: string | null }> {
-    const apiKey = '3'; // Substitua pela sua chave de API do TheSportsDB
-    const url = `https://www.thesportsdb.com/api/v1/json/${apiKey}/searchteams.php?t=${encodeURIComponent(teamName)}`;
-
-    try {
-      const response = await axios.get<ApiResponse>(url);
-      const data = response.data;
-
-      if (data.teams && data.teams.length > 0) {
-        const team = data.teams[0];
-        return { logo: team.strTeamBadge, stadium: team.strStadium };
-      } else {
-        return { logo: null, stadium: null };
-      }
-    } catch (error) {
-      console.error('Error fetching team logo and stadium:', error);
-      return { logo: null, stadium: null };
-    }
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.onResize.bind(this));
   }
 
   buscarDadosCampeonato() {
@@ -245,5 +239,21 @@ export class HomeSimulacaoComponent implements OnInit {
 
   cancelarSimulacao() {
     this.isAposta = false;
+  }
+
+  sumCards(value){
+    const valor = Object.values(value).reduce((sum: number, val: any) => sum + (typeof val.total === 'number' ? val.total : 0), 0);
+    return valor;
+  }
+
+  refactorFormaTime(value: string): string[] {
+    const lastFiveChars = value.slice(-5);
+    const resultArray = lastFiveChars.split('');
+    
+    return resultArray;
+  }
+
+  onResize() {
+    this.isMobile = window.innerWidth < 768;
   }
 }

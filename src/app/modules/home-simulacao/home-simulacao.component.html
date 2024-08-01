@@ -2,24 +2,52 @@
     <ng-container *ngIf="!isMobile; else mobileLayout">
         <div class="col-4 flex flex-column align-items-center">
             <ng-container *ngIf="formSimulacao.get('time1').value">
-                <p class="font-bold font-xl">Time A:</p>
-                <div *ngIf="timeLogo1">
-                    <img [src]="timeLogo1" alt="{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }} Logo" width="100"/>
+                <p class="font-bold font-xl text-center">Time da casa:</p>
+                <div *ngIf="dadosTime1?.info?.team?.logo">
+                    <img [src]="dadosTime1?.info?.team?.logo" alt="{{ dadosTime1?.info?.team?.name }} Logo" height="100"/>
                 </div>
-                <p class="text-xl text-primary">{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }}</p>
-                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimea }}</p>
-                <p class="text-xs mt-3">Gols marcados: {{ dadosTime1?.info?.competitor?.goals_for ?? dadosTime1?.info.goals_for }}</p>
-                <p class="text-xs">Gols sofridos: {{ dadosTime1?.info?.competitor?.goals_against ?? dadosTime1?.info.goals_against }}</p>
-                <p class="text-xs">Diferença de Gols: {{ dadosTime1?.info?.competitor?.goals_diff ?? dadosTime1?.info.goals_diff }}</p>
-                <p class="text-xs mt-3">Jogos: {{ dadosTime1?.info?.competitor?.played ?? dadosTime1?.info.played }}</p>
-                <p class="text-xs">Vitórias: {{ dadosTime1?.info?.competitor?.win ?? dadosTime1?.info.win }}</p>
-                <p class="text-xs">Derrotas: {{ dadosTime1?.info?.competitor?.loss ?? dadosTime1?.info.loss }}</p>
-                <p class="text-xs">Empates: {{ dadosTime1?.info?.competitor?.draw ?? dadosTime1?.info.draw }}</p>
+                <p class="text-xl text-primary">{{ dadosTime1?.info?.team?.name }}</p>
+                <p class="text-base">Forma recente:</p>
+                <div class="flex align-items-center justify-content-center gap-2">
+                    @for(forma of dadosTime1?.forma; track forma){
+                        @if(forma == 'W'){
+                            <p class="dot-victory text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'L'){
+                            <p class="dot-lose text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'D'){
+                            <p class="dot-draw text-xs font-bold">{{forma}}</p>
+                        }
+                    }
+                </div>
+                <p-fieldset legend="Gols" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p>Gols marcados:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime1?.info?.goals?.for?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime1?.info?.goals?.for?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime1?.info?.goals?.for?.total?.total }}</span></p>
+                        </div>
+                        <div>
+                            <p>Gols sofridos:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime1?.info?.goals?.against?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime1?.info?.goals?.against?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime1?.info?.goals?.against?.total?.total }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="Cartões" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p class="flex justify-content-between">Amarelos: <span>{{ dadosTime1?.cartoes?.amarelo ?? 0 }}</span></p>
+                            <p class="flex justify-content-between">Vermelho: <span>{{ dadosTime1?.cartoes?.vermelho ?? 0 }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
             </ng-container>
         </div>
     
-        <div class="col-4 flex flex-column align-items-center justify-content-center">
-            <p class="font-bold font-xl">Simular uma partida:</p>
+        <div class="col-4 flex flex-column">
+            <p class="font-bold font-xl text-center">Simular uma partida:</p>
             <form [formGroup]="formSimulacao">
                 <div class="col-12 mb-2">
                     <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
@@ -57,36 +85,64 @@
     
         <div class="col-4 flex flex-column align-items-center">
             <ng-container *ngIf="formSimulacao.get('time2').value">
-                <p class="font-bold font-xl">Time B:</p>
-                <div *ngIf="timeLogo2">
-                    <img [src]="timeLogo2" alt="{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }} Logo" width="100"/>
+                <p class="font-bold font-xl">Time de fora:</p>
+                <div *ngIf="dadosTime2?.info?.team?.logo">
+                    <img [src]="dadosTime2?.info?.team?.logo" alt="{{ dadosTime2?.info?.team?.name }} Logo" height="100"/>
                 </div>
-                <p class="text-xl text-primary">{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }}</p>
-                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimeb }}</p>
-                <p class="text-xs mt-3">Gols marcados: {{ dadosTime2?.info?.competitor?.goals_for ?? dadosTime2?.info.goals_for }}</p>
-                <p class="text-xs">Gols sofridos: {{ dadosTime2?.info?.competitor?.goals_against ?? dadosTime2?.info.goals_against }}</p>
-                <p class="text-xs">Diferença de Gols: {{ dadosTime2?.info?.competitor?.goals_diff ?? dadosTime2?.info.goals_diff }}</p>
-                <p class="text-xs mt-3">Jogos: {{ dadosTime2?.info?.competitor?.played ?? dadosTime2?.info.played }}</p>
-                <p class="text-xs">Vitórias: {{ dadosTime2?.info?.competitor?.win ?? dadosTime2?.info.win }}</p>
-                <p class="text-xs">Derrotas: {{ dadosTime2?.info?.competitor?.loss ?? dadosTime2?.info.loss }}</p>
-                <p class="text-xs">Empates: {{ dadosTime2?.info?.competitor?.draw ?? dadosTime2?.info.draw }}</p>
+                <p class="text-xl text-primary">{{ dadosTime2?.info?.team?.name }}</p>
+                <p class="text-base">Forma recente:</p>
+                <div class="flex align-items-center justify-content-center gap-2">
+                    @for(forma of dadosTime2?.forma; track forma){
+                        @if(forma == 'W'){
+                            <p class="dot-victory text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'L'){
+                            <p class="dot-lose text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'D'){
+                            <p class="dot-draw text-xs font-bold">{{forma}}</p>
+                        }
+                    }
+                </div>
+                <p-fieldset legend="Gols" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p>Gols marcados:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime2?.info?.goals?.for?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime2?.info?.goals?.for?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime2?.info?.goals?.for?.total?.total }}</span></p>
+                        </div>
+                        <div>
+                            <p>Gols sofridos:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime2?.info?.goals?.against?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime2?.info?.goals?.against?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime2?.info?.goals?.against?.total?.total }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="Cartões" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p class="flex justify-content-between">Amarelos: <span>{{ dadosTime2?.cartoes?.amarelo ?? 0 }}</span></p>
+                            <p class="flex justify-content-between">Vermelho: <span>{{ dadosTime2?.cartoes?.vermelho ?? 0 }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
             </ng-container>
         </div>
     </ng-container>
   
     <ng-template #mobileLayout>
-        <div class="mb-3 col-12 flex flex-column align-items-center justify-content-center">
-            <p class="font-bold font-xl">Simular uma partida:</p>
+        <div class="mb-3 col-12 flex flex-column">
+            <p class="font-bold font-xl text-center">Simular uma partida:</p>
             <form [formGroup]="formSimulacao">
                 <div class="col-12 mb-2">
                     <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
                 </div>
                 <ng-container *ngIf="formSimulacao.get('campeonato').value">
                     <div class="col-12 mb-2">
-                        <app-form type="select" id="time1" label="Time 1" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
                     </div>
                     <div class="col-12 mb-2">
-                        <app-form type="select" id="time2" label="Time 2" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
@@ -111,37 +167,93 @@
   
         <div class="col-6 flex flex-column align-items-center">
             <ng-container *ngIf="formSimulacao.get('time1').value">
-                <p class="font-bold font-xl">Time A:</p>
-                <div *ngIf="timeLogo1">
-                    <img [src]="timeLogo1" alt="{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }} Logo" width="70"/>
+                <p class="font-bold font-xl">Time da casa:</p>
+                <div *ngIf="dadosTime1?.info?.team?.logo">
+                    <img [src]="dadosTime1?.info?.team?.logo" alt="{{ dadosTime1?.info?.team?.name }} Logo" height="100"/>
                 </div>
-                <p class="text-xl text-primary">{{ dadosTime1?.info?.competitor?.name ?? dadosTime1?.info.name }}</p>
-                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimea }}</p>
-                <p class="text-xs mt-3">Gols marcados: {{ dadosTime1?.info?.competitor?.goals_for ?? dadosTime1?.info.goals_for }}</p>
-                <p class="text-xs">Gols sofridos: {{ dadosTime1?.info?.competitor?.goals_against ?? dadosTime1?.info.goals_against }}</p>
-                <p class="text-xs">Diferença de Gols: {{ dadosTime1?.info?.competitor?.goals_diff ?? dadosTime1?.info.goals_diff }}</p>
-                <p class="text-xs mt-3">Jogos: {{ dadosTime1?.info?.competitor?.played ?? dadosTime1?.info.played }}</p>
-                <p class="text-xs">Vitórias: {{ dadosTime1?.info?.competitor?.win ?? dadosTime1?.info.win }}</p>
-                <p class="text-xs">Derrotas: {{ dadosTime1?.info?.competitor?.loss ?? dadosTime1?.info.loss }}</p>
-                <p class="text-xs">Empates: {{ dadosTime1?.info?.competitor?.draw ?? dadosTime1?.info.draw }}</p>
+                <p class="text-xl text-primary">{{ dadosTime1?.info?.team?.name }}</p>
+                <p class="text-base">Forma recente:</p>
+                <div class="flex align-items-center justify-content-center gap-2">
+                    @for(forma of dadosTime1?.forma; track forma){
+                        @if(forma == 'W'){
+                            <p class="dot-victory text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'L'){
+                            <p class="dot-lose text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'D'){
+                            <p class="dot-draw text-xs font-bold">{{forma}}</p>
+                        }
+                    }
+                </div>
+                <p-fieldset legend="Gols" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p>Gols marcados:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime1?.info?.goals?.for?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime1?.info?.goals?.for?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime1?.info?.goals?.for?.total?.total }}</span></p>
+                        </div>
+                        <div>
+                            <p>Gols sofridos:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime1?.info?.goals?.against?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime1?.info?.goals?.against?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime1?.info?.goals?.against?.total?.total }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="Cartões" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p class="flex justify-content-between">Amarelos: <span>{{ dadosTime1?.cartoes?.amarelo ?? 0 }}</span></p>
+                            <p class="flex justify-content-between">Vermelho: <span>{{ dadosTime1?.cartoes?.vermelho ?? 0 }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
             </ng-container>
         </div>
   
         <div class="col-6 flex flex-column align-items-center">
             <ng-container *ngIf="formSimulacao.get('time2').value">
-                <p class="font-bold font-xl">Time B:</p>
-                <div *ngIf="timeLogo2">
-                    <img [src]="timeLogo2" alt="{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }} Logo" width="70"/>
+                <p class="font-bold font-xl">Time de fora:</p>
+                <div *ngIf="dadosTime2?.info?.team?.logo">
+                    <img [src]="dadosTime2?.info?.team?.logo" alt="{{ dadosTime2?.info?.team?.name }} Logo" height="100"/>
                 </div>
-                <p class="text-xl text-primary">{{ dadosTime2?.info?.competitor?.name ?? dadosTime2?.info.name }}</p>
-                <p class="text-xs flex align-items-center gap-2"><span class="material-symbols-outlined text-primary">stadium</span>Estádio: {{ estadiotimeb }}</p>
-                <p class="text-xs mt-3">Gols marcados: {{ dadosTime2?.info?.competitor?.goals_for ?? dadosTime2?.info.goals_for }}</p>
-                <p class="text-xs">Gols sofridos: {{ dadosTime2?.info?.competitor?.goals_against ?? dadosTime2?.info.goals_against }}</p>
-                <p class="text-xs">Diferença de Gols: {{ dadosTime2?.info?.competitor?.goals_diff ?? dadosTime2?.info.goals_diff }}</p>
-                <p class="text-xs mt-3">Jogos: {{ dadosTime2?.info?.competitor?.played ?? dadosTime2?.info.played }}</p>
-                <p class="text-xs">Vitórias: {{ dadosTime2?.info?.competitor?.win ?? dadosTime2?.info.win }}</p>
-                <p class="text-xs">Derrotas: {{ dadosTime2?.info?.competitor?.loss ?? dadosTime2?.info.loss }}</p>
-                <p class="text-xs">Empates: {{ dadosTime2?.info?.competitor?.draw ?? dadosTime2?.info.draw }}</p>
+                <p class="text-xl text-primary">{{ dadosTime2?.info?.team?.name }}</p>
+                <p class="text-base">Forma recente:</p>
+                <div class="flex align-items-center justify-content-center gap-2">
+                    @for(forma of dadosTime2?.forma; track forma){
+                        @if(forma == 'W'){
+                            <p class="dot-victory text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'L'){
+                            <p class="dot-lose text-xs font-bold">{{forma}}</p>
+                        }@else if(forma == 'D'){
+                            <p class="dot-draw text-xs font-bold">{{forma}}</p>
+                        }
+                    }
+                </div>
+                <p-fieldset legend="Gols" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p>Gols marcados:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime2?.info?.goals?.for?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime2?.info?.goals?.for?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime2?.info?.goals?.for?.total?.total }}</span></p>
+                        </div>
+                        <div>
+                            <p>Gols sofridos:</p>
+                            <p class="flex justify-content-between">Fora: <span>{{ dadosTime2?.info?.goals?.against?.total?.away }}</span></p>
+                            <p class="flex justify-content-between">Casa: <span>{{ dadosTime2?.info?.goals?.against?.total?.home }}</span></p>
+                            <p class="flex justify-content-between">Total: <span>{{ dadosTime2?.info?.goals?.against?.total?.total }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="Cartões" [toggleable]="true" class="w-9">
+                    <div class="flex flex-column gap-4">
+                        <div>
+                            <p class="flex justify-content-between">Amarelos: <span>{{ dadosTime2?.cartoes?.amarelo ?? 0 }}</span></p>
+                            <p class="flex justify-content-between">Vermelho: <span>{{ dadosTime2?.cartoes?.vermelho ?? 0 }}</span></p>
+                        </div>
+                    </div>
+                </p-fieldset>
             </ng-container>
         </div>
     </ng-template>
