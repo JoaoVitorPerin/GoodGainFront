@@ -11,6 +11,7 @@ import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import { DatagridPrimeModule } from 'src/app/shared/components/datagrid-prime/datagrid-prime.module';
 import { DatagridPrimeConfig, datagridPrimeConfigDefault } from 'src/app/core/ts/datagridPrimeConfigDefault';
 import { LogIntegracaoService } from './log-integracao.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-log-integracao',
@@ -83,8 +84,12 @@ export class LogIntegracaoComponent implements OnInit{
     if(this.dadosIntegracao.invalid){
       return
     }
+    
+    const dados = {
+      data:  moment(this.dadosIntegracao.get('data').value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    }
 
-    this.logIntegracaoService.chamarApi(this.dadosIntegracao.getRawValue()).subscribe({
+    this.logIntegracaoService.chamarApi(dados).subscribe({
       next: (dados) => {
         console.log(dados)
       },
