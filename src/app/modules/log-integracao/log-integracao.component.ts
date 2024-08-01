@@ -45,32 +45,34 @@ export class LogIntegracaoComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.colums = [
-        {
-          dataField: 'id',
-          caption: 'ID',
-          dataType: 'string',
-          sorting: true
-        },
-        {
-          dataField: 'data',
-          caption: 'Data',
-          dataType: 'string',
-          sorting: true
-        },
-        {
-          dataField: 'status',
-          caption: 'Status',
-          dataType: 'string',
-          sorting: true
-        },
-      ]
+    this.colums = [
+      {
+        dataField: 'id',
+        caption: 'ID',
+        dataType: 'string',
+        sorting: true
+      },
+      {
+        dataField: 'data',
+        caption: 'Data',
+        dataType: 'string',
+        sorting: true
+      },
+      {
+        dataField: 'status',
+        caption: 'Status',
+        dataType: 'string',
+        sorting: true
+      },
+    ]
+
+    this.buscarDadosApi();
   }
 
   buscarDadosApi(){
     this.logIntegracaoService.buscarDados().subscribe({
       next: (dados) => {
-        this.dados = dados;
+        this.dados = dados.dados;
       },
       error: (error) => {
         console.error(error);
@@ -91,7 +93,8 @@ export class LogIntegracaoComponent implements OnInit{
 
     this.logIntegracaoService.chamarApi(dados).subscribe({
       next: (dados) => {
-        console.log(dados)
+        this.toastrService.mostrarToastrSuccess('Dados atualizados com sucesso');
+        this.buscarDadosApi();
       },
       error: (error) => {
         console.error(error);

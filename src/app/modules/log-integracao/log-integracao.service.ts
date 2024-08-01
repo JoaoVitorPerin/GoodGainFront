@@ -19,7 +19,7 @@ export class LogIntegracaoService {
   }
 
   buscarDados(): Observable<any> {
-    return this.http.get<any>(this.API_BACK + 'log-integracao', {
+    return this.http.get<any>(this.API_BACK + 'listar_log', {
       headers: this.headerService.getHeader(),
     });
   }
