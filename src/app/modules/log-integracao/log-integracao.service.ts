@@ -25,8 +25,9 @@ export class LogIntegracaoService {
   }
 
   chamarApi(dados: any){
-    return this.http.post<any>(this.API_BACK + 'atualizar_dados', dados, {
-        headers: this.headerService.getHeader()
+    return this.http.get<any>(this.API_BACK + 'atualizar_dados', {
+        headers: this.headerService.getHeader(),
+        params: dados
       });
   }
 }
