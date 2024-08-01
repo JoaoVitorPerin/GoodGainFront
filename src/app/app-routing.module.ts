@@ -14,6 +14,7 @@ import { HomeConfrontosComponent } from './modules/home-confrontos/home-confront
 import { VisualizarConfrontoComponent } from './modules/home-confrontos/visualizar-confronto/visualizar-confronto.component';
 import { HomeSimulacaoComponent } from './modules/home-simulacao/home-simulacao.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { LogIntegracaoComponent } from './modules/log-integracao/log-integracao.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -64,6 +65,10 @@ const APP_ROUTES: Routes = [
       {
         path: 'confrontos/:id',
         component: VisualizarConfrontoComponent
+      },
+      {
+        path: 'log-api',
+        component: LogIntegracaoComponent
       },
       {
         path: 'dashboard',

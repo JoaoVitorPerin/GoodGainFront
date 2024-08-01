@@ -610,7 +610,7 @@ export function formatarTamanho(tamanho: any): string {
   return tamanho;
 }
 
-function parseDecimal(value: string | number): number {
+export function parseDecimal(value: string | number): number {
   return parseFloat(value.toString());
 }
 
@@ -1207,6 +1207,45 @@ export const viewInicial = (): string => {
   return view
 }
 
+export const validaCor = (valor: number): string => {
+  const cores = [
+    { min: -1, max: 20, cor: '#D9342B' },
+    { min: 20, max: 40, cor: '#FF8201' },
+    { min: 40, max: 60, cor: '#FFC100' },
+    { min: 60, max: 80, cor: '#22C55E' },
+    { min: 80, max: 1000, cor: '#006EFF' }
+  ];
+
+  const cor = cores.find(c => valor > c.min && valor <= c.max);
+  return cor ? cor.cor : 'var(--surface-d)';
+}
+
+export const numberToColor = (valor: number): string => {
+  const cores = [
+    { number: 1, cor: '#D9342B' },
+    { number: 2, cor: '#FF8201' },
+    { number: 3, cor: '#FFC100' },
+    { number: 4, cor: '#22C55E' },
+    { number: 5, cor: '#006EFF' }
+  ];
+
+  const cor = cores.find(c => valor == c.number);
+  return cor ? cor.cor : 'var(--surface-d)';
+}
+
+export const validarFlechaCrescimento = (valor: number): number => {
+  const flechas = [
+    { min: 0, max: 20, flecha: 1 },
+    { min: 20, max: 40, flecha: 2 },
+    { min: 40, max: 60, flecha: 3 },
+    { min: 60, max: 80, flecha: 4 },
+    { min: 80, max: 1000, flecha: 5 }
+  ];
+
+  const flecha = flechas.find(c => valor > c.min && valor <= c.max);
+  return flecha ? flecha.flecha : 0;
+}
+
 export const getIniciais = (s: string): string => {
 	if (s && s.length > 0) {
 	  	const palavrasSplitadas = s.split(' ');
@@ -1216,4 +1255,330 @@ export const getIniciais = (s: string): string => {
 	} else {
 	  	return '';
 	}
+}
+
+export const converterParaInt = (valor: any): number => {
+  const valorInt = parseInt(valor);
+  return isNaN(valorInt) ? 0 : valorInt;
+}
+
+export const converterIntParaCorTextoCardsTabelas = (valor: number): string => {
+  if (valor > 0 && valor <= 5) {
+    return '#ffffff';
+  } else {
+    return 'var(--text-color);';
+  }
+}
+
+export const converterIntParaCorBackgroundCardsTabelas = (valor: number): string => {
+  const colorMap = {
+    1: '#D9342B',
+    2: '#FFC100',
+    3: '#FF8201',
+    4: '#22C55E',
+    5: '#006EFF'
+  };
+
+  return colorMap[valor] || null;
+}
+
+export const defaultAnomes = () => {
+  const data = new Date();
+  const mes = data.getMonth() + 1;
+  const ano = data.getFullYear();
+  return `${ano}${mes < 10 ? '0' + mes : mes}`;
+}
+
+export const defaultAnomesDia = () => {
+  const data = new Date();
+  const dia = data.getDate();
+  const mes = data.getMonth() + 1;
+  const ano = data.getFullYear();
+  return `${ano}${mes < 10 ? '0' + mes : mes}${dia < 10 ? '0' + dia : dia}`;
+}
+
+export const defaultCdFilial = () => {
+  const cd_filial = 'f_0';
+  return cd_filial;
+}
+
+export const converterPadraoTipo = (tipo:any) => {
+  const mapTipo = {
+    cd_filial: 'f',
+    cdcr: 'cdcr',
+    cidade: 'c',
+  }
+
+  return mapTipo[tipo] || 'f';
+}
+
+export const convertePrecoParaPadraoBR = (preco: string | number = 0) => {
+	return preco !== null ? toLocaleFixed(parseDecimal(preco), 2) : '0,00';
+}
+
+export interface Mail {
+  id?: any;
+  from?: string;
+  to?: string;
+  email?:string;
+  image?: string;
+  date?: string;
+  message?: string;
+  title?: string;
+  important?: boolean;
+  starred?: boolean;
+  trash?: boolean;
+  archived?: boolean;
+  spam?: boolean;
+  sent?: boolean;
+}
+
+export const construirTreeListAreas = (lista_areas: any) => {
+  // Primeiro, crie um objeto para mapear os itens por 'cd_pai'
+  const map = {};
+  lista_areas.forEach(item => {
+      map[item.id] = map[item.id] || { children: [] };
+      map[item.id].key = item.cd_tipo;
+      map[item.id].label = `${item.nm_descritivo}`;
+      map[item.id].data = `${item.nm_descritivo}`;
+  });
+
+  // Em seguida, adicione os filhos aos seus pais
+  lista_areas.forEach(item => {
+      if (item.area_pai_id !== null) {
+          const parent = map[item.area_pai_id];
+          parent.children.push({
+              key: item.cd_tipo,
+              label: `${item.nm_descritivo}`,
+              data: `${item.nm_descritivo}`
+          });
+      }
+  });
+
+  // Finalmente, retorne a lista de pais que não têm área_pai_id
+  return lista_areas
+      .filter(item => item.area_pai_id === null)
+      .map(item => map[item.id]);
+}
+
+export const construirTreeListCidadesEstados = (lista_cidades_estados: any) => {
+  // Primeiro, crie um objeto para mapear os itens por 'codigo'
+  const map = {};
+  lista_cidades_estados?.forEach(item => {
+      map[item.codigo] = map[item.codigo] || { children: [] };
+      map[item.codigo].key = item.cd_tipo;
+      map[item.codigo].label = `${item.nm_descritivo}`;
+      map[item.codigo].data = `${item.nm_descritivo}`;
+  });
+
+  // Em seguida, adicione as cidades aos seus estados
+  lista_cidades_estados?.forEach(item => {
+      if (item.estado_id !== undefined && item.estado_id !== null) {
+          const parent = map[item.estado_id];
+          parent.children.push({
+              key: item.cd_tipo,
+              label: `${item.nm_descritivo}`,
+              data: `${item.nm_descritivo}`
+          });
+      }
+  });
+
+  // Finalmente, retorne a lista de estados que não têm 'estado_id'
+  return lista_cidades_estados?.filter(item => item.estado_id === undefined || item.estado_id === null)
+      .map(item => map[item.codigo]);
+}
+
+
+export const construirTreeListAreas2 = (lista_areas: any) => {
+  // Primeiro, crie um objeto para mapear os itens por 'id'
+  const map = {};
+  lista_areas.forEach(item => {
+    map[item.id] = map[item.id] || { children: [] };
+    map[item.id].key = item.cd_tipo;
+    map[item.id].label = `${item.nm_descritivo}`;
+    map[item.id].data = item.cd_tipo;
+  });
+
+  // Em seguida, adicione os filhos aos seus pais
+  lista_areas.forEach(item => {
+    if (item.area_pai_id !== null) {
+      const parent = map[item.area_pai_id];
+      if (parent) { // Verifique se o pai existe
+        parent.children.push(map[item.id]); // Adicione a referência do objeto filho ao pai
+      }
+    }
+  });
+
+  // Finalmente, retorne a lista de pais que não têm área_pai_id
+  return lista_areas
+    .filter(item => item.area_pai_id === null)
+    .map(item => map[item.id]);
+}
+
+export const montarArvore = (menu : any) => {
+  const menus = [];
+  menu.forEach(menu => {
+    menus.push({
+      icone: `${menu.icone}`,
+      icon_material: true,
+      nome: menu.nome,
+      filhos: menu.lista_filhos && Array.isArray(menu.lista_filhos) && menu.lista_filhos.length > 0 ? montarArvore(menu.lista_filhos) : [],
+      url: menu.url,
+    })
+  })
+
+  return menus
+}
+
+export const pad = (num: number|string, tam: number) => {
+  num = num.toString();
+  while (num.length < tam) num = "0" + num;
+  return num;
+}
+
+export const formatCpf = (cpf: string) => {
+  if (cpf) {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
+  return '';
+}
+
+export const formatCelular = (celular: string) => {
+  if (celular) {
+    return celular.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+  }
+  return '';
+}
+
+export const validaTipoVisualizacao = (params: any) => {
+  if (params?.cdcr) {
+    const key = params.cdcr;
+    if (typeof key === 'string') {
+      if (key.includes('d_'))
+        return 'd'
+      if (key.includes('r_'))
+        return 'r'
+    }else{
+      if (key?.key.includes('d_'))
+        return 'd'
+      if (key?.key.includes('r_'))
+        return 'r'
+    }
+  }
+
+  if (params?.cd_filial) {
+    const key = params.cd_filial;
+    if(typeof key === 'string') {
+      if (key.includes('f_0'))
+        return 'rede'
+      if (key.includes('f_'))
+        return 'f'
+    }
+  }
+
+  if (params?.cidades) {
+    const key = params.cidades;
+    if (typeof key === 'string') {
+      if (key.includes('e_'))
+        return 'e'
+      if (key.includes('c_'))
+        return 'c'
+    }else{
+      if (key?.key.includes('e_'))
+        return 'e'
+      if (key?.key.includes('c_'))
+        return 'c'
+    }
+  }
+}
+
+export const returnTipoFiltro = (value: any) => {
+
+  if(!value)
+    return {}
+
+  if(value.includes('f_'))
+    return {cd_filial: value}
+
+  if(value.includes('d_') || value.includes('r_'))
+    return {cdcr: value}
+
+  if(value.includes('e_') || value.includes('c_'))
+    return {cidades: value}
+}
+
+export const validaPontoFuncao = (valor: string) => {
+  const list_ponto_funcao = localStorage.getItem('ponto_funcao');
+  return list_ponto_funcao?.includes(valor);
+}
+
+export const validarUrlApp = (fullUrl: string) => {
+  const isApp = fullUrl.includes('app');
+  return isApp;
+}
+
+export const capitalizeFirstLetter = (str: string) => {
+  if(!str)
+    return str
+  return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
+export const isValidCPF = (cpf: string): boolean => {
+  cpf = cpf.replace(/[^\d]+/g, '');
+
+  if (cpf.length !== 11) {
+      return false;
+  }
+
+  if (/^(\d)\1+$/.test(cpf)) {
+      return false;
+  }
+
+  let sum = 0;
+  let remainder;
+
+  for (let i = 1; i <= 9; i++) {
+      sum += parseInt(cpf.charAt(i - 1)) * (11 - i);
+  }
+  remainder = (sum * 10) % 11;
+
+  if (remainder === 10 || remainder === 11) {
+      remainder = 0;
+  }
+  if (remainder !== parseInt(cpf.charAt(9))) {
+      return false;
+  }
+
+  sum = 0;
+
+  for (let i = 1; i <= 10; i++) {
+      sum += parseInt(cpf.charAt(i - 1)) * (12 - i);
+  }
+  remainder = (sum * 10) % 11;
+
+  if (remainder === 10 || remainder === 11) {
+      remainder = 0;
+  }
+  if (remainder !== parseInt(cpf.charAt(10))) {
+      return false;
+  }
+
+  return true;
+}
+
+export const getLastPart = (path: string): string => {
+  const parts = path.split('/');
+  return parts[parts.length - 1];
+}
+
+export const simplificacaoNumerica = (num: number): string => {
+  if(!num)
+    return num.toString()
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  } else {
+    return num.toString();
+  }
 }

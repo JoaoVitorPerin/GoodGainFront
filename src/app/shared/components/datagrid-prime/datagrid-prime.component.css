@@ -1,0 +1,10 @@
+::ng-deep sortalticon.p-icon-wrapper svg.p-icon{
+    width: .65rem!important;
+    height: .65rem!important;
+    /* margin-left: .2rem!important; */
+}
+
+::ng-deep .p-datatable-danger {
+  border: 1px solid #e24c4c;
+  border-radius: 6px;
+}

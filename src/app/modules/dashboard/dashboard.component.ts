@@ -104,8 +104,8 @@ export class DashboardComponent implements OnInit {
   }
 
   buscarInfosPerfil() {
-    this.nomeUser = `${this.tokenService.getJwtDecoded().cli_info.nome} ${this.tokenService.getJwtDecoded().cli_info.sobrenome}`;
-    this.cpfUser = this.tokenService.getJwtDecoded().cli_info.cpf;
+    this.nomeUser = `${this.tokenService.getJwtDecodedAccess().cli_info.nome} ${this.tokenService.getJwtDecodedAccess().cli_info.sobrenome}`;
+    this.cpfUser = this.tokenService.getJwtDecodedAccess().cli_info.cpf;
   }
 
   buscarDadosDashboard() {

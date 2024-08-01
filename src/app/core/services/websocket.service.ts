@@ -29,7 +29,7 @@ export class WebsocketService {
       return
     }
 
-    const url = this.CHAT_URL + this.tokenService.getJwtDecoded()['matricula']
+    const url = this.CHAT_URL + this.tokenService.getJwtDecodedAccess()['matricula']
 
     this.ws = new WebSocket(url);
     this.ws.onmessage = (msg) => {

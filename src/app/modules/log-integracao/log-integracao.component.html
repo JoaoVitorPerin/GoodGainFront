@@ -1,0 +1,14 @@
+<section class="grid">
+    <div class="col-12 flex flex-column">
+        <p class="font-bold font-xl">Tela para chamar a API (API-FOOTBALL):</p>
+        <form [formGroup]="dadosIntegracao">
+            <div class="col-12 mb-2 flex  gap-3">
+                <app-form type="date-manual" [required]="true" erro="Selecione uma data" label="Selecione uma data:" formControlName="data" ngDefaultControl></app-form>
+                <p-button label="Chamar API" size="large" styleClass="d-flex justify-content-center mt-3" (click)="chamarApi()"></p-button>
+            </div>
+        </form>
+    </div>
+    <div class="col-12 w-full">
+        <app-datagrid-prime [data]="dados" [columns]="colums" [configuracoes]="configuracoesTabela" titulo="Últimas chamadas:" stateId="tabela-distritos"></app-datagrid-prime>
+    </div>
+</section>

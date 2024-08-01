@@ -1,41 +1,70 @@
 import { environment } from 'src/environments/environment';
 import { TokenService } from './../services/token.service';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AutenticacaoGuard  {
 
   readonly API_BACK: string = environment.API_BACK
 
-  constructor(private tokenService: TokenService, private router: Router) { }
+  constructor(private tokenService: TokenService, private router: Router, private route: ActivatedRoute) { }
 
-  private verificacaoLogin(): boolean {
+  private verificacaoLogin(): Observable<boolean> {
+    const accessToken = this.tokenService.getJwtDecodedAccess();
+    const refreshToken = this.tokenService.getJwtDecodedRefresh();
+    const date = new Date().getTime() / 1000;
 
-    const token = this.tokenService.getJwtDecoded();
+    if (accessToken && refreshToken) {
+      if (accessToken.exp < date && refreshToken.exp > date) {
+        const tokenRefreshStorage = this.tokenService.getToken().refresh;
+        return this.tokenService.enviarRefreshToken(tokenRefreshStorage).pipe(
+          map((res) => {
+            this.tokenService.clearToken();
+            this.tokenService.setToken(res);
+            return true;
+          }),
+          catchError(() => {
+            this.tokenService.clearToken();
+            this.redirectParaLogin(); // Redirect to login page
+            return of(false);
+          })
+        );
+      } else if (refreshToken.exp < date) {
+        this.tokenService.clearToken();
+        this.redirectParaLogin() // Redirect to login page
+        return of(false);
+      }
+      return of(true);
+    } else {
+      this.tokenService.clearToken();
+      this.redirectParaLogin() // Redirect to login page
+      return of(false);
+    }
+  }
 
-    if (token) {
-      const date = new Date();
-      const datetoken = new Date(token.exp);
-      if (datetoken < date) {
-        return true;
+  redirectParaLogin(): void {
+    let params = {}
+    if(location?.pathname){
+      params = {
+        next: location.pathname,
+        params: location?.search ? location?.search : ''
       }
     }
-
-    this.tokenService.clearToken();
-    this.router.navigate(['/home'])
-    return false;
+    this.router.navigate(['/login'], {queryParams: params})
   }
 
-  canActivate(): boolean {
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean{
     return this.verificacaoLogin()
   }
 
-  canActivateChild(): boolean {
+  canActivateChild(): Observable<boolean> | Promise<boolean> | boolean{
     return this.verificacaoLogin()
   }
 
-  canLoad(): boolean {
+  canLoad(): Observable<boolean> | Promise<boolean> | boolean{
     return this.verificacaoLogin()
   }
 }

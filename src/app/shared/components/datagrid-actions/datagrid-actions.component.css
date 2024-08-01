@@ -1,0 +1,7 @@
+.overlay-more-actions {
+  max-width: 300px;
+}
+
+.overlay-more-actions .p-button {
+  width: auto !important;
+}

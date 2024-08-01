@@ -19,8 +19,8 @@ export class HeaderService {
 
   getHeader(adicionais?): any {
 
-    if(this.tokenService?.getToken()?.access)
-      this.acesso = `Bearer ${this.tokenService?.getToken() ? this.tokenService?.getToken()?.access : ''}`;
+    if(this.tokenService?.getToken())
+      this.acesso = `Bearer ${this.tokenService?.getToken().access ? this.tokenService?.getToken().access : ''}`;
 
     this.headers = new HttpHeaders({
       Accept: 'application/json',

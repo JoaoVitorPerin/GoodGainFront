@@ -79,6 +79,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         "icon": "monitoring",
         "routerLink": "dashboard",
       },
+      {
+        "label": "Admin Usuários",
+        "icon": "person",
+        "routerLink": "usuarios",
+      },
+      {
+        "label": "Log API",
+        "icon": "sync_alt",
+        "routerLink": "log-api",
+      },
     ]
 
     this.construirMenus(this.menus)

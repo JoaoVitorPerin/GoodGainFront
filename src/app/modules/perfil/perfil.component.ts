@@ -88,7 +88,7 @@ export class PerfilComponent implements OnInit{
   }
 
   buscarInfosPerfil(){
-    const cpfUser = this.tokenService.getJwtDecoded().cli_info.cpf;
+    const cpfUser = this.tokenService.getJwtDecodedAccess().cli_info.cpf;
 
     this.loginService.buscarUserByCpf(cpfUser).subscribe({
       next: (dados) => {
