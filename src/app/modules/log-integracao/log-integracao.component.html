@@ -12,3 +12,15 @@
         <app-datagrid-prime [data]="dados" [columns]="colums" [configuracoes]="configuracoesTabela" titulo="Últimas chamadas:" stateId="tabela-distritos"></app-datagrid-prime>
     </div>
 </section>
+
+<ng-template #templateStatus let-log class="text-center">
+    <p class="flex align-items-center">
+        <i class="material-symbols-outlined icon-material" [ngClass]="{'text-green-500': log.status, 'text-red-500': !log.status}">
+            @if(log.status){
+                done
+            }@else{
+                close
+            }
+        </i> - {{log.tipo_operacao}}
+    </p>
+  </ng-template>

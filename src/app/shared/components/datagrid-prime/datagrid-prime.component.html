@@ -331,7 +331,7 @@
                 <app-datagrid-actions [buttons]="configuracoes?.actionButtons" [data]="rowData" [rowIndex]="rowIndex"></app-datagrid-actions>
               </div>
             } @else {
-              <div (click)="configuracoes.rowClick ? onRowClick(rowData) : ''">
+              <div class="flex justify-content-center" (click)="configuracoes.rowClick ? onRowClick(rowData) : ''">
                 @if(!col?.editable){
                   @if(!col.cellTemplate){
                     <div class="flex flex-column row-gap-1 p-2">
@@ -355,7 +355,7 @@
                       }
                     } @else if(col.cellTemplate == 'date') {
                       @if(rowData[col.dataField]){
-                        {{ rowData[col.dataField] | date: 'MM/dd/yyyy' }}
+                        {{ rowData[col.dataField] | date: 'dd/MM/yyyy' }}
                       } @else {
                         --
                       }

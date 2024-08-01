@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -31,6 +31,8 @@ import * as moment from 'moment';
 export class LogIntegracaoComponent implements OnInit{
   dadosIntegracao: FormGroup;
   configuracoesTabela: DatagridPrimeConfig = datagridPrimeConfigDefault();
+  @ViewChild('templateStatus', { static: true }) templateStatus: TemplateRef<any>;
+
   dados: any;
   colums: any;
 
@@ -56,14 +58,16 @@ export class LogIntegracaoComponent implements OnInit{
         dataField: 'data',
         caption: 'Data',
         dataType: 'string',
-        sorting: true
+        sorting: true,
+        cellTemplate: 'date'
       },
       {
         dataField: 'status',
         caption: 'Status',
         dataType: 'string',
-        sorting: true
-      },
+        sorting: true,
+        cellTemplate: this.templateStatus
+      }
     ]
 
     this.buscarDadosApi();
