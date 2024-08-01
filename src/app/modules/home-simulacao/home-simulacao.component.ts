@@ -168,7 +168,7 @@ export class HomeSimulacaoComponent implements OnInit {
   }
 
   buscarInfosPerfil(){
-    this.cpfUser = this.tokenService.getJwtDecodedAccess().cli_info.cpf;
+    this.cpfUser = this.tokenService.getJwtDecodedAccess().cli_info.cli_info.cpf;
     this.formSimulacao.get('cpf_user').setValue(this.cpfUser);
   }
 

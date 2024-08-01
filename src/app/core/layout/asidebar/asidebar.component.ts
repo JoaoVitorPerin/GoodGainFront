@@ -78,7 +78,7 @@ export class AppAsideComponent implements OnInit, OnDestroy {
   }
 
   buscarDadosHistorico(){
-    this.subs.push(this.simulacaoService.buscarApostasUsuario(this.tokenService.getJwtDecodedAccess().cli_info.cpf).subscribe(
+    this.subs.push(this.simulacaoService.buscarApostasUsuario(this.tokenService.getJwtDecodedAccess().cli_info.cli_info.cpf).subscribe(
       (res: any) => {
         this.historico = res.lista_apostas_cliente;
       },
@@ -154,7 +154,7 @@ export class AppAsideComponent implements OnInit, OnDestroy {
 
   buscarInfosToken(){
     const token = this.tokenService.getJwtDecodedAccess()
-    this.funcionario = `${token.cli_info.nome} ${token.cli_info.sobrenome}`
+    this.funcionario = `${token.cli_info.cli_info.nome} ${token.cli_info.cli_info.sobrenome}`
   }
 
   perfil(){
