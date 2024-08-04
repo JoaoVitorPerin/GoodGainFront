@@ -1,1 +1,51 @@
-<p>usuarios-cadastro works!</p>
+<section class="my-3">
+    <p class="font-bold font-xl mb-3">Editar usuário:</p>
+    <form [formGroup]="formUsuario">
+        <div class="grid">
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="text" [required]="true" erro="Informe o username" label="Username:" formControlName="username" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="text" [required]="true" erro="Informe o nome" label="Nome:" formControlName="nome" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="text" [required]="true" erro="Informe o sobrenome" label="Sobrenome:" formControlName="sobrenome" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="cpf" [required]="true" erro="Informe o cpf" label="CPF:" formControlName="cpf" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="text" [required]="true" erro="Informe o email" label="Email:" formControlName="email" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="date-manual" [required]="true" erro="Informe uma data de nascimento" label="Data de nascimento:" formControlName="data_nasc" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <app-form type="select" [items]="itemsDualist" [required]="true" erro="Selecione um acesso" label="Tipo de acesso" formControlName="perfil" ngDefaultControl></app-form>
+                </div>
+            </div>
+            <div class="field col-6 lg:col-4">
+                <div class="w-100">
+                    <p-button label="Desativar usuário" severity="danger" size="large" styleClass="d-flex justify-content-center mt-3" (click)="desativarUsuario()"></p-button>
+                </div>
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-end gap-3">
+            <p-button label="Cancelar" severity="danger" size="large" styleClass="d-flex justify-content-center mt-3" (click)="cancelar()"></p-button>
+            <p-button label="Salvar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="salvar()"></p-button>
+        </div>
+    </form>
+</section>

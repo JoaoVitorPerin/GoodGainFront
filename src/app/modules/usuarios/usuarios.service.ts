@@ -14,4 +14,36 @@ export class UsuariosService {
     data: any;
 
     constructor(private http: HttpClient, private headerService: HeaderService) { }
+
+    getAllUsers(): Observable<any> {
+      return this.http.get<any>(this.API_BACK + 'listar_usuarios', {
+        headers: this.headerService.getHeader(),
+      });
+    }
+
+    getUser(cpf: any): Observable<any> {
+      return this.http.get<any>(this.API_BACK + 'cliente', {
+        headers: this.headerService.getHeader(),
+        params: {cpf: cpf}
+      });
+    }
+
+    getAcessos(): Observable<any> {
+      return this.http.get<any>(this.API_BACK + 'listar_perfis', {
+        headers: this.headerService.getHeader(),
+      });
+    }
+    
+    setUser(dados: any): Observable<any> {
+      return this.http.put<any>(this.API_BACK + 'editar_usuario', dados, {
+        headers: this.headerService.getHeader()
+      });
+    }
+
+    desativarUser(cpf: any): any {
+      return this.http.delete<any>(`${this.API_BACK}cliente`, {
+        headers: this.headerService.getHeader(),
+        params: {cpf: cpf}
+      });
+    }
 }
