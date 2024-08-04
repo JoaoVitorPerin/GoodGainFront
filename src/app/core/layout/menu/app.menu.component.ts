@@ -1,4 +1,4 @@
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
 import { MenuService } from './app.menu.service';
@@ -12,6 +12,7 @@ import { ModalConfirmacaoService } from "src/app/shared/components/modal-confirm
 import { LayoutService } from '../app.layout.service';
 import { menuItem } from 'src/app/shared/models/menu-item.model';
 import { MenuItem } from 'primeng/api';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-menu',
@@ -55,6 +56,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
 
   constructor(private menuService: MenuService,
     private permissaoService: PermissaoService,
+    private tokenService: TokenService,
     private router: Router,
     private modalService: ModalService,
     private modalConfirmacaoService: ModalConfirmacaoService,
@@ -63,33 +65,56 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.menus = [
-      {
-        "label": "Próximos confrontos",
-        "icon": "emergency_heat",
-        "routerLink": "confrontos",
-      },
-      {
-        "label": "Simulação",
-        "icon": "ifl",
-        "routerLink": "simulacao",
-      },
-      {
-        "label": "Dashboard",
-        "icon": "monitoring",
-        "routerLink": "dashboard",
-      },
-      {
-        "label": "Admin Usuários",
-        "icon": "person",
-        "routerLink": "usuarios",
-      },
-      {
-        "label": "Log API",
-        "icon": "sync_alt",
-        "routerLink": "log-api",
-      },
-    ]
+    const perfil = this.tokenService.getJwtDecodedAccess().cli_info.cli_info.perfil.perfil_id;
+    if(['premium', 'Vip', 'admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Próximos confrontos",
+          "icon": "emergency_heat",
+          "routerLink": "confrontos",
+        }
+      )
+    }
+
+    if(['gratuito', 'premium', 'Vip', 'admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Simulação",
+          "icon": "ifl",
+          "routerLink": "simulacao",
+        },
+      )
+    }
+
+    if(['Vip', 'admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Dashboard",
+          "icon": "monitoring",
+          "routerLink": "dashboard",
+        },
+      )
+    }
+
+    if(['admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Admin Usuários",
+          "icon": "person",
+          "routerLink": "usuarios",
+        },
+      )
+    }
+
+    if(['admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Log API",
+          "icon": "sync_alt",
+          "routerLink": "log-api",
+        },
+      )
+    }
 
     this.construirMenus(this.menus)
   }
