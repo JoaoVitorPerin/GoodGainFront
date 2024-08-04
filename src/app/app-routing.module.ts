@@ -1,20 +1,21 @@
-import { AppLayoutComponent } from './core/layout/app.layout.component';
-import { AutenticacaoComponent } from './core/autenticacao/autenticacao.component';
-import { CadastroUsuarioComponent } from './core/cadastro-usuario/cadastro-usuario.component';
-import { NaoEncontradaComponent } from './core/nao-encontrada/nao-encontrada.component';
-import { PermissaoNegadaComponent } from './core/permissao-negada/permissao-negada.component';
-import { AutenticacaoGuard } from './core/guards/autenticacao.guard';
 import { ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent as HomeInicial } from './core/home/home.component';
-import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
+import { RouterModule, Routes } from '@angular/router';
+import { AutenticacaoComponent } from './core/autenticacao/autenticacao.component';
 import { LogoutGuard } from './core/guards/logout.guard';
-import { PerfilComponent } from './modules/perfil/perfil.component';
+import { CadastroUsuarioComponent } from './core/cadastro-usuario/cadastro-usuario.component';
+import { HomeComponent } from './core/home/home.component';
+import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
+import { AppLayoutComponent } from './core/layout/app.layout.component';
+import { AutenticacaoGuard } from './core/guards/autenticacao.guard';
+import { PermissaoNegadaComponent } from './core/permissao-negada/permissao-negada.component';
+import { NaoEncontradaComponent } from './core/nao-encontrada/nao-encontrada.component';
+import { PermissaoGuard } from './core/guards/permissao.guard';
+import { HomeSimulacaoComponent } from './modules/home-simulacao/home-simulacao.component';
 import { HomeConfrontosComponent } from './modules/home-confrontos/home-confrontos.component';
 import { VisualizarConfrontoComponent } from './modules/home-confrontos/visualizar-confronto/visualizar-confronto.component';
-import { HomeSimulacaoComponent } from './modules/home-simulacao/home-simulacao.component';
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { LogIntegracaoComponent } from './modules/log-integracao/log-integracao.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { PerfilComponent } from './modules/perfil/perfil.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -32,7 +33,7 @@ const APP_ROUTES: Routes = [
   },
   {
     path: 'home',
-    component: HomeInicial
+    component: HomeComponent
   },
   {
     path: '',
@@ -56,22 +57,32 @@ const APP_ROUTES: Routes = [
       },
       {
         path: 'simulacao',
-        component: HomeSimulacaoComponent
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['gratuito', 'premium', 'Vip', 'admin'] },
+        component: HomeSimulacaoComponent,
       },
       {
         path: 'confrontos',
-        component: HomeConfrontosComponent
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['premium', 'Vip', 'admin'] },
+        component: HomeConfrontosComponent,
       },
       {
         path: 'confrontos/:id',
-        component: VisualizarConfrontoComponent
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['premium', 'Vip', 'admin'] },
+        component: VisualizarConfrontoComponent,
       },
       {
         path: 'log-api',
-        component: LogIntegracaoComponent
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['admin'] },
+        component: LogIntegracaoComponent,
       },
       {
         path: 'usuarios',
+        canActivateChild: [PermissaoGuard],
+        data: { perfil_id: ['admin'] },
         loadChildren: () =>
           import(
             './modules/usuarios/usuarios.module'
@@ -79,10 +90,14 @@ const APP_ROUTES: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['Vip', 'admin'] },
+        component: DashboardComponent,
       },
       {
         path: 'wiki',
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['admin'] },
         loadChildren: () => 
           import(
             './modules/wiki/wiki.module'
