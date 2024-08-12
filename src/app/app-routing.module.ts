@@ -16,6 +16,7 @@ import { VisualizarConfrontoComponent } from './modules/home-confrontos/visualiz
 import { LogIntegracaoComponent } from './modules/log-integracao/log-integracao.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { PerfilComponent } from './modules/perfil/perfil.component';
+import { PlanoUsuarioComponent } from './core/plano-usuario/plano-usuario.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -30,6 +31,10 @@ const APP_ROUTES: Routes = [
   {
     path: 'cadastro',
     component: CadastroUsuarioComponent
+  },
+  {
+    path: 'plano/:id',
+    component: PlanoUsuarioComponent
   },
   {
     path: 'home',

@@ -86,6 +86,6 @@ export class CadastroUsuarioComponent implements OnInit{
   }
 
   redirectLogin(){
-    this.router.navigate(['login'])
+    this.router.navigate([`plano/${this.formCadastro.value.cpf}`])
   }
 }
