@@ -1,20 +1,22 @@
-<p-card>
-    <div class="flex align-items-center justify-content-center">
-        <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
-    </div>
-    <div class="flex align-items-center justify-content-around my-3">
-        <div class="flex flex-column justify-content-center align-items-center gap-2">
-            <img [src]="dados.time_a__logo" height="50">
-            <p class="font-lg font-bold">{{dados.time_a__nome}}</p>
+<a style="text-decoration: none; cursor: pointer;" (click)="redirectToEvent(dados)">
+    <p-card>
+        <div class="flex align-items-center justify-content-center">
+            <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
         </div>
-        <span class="material-symbols-outlined text-primary text-4xl">close</span>
-        <div class="flex flex-column justify-content-center align-items-center gap-2">
-            <img [src]="dados.time_b__logo" height="50">
-            <p class="font-lg font-bold">{{dados.time_b__nome}}</p>
+        <div class="flex align-items-center justify-content-around my-3">
+            <div class="flex flex-column justify-content-center align-items-center gap-2">
+                <img [src]="dados.time_a__logo" height="50">
+                <p class="font-lg font-bold">{{dados.time_a__nome}}</p>
+            </div>
+            <span class="material-symbols-outlined text-primary text-4xl">close</span>
+            <div class="flex flex-column justify-content-center align-items-center gap-2">
+                <img [src]="dados.time_b__logo" height="50">
+                <p class="font-lg font-bold">{{dados.time_b__nome}}</p>
+            </div>
         </div>
-    </div>
-    <hr class="p-0 m-0 py-1" style="border-top-color: var(--primary-color);">
-    <div class="flex align-items-center justify-content-center">
-        <a class="text-sm text-primary">{{dados.campeonato__nome}}</a>
-    </div>
-</p-card>
+        <hr class="p-0 m-0 py-1" style="border-top-color: var(--primary-color);">
+        <div class="flex align-items-center justify-content-center">
+            <a class="text-sm text-primary">{{dados.campeonato__nome}}</a>
+        </div>
+    </p-card>
+</a>

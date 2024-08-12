@@ -67,6 +67,12 @@ const APP_ROUTES: Routes = [
         component: HomeSimulacaoComponent,
       },
       {
+        path: 'simulacao/:id',
+        canActivate: [PermissaoGuard],
+        data: { perfil_id: ['gratuito', 'premium', 'Vip', 'admin'] },
+        component: HomeSimulacaoComponent,
+      },
+      {
         path: 'confrontos',
         canActivate: [PermissaoGuard],
         data: { perfil_id: ['premium', 'Vip', 'admin'] },

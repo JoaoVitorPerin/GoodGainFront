@@ -34,6 +34,6 @@ export class CardConfrontosComponent {
   }
 
   redirectToEvent(evento:any){
-    this.router.navigate([`confrontos/${evento.id}`])
+    this.router.navigate([`simulacao/${evento.id}`])
   }
 }
