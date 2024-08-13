@@ -10,29 +10,35 @@
     </div>
     <p-divider></p-divider>
     <h1 class="font-semibold font-lg"> Histórico de aposta:</h1>
-    <div id="historico-aposta" class="w-full" style="overflow-y: auto; height: 60vh;">
+    <section id="historico-aposta" class="w-full" style="overflow-y: auto; height: 60vh;">
       @for(aposta of historico; track aposta){
         <p-card>
-          <div class="flex align-items-center justify-content-center">
-              <a class="text-sm text-primary">{{aposta.campeonato__nome}}</a>
+          <div class="flex align-items-center justify-content-between">
+            <div class="background-status">
+              <p class="text-sm font-bold">Aguardando</p>
+            </div>
+            <p class="text-sm">R$ {{aposta.valor}}</p>
           </div>
-          <hr class="p-0 m-0 py-1" style="border-top-color: var(--primary-color);">
-          <div class="flex align-items-center justify-content-around my-3">
-              <div class="flex flex-column justify-content-center align-items-center gap-2">
-                  <p class="font-lg font-bold">{{aposta.time_1__nome}}</p>
-              </div>
-              <span class="material-symbols-outlined text-primary text-4xl">close</span>
-              <div class="flex flex-column justify-content-center align-items-center gap-2">
-                  <p class="font-lg font-bold">{{aposta.time_2__nome}}</p>
-              </div>
+          <div class="flex align-items-start justify-content-between">
+            <div class="flex-column justify-content-center align-items-start">
+              <p class="text-xxs">{{aposta.campeonato__nome}}</p>
+              <p class="text-xs text-primary">{{aposta.time_1__nome}} x {{aposta.time_2__nome}}</p>
+            </div>
+            <div class="flex-column justify-content-center align-items-start">
+              <p class="text-sm">{{aposta.odd}}x</p>
+            </div>
+          </div>
+          <div class="flex align-items-center justify-content-between mt-2">
+              <p class="text-xs">Aposta:</p>
+              <p class="text-xs">R$ {{aposta.valor}}</p>
           </div>
           <div class="flex align-items-center justify-content-between">
-            <p class="text-sm text-primary">Valor: R${{aposta.valor}}</p>
-            <p class="text-sm text-primary">Odd: {{aposta.odd}}x</p>
+            <p class="text-xs">Ganhos:</p>
+            <p class="text-xs">R$ {{aposta.valor * aposta.odd}}</p>
           </div>
       </p-card>
       }
-    </div>
+    </section>
     <div class="col-12 flex" style="position: fixed; bottom: 5px;">
       <a class="cursor-pointer flex align-items-center text-red-600 font-semibold text-sm" (click)="logout()"><i class="material-symbols-outlined mr-2">logout</i>Sair</a>
     </div>
