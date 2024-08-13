@@ -122,9 +122,13 @@ export class DashboardComponent implements OnInit {
 
         this.chartCampeonatoOption.series[0].data = res.dados.grafico_campeonatos.map((item: any) => item.valor);
 
+        this.chartCampeonatoOption = {...this.chartCampeonatoOption}
+
         this.chartTipoOption.xAxis[0].data = res.dados.grafico_tipo_aposta.map((item: any) => this.returnTipoAposta(item.tipo_aposta, res.tipos));
 
         this.chartTipoOption.series[0].data = res.dados.grafico_tipo_aposta.map((item: any) => item.valor);
+
+        this.chartTipoOption = {...this.chartTipoOption}
       },
       error: (error) => {
         console.error(error);
