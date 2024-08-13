@@ -11,6 +11,7 @@ import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import { FieldsetModule } from 'primeng/fieldset';
 import axios from 'axios';
 import { AsidebarService } from 'src/app/core/services/asidebar.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface Team {
   strTeam: string;
@@ -55,17 +56,24 @@ export class HomeSimulacaoComponent implements OnInit {
   estadiotimeb: string | null = null;
 
   isAposta:boolean = false;
+  eventoId: string;
 
   constructor(
     private simulacaoService: HomeSimulacaoService,
     private formBuilder: FormBuilder,
     private layoutService: LayoutService,
+    private activatedRoute: ActivatedRoute,
     private tokenService: TokenService,
     private perfilService: PerfilService,
     private toastrService: ToastrService,
-    private asidebarService: AsidebarService
+    private asidebarService: AsidebarService,
+    private homeSimulacaoService: HomeSimulacaoService
   ) {
+    this.eventoId = this.activatedRoute.snapshot.paramMap.get('id');
 
+    if(this.eventoId){
+      this.buscarDadosEvento()
+    }
   }
 
   ngOnInit() {
@@ -246,6 +254,18 @@ export class HomeSimulacaoComponent implements OnInit {
 
   cancelarSimulacao() {
     this.isAposta = false;
+  }
+
+  buscarDadosEvento(){
+    this.homeSimulacaoService.buscarEvento(this.eventoId).subscribe({
+      next: (res) => {
+        console.log(res)
+      },
+      error: (error) => {
+        console.error(error);
+        this.toastrService.mostrarToastrDanger('Erro ao buscar evento, tente novamente!');
+      }
+    });
   }
 
   sumCards(value){

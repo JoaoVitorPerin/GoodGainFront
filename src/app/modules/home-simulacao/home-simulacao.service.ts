@@ -44,4 +44,11 @@ export class HomeSimulacaoService {
       params: {cpf_user: cpf}
     });
   }
+
+  buscarEvento(id: any): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'evento/simulado', {
+      headers: this.headerService.getHeader(),
+      params: {evento: id}
+    });
+  }
 }
