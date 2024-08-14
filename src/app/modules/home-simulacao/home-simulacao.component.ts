@@ -11,7 +11,7 @@ import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import { FieldsetModule } from 'primeng/fieldset';
 import axios from 'axios';
 import { AsidebarService } from 'src/app/core/services/asidebar.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface Team {
   strTeam: string;
@@ -67,13 +67,10 @@ export class HomeSimulacaoComponent implements OnInit {
     private perfilService: PerfilService,
     private toastrService: ToastrService,
     private asidebarService: AsidebarService,
-    private homeSimulacaoService: HomeSimulacaoService
+    private homeSimulacaoService: HomeSimulacaoService,
+    private router: Router
   ) {
     this.eventoId = this.activatedRoute.snapshot.paramMap.get('id');
-
-    if(this.eventoId){
-      this.buscarDadosEvento()
-    }
   }
 
   ngOnInit() {
@@ -105,7 +102,7 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time1').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime1 = this.timeDisponiveis.find(time => (time.info?.team?.id) === value);
+        this.dadosTime1 = this.timeDisponiveis.find(time => (time.info?.team?.id) === parseInt(value));
 
         this.dadosTime1 = {
           ...this.dadosTime1,
@@ -115,7 +112,6 @@ export class HomeSimulacaoComponent implements OnInit {
           },
           forma: this.refactorFormaTime(this.dadosTime1.info.form)
         }
-        console.log(this.dadosTime1);
 
         this.atualizarItemsTimes();
       } else {
@@ -126,7 +122,7 @@ export class HomeSimulacaoComponent implements OnInit {
 
     this.formSimulacao.get('time2').valueChanges.subscribe(async value => {
       if (value) {
-        this.dadosTime2 = this.timeDisponiveis.find(time => (time.info?.team?.id) === value);
+        this.dadosTime2 = this.timeDisponiveis.find(time => (time.info?.team?.id) === parseInt(value));
 
         this.dadosTime2 = {
           ...this.dadosTime2,
@@ -142,6 +138,10 @@ export class HomeSimulacaoComponent implements OnInit {
         this.atualizarItemsTimes();
       }
     });
+
+    if(this.eventoId){
+      this.buscarDadosEvento()
+    }
   }
 
   ngOnDestroy() {
@@ -227,6 +227,9 @@ export class HomeSimulacaoComponent implements OnInit {
             this.formSimulacao.reset();
             this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
             this.asidebarService.triggerHistorico();
+            if(this.eventoId){
+              this.router.navigate(["/confrontos"])
+            }
           },
           error: (error) => {
             console.error(error);
@@ -258,8 +261,14 @@ export class HomeSimulacaoComponent implements OnInit {
 
   buscarDadosEvento(){
     this.homeSimulacaoService.buscarEvento(this.eventoId).subscribe({
-      next: (res) => {
-        console.log(res)
+      next: async (res) => {
+        await this.buscarDadosTimePorCampeonato(res.campeonato.campeonato_id);
+        
+        this.formSimulacao.get("campeonato").setValue(res.campeonato.campeonato_id, { emitEvent: false });
+        setTimeout(() => {
+          this.formSimulacao.get("time1").setValue(res.campeonato.time_a_id);
+          this.formSimulacao.get("time2").setValue(res.campeonato.time_b_id);
+        }, 500)
       },
       error: (error) => {
         console.error(error);
@@ -267,6 +276,7 @@ export class HomeSimulacaoComponent implements OnInit {
       }
     });
   }
+  
 
   sumCards(value){
     const valor = Object.values(value).reduce((sum: number, val: any) => sum + (typeof val.total === 'number' ? val.total : 0), 0);

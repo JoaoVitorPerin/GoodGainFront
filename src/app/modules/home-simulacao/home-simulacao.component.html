@@ -50,13 +50,13 @@
             <p class="font-bold font-xl text-center">Simular uma partida:</p>
             <form [formGroup]="formSimulacao">
                 <div class="col-12 mb-2">
-                    <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
+                    <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl [class.isDisabled]="eventoId"></app-form>
                 </div>
                 <ng-container *ngIf="formSimulacao.get('campeonato').value">
-                    <div class="col-12 mb-2">
+                    <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
                         <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
                     </div>
-                    <div class="col-12 mb-2">
+                    <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
                         <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
                     </div>
                 </ng-container>

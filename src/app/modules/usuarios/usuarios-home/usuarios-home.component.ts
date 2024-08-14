@@ -33,12 +33,6 @@ export class UsuariosHomeComponent {
 
     this.colums = [
       {
-        dataField: 'id',
-        caption: 'ID',
-        dataType: 'string',
-        sorting: true
-      },
-      {
         dataField: 'cpf',
         caption: 'CPF',
         dataType: 'string',
