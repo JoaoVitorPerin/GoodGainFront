@@ -42,7 +42,7 @@ export class UsuariosCadastroComponent {
       email: [null, Validators.required],
       cpf: [null, Validators.required],
       data_nasc: [null, Validators.required],
-      perfil: [null, Validators.required],
+      perfil_id: [null, Validators.required],
     });
 
     this.userCpf = this.activatedRoute.snapshot.paramMap.get('id');
@@ -75,7 +75,7 @@ export class UsuariosCadastroComponent {
     this.usuarioService.getAcessos().subscribe({
       next: (dados) => {
         this.itemsDualist = dados.dados.map(item => ({
-          value: item.nivel,
+          value: item.nome,
           label: item.nm_descritivo
         }));
       },
