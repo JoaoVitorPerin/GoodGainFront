@@ -14,10 +14,10 @@
                 <app-form type="text" id="sobrenome" [appElementoFoco]="'sobrenome'" [atalho]="'2'" [ctrl]="true" label="Sobrenome" formControlName="sobrenome" placeholder="Digite um sobrenome" ngDefaultControl [required]="true" erro="Informe o seu sobrenome!"/>
             </div>
             <div class="col-12 mb-2">
-                <app-form type="cpf" id="cpf" [appElementoFoco]="'cpf'" [atalho]="'3'" [ctrl]="true" label="CPF" formControlName="cpf" placeholder="Digite o seu CPF" ngDefaultControl [required]="true" erro="Informe o seu cpf!"/>
+                <app-form type="cpf" id="cpf" [appElementoFoco]="'cpf'" [atalho]="'3'" [ctrl]="true" label="CPF" formControlName="cpf" placeholder="Digite o seu CPF" ngDefaultControl [required]="true" erro="{{erroCPF ? erroCPF : 'Digite o CPF do usuário!'}}" (blur)="validarCPF()"/>
             </div>
             <div class="col-12 mb-2">
-                <app-form type="date" id="dataNascimento" [appElementoFoco]="'dataNascimento'" [atalho]="'5'" [ctrl]="true" label="Data de nascimento" formControlName="dataNascimento" placeholder="Selecione" ngDefaultControl [required]="true" erro="Informe sua data de nascimento!" [maxDate]="maxDate"/>
+                <app-form type="date-manual" id="dataNascimento" [appElementoFoco]="'dataNascimento'" [atalho]="'5'" [ctrl]="true" label="Data de nascimento" formControlName="dataNascimento" placeholder="Selecione" ngDefaultControl [required]="true" erro="Informe sua data de nascimento!" [maxDate]="maxDate"/>
             </div>
             <div class="col-12 mb-2">
                 <app-form type="text" id="username" [appElementoFoco]="'username'" [atalho]="'6'" [ctrl]="true" label="Usuário" formControlName="username" placeholder="Digite um usuário" ngDefaultControl [required]="true" erro="Informe o seu username!"/>

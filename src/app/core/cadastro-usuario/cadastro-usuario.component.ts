@@ -12,6 +12,7 @@ import { validatorSenhaForte, confirmPasswordValidator } from '../../shared/vali
 import { LoginService } from '../services/login.service';
 import * as dayjs from 'dayjs'
 import moment from 'moment';
+import { isValidCPF } from '../ts/util';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -32,6 +33,8 @@ export class CadastroUsuarioComponent implements OnInit{
   formCadastro: FormGroup;
   maxDate: any;
   dayjs = dayjs;
+  isValidCPF = isValidCPF;
+  erroCPF: string;
 
   constructor(private formBuilder: FormBuilder,
               private toastrService: ToastrService,
@@ -70,7 +73,7 @@ export class CadastroUsuarioComponent implements OnInit{
         next: (dados) => {
           if(dados.status){
               this.toastrService.mostrarToastrSuccess('Cadastro realizado com sucesso!')
-              this.redirectLogin()
+              this.redirectPlano()
           } else {
             this.toastrService.mostrarToastrDanger('Não foi possível realizar o cadastro. Tente novamente e caso persista o erro, contate o suporte.')
           }
@@ -85,7 +88,28 @@ export class CadastroUsuarioComponent implements OnInit{
 
   }
 
+  validarCPF(){
+    if(this.formCadastro.get('cpf').invalid){
+      this.formCadastro.get('cpf').setErrors({cpfExistente: true});
+      this.erroCPF = 'Digite um CPF!';
+      return;
+    }
+
+    if(!isValidCPF(this.formCadastro.get('cpf').value)){
+      this.formCadastro.get('cpf').invalid;
+      this.formCadastro.get('cpf').setErrors({cpfExistente: true});
+      this.formCadastro.get('cpf').setValue(null);
+      this.formCadastro.get('cpf').markAsTouched();
+      this.erroCPF = 'Digite um CPF válido!';
+      return;
+    }
+  }
+
   redirectLogin(){
+    this.router.navigate([`/login`])
+  }
+
+  redirectPlano(){
     this.router.navigate([`plano/${this.formCadastro.value.cpf}`])
   }
 }

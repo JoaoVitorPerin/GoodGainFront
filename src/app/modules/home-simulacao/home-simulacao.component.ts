@@ -268,7 +268,7 @@ export class HomeSimulacaoComponent implements OnInit {
         setTimeout(() => {
           this.formSimulacao.get("time1").setValue(res.campeonato.time_a_id);
           this.formSimulacao.get("time2").setValue(res.campeonato.time_b_id);
-        }, 500)
+        }, 1000)
       },
       error: (error) => {
         console.error(error);
