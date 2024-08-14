@@ -29,14 +29,14 @@ export class PlanoUsuarioComponent {
   ) {
     this.formularioPlano = this.formBuilder.group({
       cpf: ['', Validators.required],
-      plano: ['', Validators.required],
+      perfil_id: ['', Validators.required],
     });
 
     this.userCpf = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   selecionarPlano(tipo) {
-    this.formularioPlano.patchValue({cpf: this.userCpf, plano: tipo});
+    this.formularioPlano.patchValue({cpf: this.userCpf, perfil_id: tipo});
     if(this.formularioPlano.invalid){
       return;
     }
