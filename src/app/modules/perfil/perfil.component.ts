@@ -113,6 +113,7 @@ export class PerfilComponent implements OnInit{
       next: (dados) => {
         this.formPreferencias.get('esporte').setValue(dados.preferencia_user?.esporte?.map(item => item));
         this.formPreferencias.get('opcoes_apostas').setValue(dados.preferencia_user?.opcoes_apostas?.map(item => item));
+        this.formPreferencias.get('opcoes_campeonatos').setValue(dados.preferencia_user?.opcoes_campeonatos?.map(item => item));
         this.itemsEsporte = dados.dados.esporte?.map(item => ({
           value: item.id,
           label: item.nome
