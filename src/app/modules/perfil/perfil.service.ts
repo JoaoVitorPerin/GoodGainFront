@@ -25,6 +25,12 @@ export class PerfilService {
     });
   }
 
+  buscarCampeonatos(): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'campeonato', {
+      headers: this.headerService.getHeader()
+    });
+  }
+
   enviarPreferencias(dados): Observable<any> {
     this.data = {
       ...dados,

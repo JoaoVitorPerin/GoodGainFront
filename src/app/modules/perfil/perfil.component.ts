@@ -43,6 +43,7 @@ export class PerfilComponent implements OnInit{
   
   itemsEsporte: any = [];
   itemsTipoAposta: any = [];
+  itemsCampeonatos: any = [];
 
   @ViewChild('modalRedefinirSenha') modalRedefinirSenha: TemplateRef<any>;
 
@@ -59,7 +60,7 @@ export class PerfilComponent implements OnInit{
     this.formPreferencias = this.formBuilder.group({
       esporte: [null],
       opcoes_apostas: [null],
-      stack_aposta : [null]
+      opcoes_campeonatos : [null]
     });
 
     this.formNovaSenha = this.formBuilder.group({
@@ -112,7 +113,6 @@ export class PerfilComponent implements OnInit{
       next: (dados) => {
         this.formPreferencias.get('esporte').setValue(dados.preferencia_user?.esporte?.map(item => item));
         this.formPreferencias.get('opcoes_apostas').setValue(dados.preferencia_user?.opcoes_apostas?.map(item => item));
-        this.formPreferencias.get('stack_aposta').setValue(dados.preferencia_user?.stack_aposta);
         this.itemsEsporte = dados.dados.esporte?.map(item => ({
           value: item.id,
           label: item.nome
@@ -124,6 +124,17 @@ export class PerfilComponent implements OnInit{
         }));
       }, error: () => {
         this.toastrService.mostrarToastrDanger('Nao foi possivel buscar as preferencias, contate o suporte!')
+      }
+    })
+
+    this.perfilService.buscarCampeonatos().subscribe({
+      next: (dados) => {
+        this.itemsCampeonatos = dados?.campeonatos.map(item => ({
+          value: item.id,
+          label: item.nome
+        }));
+      }, error: () => {
+        this.toastrService.mostrarToastrDanger('Nao foi possivel buscar os campeonatos, contate o suporte!')
       }
     })
   }

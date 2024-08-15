@@ -10,20 +10,6 @@
                     <p>CPF: {{cpfUser}}</p>
                     <p>Email: {{emailUser}}</p>
                 </div>
-                <div class="col-12 md:col-6 flex align-items-center justify-content-center gap-8">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Entradas</span>
-                        <div class="text-900 font-medium text-xl">224</div>
-                    </div>
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Acertos</span>
-                        <div class="text-primary font-medium text-xl">170</div>
-                    </div>
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Erros</span>
-                        <div class="text-red-500 font-medium text-xl">54</div>
-                    </div>
-                </div>
             </div>
         </p-card>
     </div>
@@ -36,10 +22,10 @@
                     <app-form type="select-multiplo" id="esporte" label="Esportes" formControlName="esporte" [items]="itemsEsporte" placeholder="Selecione um esporte" ngDefaultControl/>
                 </div>
                 <div class="col-12 md:col-4 mb-2">
-                    <app-form type="select-multiplo" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="opcoes_apostas" placeholder="Selecione um tipo de aposta" ngDefaultControl/>
+                    <app-form type="select-multiplo" [items]="itemsCampeonatos" id="opcoes_campeonatos" label="Campeonatos" formControlName="opcoes_campeonatos" placeholder="Selecione um campeonato" ngDefaultControl/>
                 </div>
                 <div class="col-12 md:col-4 mb-2">
-                    <app-form type="dinheiro" id="stack_aposta" label="Stack aposta" formControlName="stack_aposta" placeholder="Digite uma stack" ngDefaultControl/>
+                    <app-form type="select-multiplo" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="opcoes_apostas" placeholder="Selecione um tipo de aposta" ngDefaultControl/>
                 </div>
             </div>
             <div class="flex align-items-center justify-content-end">
