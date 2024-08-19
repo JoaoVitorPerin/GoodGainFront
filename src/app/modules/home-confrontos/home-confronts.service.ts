@@ -24,7 +24,7 @@ export class HomeConfrontosService {
   }
 
   buscarProximosConfrontos(): Observable<any> {
-    return this.http.get<any>(this.API_BACK + 'futuros/campeonatos', {
+    return this.http.get<any>(this.API_BACK + 'home_info_usuarios', {
       headers: this.headerService.getHeader(),
     });
   }
