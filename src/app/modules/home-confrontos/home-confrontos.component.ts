@@ -20,6 +20,7 @@ export class HomeConfrontosComponent implements OnInit{
   buscarProximosEventos(){
     this.homeConfrontosService.buscarProximosConfrontos().subscribe(
       (response) => {
+        console.log(response)
         this.dadosConfrontos = response.dados;
       },
       (error) => {

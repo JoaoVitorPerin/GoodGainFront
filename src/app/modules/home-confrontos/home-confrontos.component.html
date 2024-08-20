@@ -1,9 +1,15 @@
 <h1 class="text-primary font-2xl">Eventos próximos:</h1>
-
-<section class="grid">
-@for(confronto of dadosConfrontos; track confronto){
-    <div class="col-6 md:col-4"> 
-        <app-card-confrontos [dados]="confronto"></app-card-confrontos>
+<section class="flex flex-column">
+@for(campeonato of dadosConfrontos; track campeonato){
+    <div class="flex flex-column">
+        <p>{{campeonato.nome}}</p>
+        <div class="grid">
+            @for(confronto of campeonato.eventos; track confronto){
+                <div class="col-6 md:col-4">
+                    <app-card-confrontos [dados]="confronto"></app-card-confrontos>
+                </div>
+            }
+        </div>
     </div>
 }
 </section>

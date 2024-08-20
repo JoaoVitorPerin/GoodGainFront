@@ -9,6 +9,7 @@ import { FormModule } from 'src/app/shared/components/form/form.module';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormModule,
     ButtonModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CarouselModule
   ],
   providers: [
     HomeConfrontosComponent
