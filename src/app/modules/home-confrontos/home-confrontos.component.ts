@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeConfrontosService } from './home-confronts.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-confrontos',
@@ -10,17 +11,21 @@ export class HomeConfrontosComponent implements OnInit{
   dadosConfrontos: any;
   
   constructor(
-    private homeConfrontosService: HomeConfrontosService
+    private homeConfrontosService: HomeConfrontosService,
+    private router: Router
   ) {}
 
   ngOnInit(){
     this.buscarProximosEventos();
   }
 
+  redirectToEvent(evento:any){
+    this.router.navigate([`simulacao/${evento.id}`])
+  }
+
   buscarProximosEventos(){
     this.homeConfrontosService.buscarProximosConfrontos().subscribe(
       (response) => {
-        console.log(response)
         this.dadosConfrontos = response.dados;
       },
       (error) => {

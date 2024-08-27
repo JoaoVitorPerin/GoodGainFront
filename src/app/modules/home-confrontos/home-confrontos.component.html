@@ -3,13 +3,17 @@
 @for(campeonato of dadosConfrontos; track campeonato){
     <div class="flex flex-column">
         <p>{{campeonato.nome}}</p>
-        <div class="grid">
-            @for(confronto of campeonato.eventos; track confronto){
-                <div class="col-6 md:col-4">
-                    <app-card-confrontos [dados]="confronto"></app-card-confrontos>
-                </div>
-            }
-        </div>
+        <p-carousel 
+            [value]="campeonato.eventos" 
+            [numVisible]="3" 
+            [numScroll]="3" 
+            [circular]="false">
+                <ng-template let-confronto pTemplate="item">
+                    <div class="col-12">
+                        <app-card-confrontos [dados]="confronto"></app-card-confrontos>
+                    </div>
+                </ng-template>
+        </p-carousel>
     </div>
 }
 </section>

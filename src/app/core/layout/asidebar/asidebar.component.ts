@@ -1,3 +1,4 @@
+import { toLocaleFixed } from 'src/app/core/ts/util';
 import { TokenService } from './../../services/token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LayoutService } from '../app.layout.service';
@@ -44,6 +45,8 @@ export class AppAsideComponent implements OnInit, OnDestroy {
   modelDefault: any[] = [];
 
   historico: any[] = []
+
+  toLocaleFixed = toLocaleFixed;
 
   get visible(): boolean {
       return this.layoutService.state.profileSidebarVisible;
