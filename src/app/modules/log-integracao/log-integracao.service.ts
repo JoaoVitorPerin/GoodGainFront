@@ -30,4 +30,10 @@ export class LogIntegracaoService {
         params: dados
       });
   }
+
+  buscarDadosHistorico(): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'atualizar_events_ocorridos', {
+      headers: this.headerService.getHeader(),
+    });
+  }
 }

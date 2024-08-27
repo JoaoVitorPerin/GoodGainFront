@@ -5,6 +5,7 @@
             <div class="col-12 mb-2 flex  gap-3">
                 <app-form type="date-manual" [required]="true" erro="Selecione uma data" label="Selecione uma data:" formControlName="data" ngDefaultControl></app-form>
                 <p-button label="Chamar API" size="large" styleClass="d-flex justify-content-center mt-3" (click)="chamarApi()"></p-button>
+                <p-button label="Chamar Dados Historicos" size="large" styleClass="d-flex justify-content-center mt-3" (click)="chamarDadosHistorico()"></p-button>
             </div>
         </form>
     </div>

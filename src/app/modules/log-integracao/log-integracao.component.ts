@@ -12,6 +12,7 @@ import { DatagridPrimeModule } from 'src/app/shared/components/datagrid-prime/da
 import { DatagridPrimeConfig, datagridPrimeConfigDefault } from 'src/app/core/ts/datagridPrimeConfigDefault';
 import { LogIntegracaoService } from './log-integracao.service';
 import * as moment from 'moment';
+import { ModalConfirmacaoService } from 'src/app/shared/components/modal-confirmacao/modal-confirmacao.service';
 
 @Component({
   selector: 'app-log-integracao',
@@ -39,7 +40,8 @@ export class LogIntegracaoComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private logIntegracaoService: LogIntegracaoService
+    private logIntegracaoService: LogIntegracaoService,
+    private modalConfirmacaoService: ModalConfirmacaoService
   ) {
     this.dadosIntegracao = this.formBuilder.group({
       data: [null, Validators.required],
@@ -86,23 +88,53 @@ export class LogIntegracaoComponent implements OnInit{
 
   chamarApi(){
     this.dadosIntegracao.markAllAsTouched();
-
+    
     if(this.dadosIntegracao.invalid){
       return
     }
-    
-    const dados = {
-      data:  moment(this.dadosIntegracao.get('data').value, 'DD/MM/YYYY').format('YYYY-MM-DD')
-    }
 
-    this.logIntegracaoService.chamarApi(dados).subscribe({
-      next: (dados) => {
-        this.toastrService.mostrarToastrSuccess('Dados atualizados com sucesso');
-        this.buscarDadosApi();
-      },
-      error: (error) => {
-        console.error(error);
+    this.modalConfirmacaoService.abrirModalConfirmacao(
+      'Dados',
+      'Deseja realmente buscar os do desse dia?',
+      {
+        icone: 'pi pi-info-circle',
+        callbackAceitar: () => {
+          const dados = {
+            data:  moment(this.dadosIntegracao.get('data').value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+          }
+      
+          this.logIntegracaoService.chamarApi(dados).subscribe({
+            next: (dados) => {
+              this.toastrService.mostrarToastrSuccess('Dados atualizados com sucesso');
+              this.buscarDadosApi();
+            },
+            error: (error) => {
+              console.error(error);
+            }
+          });
+        }
       }
-    });
+    )
+  }
+
+  chamarDadosHistorico(){
+    this.modalConfirmacaoService.abrirModalConfirmacao(
+      'Dados históricos',
+      'Deseja realmente buscar o histórico do dia anterior?',
+      {
+        icone: 'pi pi-info-circle',
+        callbackAceitar: () => {
+          this.logIntegracaoService.buscarDadosHistorico().subscribe({
+            next: (dados) => {
+              this.toastrService.mostrarToastrSuccess('Dados atualizados com sucesso');
+              this.buscarDadosApi();
+            },
+            error: (error) => {
+              console.error(error);
+            }
+          });
+        }
+      }
+    )
   }
 }
