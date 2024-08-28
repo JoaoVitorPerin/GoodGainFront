@@ -118,13 +118,23 @@ export class LogIntegracaoComponent implements OnInit{
   }
 
   chamarDadosHistorico(){
+    this.dadosIntegracao.markAllAsTouched();
+    
+    if(this.dadosIntegracao.invalid){
+      return
+    }
+
     this.modalConfirmacaoService.abrirModalConfirmacao(
       'Dados históricos',
       'Deseja realmente buscar o histórico do dia anterior?',
       {
         icone: 'pi pi-info-circle',
         callbackAceitar: () => {
-          this.logIntegracaoService.buscarDadosHistorico().subscribe({
+          const dados = {
+            data:  moment(this.dadosIntegracao.get('data').value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+          }
+
+          this.logIntegracaoService.buscarDadosHistorico(dados).subscribe({
             next: (dados) => {
               this.toastrService.mostrarToastrSuccess('Dados atualizados com sucesso');
               this.buscarDadosApi();
