@@ -66,15 +66,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const perfil = this.tokenService.getJwtDecodedAccess().cli_info.cli_info.perfil.perfil_id;
-    if(['premium', 'Vip', 'admin'].includes(perfil)){
-      this.menus.push(
-        {
-          "label": "Próximos confrontos",
-          "icon": "emergency_heat",
-          "routerLink": "confrontos",
-        }
-      )
-    }
 
     if(['gratuito', 'premium', 'Vip', 'admin'].includes(perfil)){
       this.menus.push(
@@ -83,6 +74,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           "icon": "ifl",
           "routerLink": "simulacao",
         },
+      )
+    }
+    
+    if(['premium', 'Vip', 'admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Próximos confrontos",
+          "icon": "emergency_heat",
+          "routerLink": "confrontos",
+        }
       )
     }
 

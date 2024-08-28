@@ -71,7 +71,13 @@ export class AutenticacaoComponent implements OnInit {
         next: (dados) => {
           if(dados.access){
             this.tokenService.setToken(dados);
-            this.router.navigate(['confrontos'])
+            const perfil = this.tokenService.getJwtDecodedAccess().cli_info.cli_info.perfil.perfil_id;
+
+            if(perfil === 'gratuito'){
+              this.router.navigate(['simulacao'])
+            }else{
+              this.router.navigate(['confrontos'])
+            }
           } else {
             this.toastrService.mostrarToastrDanger(dados.descricao ? dados.descricao : 'Não foi possível realizar o login. Tente novamente e caso persista o erro, contate o suporte.')
           }
