@@ -65,11 +65,13 @@
                         <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
                     </div>
                     <div class="col-12 mb-2">
-                        <app-form type="float" id="odd" label="Odd imaginada" formControlName="odd" placeholder="Digite o valor da odd" ngDefaultControl></app-form>
-                    </div>
-                    <div class="col-12 mb-2">
                         <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
                     </div>
+                    @if(formSimulacao.get("tipoAposta").value){
+                    <div class="col-12 mb-2">
+                        <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
+                    </div>
+                    }
                     @if(!isAposta){
                         <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao()"></p-button>
                     } @else{
@@ -150,8 +152,13 @@
                         <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
                     </div>
                     <div class="col-12 mb-2">
-                        <app-form type="float" id="odd" label="Odd imaginada" formControlName="odd" placeholder="Digite o valor da odd" ngDefaultControl></app-form>
+                        <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
                     </div>
+                    @if(formSimulacao.get("tipoAposta").value){
+                    <div class="col-12 mb-2">
+                        <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
+                    </div>
+                    }
                     @if(!isAposta){
                         <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao()"></p-button>
                     } @else{

@@ -43,6 +43,8 @@ export class HomeSimulacaoComponent implements OnInit {
   itemsTimes: any;
   itemsCampeonato: any;
   itemsTipoAposta: any;
+  todasAsOddsEvento: any;
+  oddsEvento: any;
 
   timeDisponiveis: any;
   timesParaTime1: any;
@@ -84,6 +86,26 @@ export class HomeSimulacaoComponent implements OnInit {
       odd: [null, Validators.required],
       valor: [null, Validators.required],
       tipoAposta: [null, Validators.required],
+    });
+
+    this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
+      if (value) {
+        this.oddsEvento = this.todasAsOddsEvento.flatMap(item => 
+          item.bets
+            .filter(bet => bet.id === value)
+            .flatMap(bet => 
+              bet.values
+                .filter(val => this.itemsTipoAposta.some(itemTipo => itemTipo.label.includes(val.value)))
+                .map(val => ({
+                  value: val.odd,
+                  label: `${val.odd} - ${item.name}`
+                }))
+            )
+        );
+        console.log(this.oddsEvento);
+      } else {
+        this.oddsEvento = [];
+      }
     });
 
     this.buscarInfosPerfil();
@@ -141,6 +163,15 @@ export class HomeSimulacaoComponent implements OnInit {
 
     if(this.eventoId){
       this.buscarDadosEvento()
+      this.homeSimulacaoService.buscarOdds(this.eventoId).subscribe({
+        next: (res) => {
+          this.todasAsOddsEvento = res.campeonato.response[0].bookmakers;
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastrService.mostrarToastrDanger('Erro ao buscar odds, tente novamente!');
+        }
+      });
     }
   }
 

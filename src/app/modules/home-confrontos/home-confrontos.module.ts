@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CarouselModule } from 'primeng/carousel';
     ButtonModule,
     CommonModule,
     ReactiveFormsModule,
-    CarouselModule
+    CarouselModule,
+    TooltipModule
   ],
   providers: [
     HomeConfrontosComponent

@@ -422,3 +422,16 @@ input:read-only {
   border-left: 1px solid #e2e8f0 !important;
   border-bottom: 1px solid #e2e8f0 !important;
 }
+
+.p-tooltip-arrow{
+  display: none;
+}
+
+.p-tooltip .p-tooltip-text {
+  background-color: var(--surface-900);
+  opacity: 0.85;
+  color: var(--surface-0);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  font-size: 0.75rem;
+  padding: 0.5rem;
+}

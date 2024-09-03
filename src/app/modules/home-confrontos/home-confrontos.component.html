@@ -1,4 +1,16 @@
-<h1 class="text-primary font-2xl">Eventos próximos:</h1>
+<div class="flex align-items-center justify-content-between">
+    <h1 class="text-primary font-2xl">
+        @if(preferencia){
+            Próximos eventos por campeonato:
+        }@else{
+            Próximos eventos:
+        }
+    </h1>
+    <div class="flex align-items-center gap-2">
+        <p-button icon="pi pi-th-large" (click)="buscarProximosEventos()" [disabled]="!preferencia"/> 
+        <p-button icon="pi pi-sliders-h" (click)="buscarProximosEventosPreferencias()" [disabled]="preferencia"/>
+    </div>
+</div>
 <section class="flex flex-column">
 @for(campeonato of dadosConfrontos; track campeonato){
     <div class="flex flex-column">
