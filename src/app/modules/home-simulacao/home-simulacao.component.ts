@@ -89,7 +89,7 @@ export class HomeSimulacaoComponent implements OnInit {
     });
 
     this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
-      if (value) {
+      if (value && this.eventoId) {
         this.oddsEvento = this.todasAsOddsEvento.flatMap(item => 
           item.bets
             .filter(bet => bet.id === value)
@@ -102,7 +102,6 @@ export class HomeSimulacaoComponent implements OnInit {
                 }))
             )
         );
-        console.log(this.oddsEvento);
       } else {
         this.oddsEvento = [];
       }
