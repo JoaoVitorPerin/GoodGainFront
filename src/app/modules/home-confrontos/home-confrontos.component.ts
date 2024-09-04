@@ -15,7 +15,7 @@ export class HomeConfrontosComponent{
     private homeConfrontosService: HomeConfrontosService,
     private router: Router
   ) {
-    if(JSON.parse(localStorage.getItem("visualizacao")).valor){
+    if(JSON.parse(localStorage.getItem("visualizacao"))?.valor){
       this.preferencia = JSON.parse(localStorage.getItem("visualizacao")).valor
       this.buscarProximosEventosPreferencias();
     }else{
