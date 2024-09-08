@@ -9,19 +9,10 @@ import { TokenService } from 'src/app/core/services/token.service';
 import { PerfilService } from '../perfil/perfil.service';
 import { ToastrService } from 'src/app/shared/components/toastr/toastr.service';
 import { FieldsetModule } from 'primeng/fieldset';
-import axios from 'axios';
 import { AsidebarService } from 'src/app/core/services/asidebar.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
-interface Team {
-  strTeam: string;
-  strTeamBadge: string;
-  strStadium: string;
-}
-
-interface ApiResponse {
-  teams: Team[];
-}
+import { MeterGroupModule } from 'primeng/metergroup';
+import { TranslationService } from 'src/app/shared/services/translation.service';
 
 @Component({
   selector: 'app-home-simulacao',
@@ -32,7 +23,8 @@ interface ApiResponse {
     FormsModule,
     CommonModule,
     ButtonModule,
-    FieldsetModule
+    FieldsetModule,
+    MeterGroupModule
   ],
   templateUrl: './home-simulacao.component.html',
   styleUrls: ['./home-simulacao.component.css']
@@ -59,6 +51,8 @@ export class HomeSimulacaoComponent implements OnInit {
 
   isAposta:boolean = false;
   eventoId: string;
+  predicoesEvento: any;
+  percVitoria: any = [];
 
   constructor(
     private simulacaoService: HomeSimulacaoService,
@@ -70,7 +64,8 @@ export class HomeSimulacaoComponent implements OnInit {
     private toastrService: ToastrService,
     private asidebarService: AsidebarService,
     private homeSimulacaoService: HomeSimulacaoService,
-    private router: Router
+    private router: Router,
+    private translationService: TranslationService
   ) {
     this.eventoId = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -88,32 +83,30 @@ export class HomeSimulacaoComponent implements OnInit {
       tipoAposta: [null, Validators.required],
     });
 
-    this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
-      const dados = {
-        tipo_aposta: value,
-        evento: this.eventoId
-      }
-      this.homeSimulacaoService.buscarOdds(dados).subscribe({
-        next: (res) => {
-          this.oddsEvento = res.list_odds
-            .map(item => ({
-              value: item.nome,
-              label: item.nome,
-              valor_odd: item.valor_odd
-            }))
-            .sort((a, b) => b.valor_odd - a.valor_odd);
-        },
-        error: (error) => {
-          console.error(error);
-          this.formSimulacao.get('odd').setValue(null);
-          this.toastrService.mostrarToastrDanger('Odds não disponiveis para esse tipo! Tente novamente mais tarde!');
+    if(this.eventoId){
+      this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
+        const dados = {
+          tipo_aposta: value,
+          evento: this.eventoId
         }
+        this.homeSimulacaoService.buscarOdds(dados).subscribe({
+          next: (res) => {
+            this.oddsEvento = res.list_odds
+              .map(item => ({
+                value: item.nome,
+                label: item.nome,
+                valor_odd: item.valor_odd
+              }))
+              .sort((a, b) => b.valor_odd - a.valor_odd);
+          },
+          error: (error) => {
+            console.error(error);
+            this.formSimulacao.get('odd').setValue(null);
+            this.toastrService.mostrarToastrDanger('Odds não disponiveis para esse tipo! Tente novamente mais tarde!');
+          }
+        });
       });
-    });
-
-    this.buscarInfosPerfil();
-    this.buscarDadosCampeonato();
-    this.buscarPreferencias();
+    }
 
     this.formSimulacao.get('campeonato').valueChanges.subscribe(value => {
       this.formSimulacao.get('time1').setValue(null);
@@ -163,9 +156,14 @@ export class HomeSimulacaoComponent implements OnInit {
         this.atualizarItemsTimes();
       }
     });
+    
+    this.buscarInfosPerfil();
+    this.buscarDadosCampeonato();
+    this.buscarPreferencias();
 
     if(this.eventoId){
       this.buscarDadosEvento();
+      this.buscarPrevisoesEvento();
     }
   }
 
@@ -302,6 +300,29 @@ export class HomeSimulacaoComponent implements OnInit {
     });
   }
   
+  buscarPrevisoesEvento(){
+    this.homeSimulacaoService.buscarPrevisoesEvento(this.eventoId).subscribe({
+      next: (res) => {
+        this.predicoesEvento = res.predicao;
+        if(res.predicao.advice){
+          this.translationService.translateText(res.predicao.advice).subscribe(response => {
+            res.predicao.advice = response.responseData.translatedText;
+          });
+        }
+        if(res.predicao.percent){
+          this.percVitoria = [
+            { label: this.dadosTime1?.info?.team?.name, color: '#05FF00', value: parseFloat(res.predicao.percent.home.split('%')[0]) },
+            { label: 'Empate', color: '#808080', value: parseFloat(res.predicao.percent.draw.split('%')[0]) },
+            { label: this.dadosTime2?.info?.team?.name, color: '#05FF00', value: parseFloat(res.predicao.percent.away.split('%')[0]) },
+          ]
+        }
+      },
+      error: (error) => {
+        console.error(error);
+        this.toastrService.mostrarToastrDanger('Erro ao buscar previsões do evento, tente novamente!');
+      }
+    });
+  }
 
   sumCards(value){
     const valor = Object.values(value).reduce((sum: number, val: any) => sum + (typeof val.total === 'number' ? val.total : 0), 0);

@@ -47,47 +47,72 @@
         </div>
     
         <div class="col-4 flex flex-column">
-            <p class="font-bold font-xl text-center">Simular uma partida:</p>
-            <form [formGroup]="formSimulacao">
-                <div class="col-12 mb-2">
-                    <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl [class.isDisabled]="eventoId"></app-form>
+            @if(predicoesEvento){
+            <div class="flex flex-column gap-3">
+                <p class="font-bold font-xl text-center">Previsões da partida:</p>
+                @if(predicoesEvento?.advice){
+                <div>
+                    <p class="font-bold text-base">Possível aposta:</p>
+                    <p class="text-sm">{{predicoesEvento.advice}}</p>
                 </div>
-                <ng-container *ngIf="formSimulacao.get('campeonato').value">
-                    <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
-                        <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
-                    </div>
-                    <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
-                        <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
+                }
+                @if(predicoesEvento?.goals){
+                <div>
+                    <p class="font-bold text-base">Gols:</p>
+                    <p class="text-sm">{{ dadosTime1?.info?.team?.name }}: {{predicoesEvento.goals.home}}</p>
+                    <p class="text-sm">{{ dadosTime2?.info?.team?.name }}: {{predicoesEvento.goals.away}}</p>
+                </div>
+                }@if(predicoesEvento?.percent){
+                <div>
+                    <p class="font-bold text-base">Probabilidade de vitória</p>
+                    <p-meterGroup [value]="percVitoria" />
+                </div>
+                }
+            </div>
+            }
+            <div>
+                <p class="font-bold font-xl text-center mt-5">{{eventoId ? 'Dados da aposta:' : 'Simular uma partida:'}}</p>
+                <form [formGroup]="formSimulacao">
                     <div class="col-12 mb-2">
-                        <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
+                        <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl [class.isDisabled]="eventoId"></app-form>
                     </div>
-                    <div class="col-12 mb-2">
-                        <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
-                    </div>
-                    @if(formSimulacao.get("tipoAposta").value && eventoId){
-                    <div class="col-12 mb-2">
-                        <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
-                    </div>
-                    }@else if(!eventoId){
-                    <div class="col-12 mb-2">
-                        <app-form type="float" id="odd" label="Odd" formControlName="odd" placeholder="Digite a odd" ngDefaultControl></app-form>
-                    </div>
-                    }
-                    @if(!isAposta){
-                        <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao()"></p-button>
-                    } @else{
-                    <div class="flex align-items-center justify-content-center gap-3">
-                        <p-button label="Cancelar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="cancelarSimulacao()"></p-button>
-                        @if(eventoId){
-                        <p-button label="Apostar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao(true)"></p-button>
+                    <ng-container *ngIf="formSimulacao.get('campeonato').value">
+                        <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
+                            <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        </div>
+                        <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
+                            <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
+                        <div class="col-12 mb-2">
+                            <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
+                        </div>
+                        @if(formSimulacao.get("tipoAposta").value && eventoId){
+                        <div class="col-12 mb-2">
+                            <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
+                        </div>
+                        }@else if(!eventoId){
+                        <div class="col-12 mb-2">
+                            <app-form type="float" id="odd" label="Odd" formControlName="odd" placeholder="Digite a odd" ngDefaultControl></app-form>
+                        </div>
                         }
-                    </div>
-                    }
-                </ng-container>
-            </form>
+                        @if(!isAposta){
+                            <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao()"></p-button>
+                        } @else{
+                        <div class="flex align-items-center justify-content-center gap-3">
+                            <p-button label="Cancelar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="cancelarSimulacao()"></p-button>
+                            @if(eventoId){
+                            <p-button label="Apostar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao(true)"></p-button>
+                            }
+                        </div>
+                        }
+                    </ng-container>
+                </form>
+            </div>
         </div>
     
         <div class="col-4 flex flex-column align-items-center">
@@ -139,48 +164,74 @@
   
     <ng-template #mobileLayout>
         <div class="mb-3 col-12 flex flex-column">
-            <p class="font-bold font-xl text-center">Simular uma partida:</p>
-            <form [formGroup]="formSimulacao">
-                <div class="col-12 mb-2">
-                    <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl></app-form>
+            <div>
+            @if(predicoesEvento){
+                <div class="flex flex-column gap-3">
+                    <p class="font-bold font-xl text-center">Previsões da partida:</p>
+                    @if(predicoesEvento?.advice){
+                    <div>
+                        <p class="font-bold text-base">Possível aposta:</p>
+                        <p class="text-sm">{{predicoesEvento.advice}}</p>
+                    </div>
+                    }
+                    @if(predicoesEvento?.goals){
+                    <div>
+                        <p class="font-bold text-base">Gols:</p>
+                        <p class="text-sm">{{ dadosTime1?.info?.team?.name }}: {{predicoesEvento.goals.home}}</p>
+                        <p class="text-sm">{{ dadosTime2?.info?.team?.name }}: {{predicoesEvento.goals.away}}</p>
+                    </div>
+                    }@if(predicoesEvento?.percent){
+                    <div>
+                        <p class="font-bold text-base">Probabilidade de vitória</p>
+                        <p-meterGroup [value]="percVitoria" />
+                    </div>
+                    }
                 </div>
-                <ng-container *ngIf="formSimulacao.get('campeonato').value">
+            }
+            </div>
+            <div>
+                <p class="font-bold font-xl text-center mt-5">{{eventoId ? 'Dados da aposta:' : 'Simular uma partida:'}}</p>
+                <form [formGroup]="formSimulacao">
                     <div class="col-12 mb-2">
-                        <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        <app-form type="select" id="campeonato" label="Campeonato" formControlName="campeonato" [items]="itemsCampeonato" placeholder="Selecione um campeonato" ngDefaultControl [class.isDisabled]="eventoId"></app-form>
                     </div>
-                    <div class="col-12 mb-2">
-                        <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
-                    <div class="col-12 mb-2">
-                        <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
-                    </div>
-                    @if(formSimulacao.get("tipoAposta").value && eventoId){
-                    <div class="col-12 mb-2">
-                        <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
-                    </div>
-                    }@else if(!eventoId){
-                    <div class="col-12 mb-2">
-                        <app-form type="float" id="odd" label="Odd" formControlName="odd" placeholder="Digite a odd" ngDefaultControl></app-form>
-                    </div>
-                    }
-                    @if(!isAposta){
-                        <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao()"></p-button>
-                    } @else if(isAposta && eventoId){
-                    <div class="flex align-items-center justify-content-center gap-3">
-                        <p-button label="Cancelar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="cancelarSimulacao()"></p-button>
-                        @if(eventoId){
-                            <p-button label="Apostar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao(true)"></p-button>
+                    <ng-container *ngIf="formSimulacao.get('campeonato').value">
+                        <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
+                            <app-form type="select" id="time1" label="Time da casa" formControlName="time1" [items]="timesParaTime1" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        </div>
+                        <div class="col-12 mb-2" [ngClass]="{hidden: eventoId}">
+                            <app-form type="select" id="time2" label="Time de fora" formControlName="time2" [items]="timesParaTime2" placeholder="Selecione um time" ngDefaultControl></app-form>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="formSimulacao.get('time1').value && formSimulacao.get('time2').value">
+                        <div class="col-12 mb-2">
+                            <app-form type="dinheiro" id="valor" label="Valor" formControlName="valor" placeholder="Digite o valor da aposta" ngDefaultControl></app-form>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
+                        </div>
+                        @if(formSimulacao.get("tipoAposta").value && eventoId){
+                        <div class="col-12 mb-2">
+                            <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
+                        </div>
+                        }@else if(!eventoId){
+                        <div class="col-12 mb-2">
+                            <app-form type="float" id="odd" label="Odd" formControlName="odd" placeholder="Digite a odd" ngDefaultControl></app-form>
+                        </div>
                         }
-                    </div>
-                        
-                    }
-                </ng-container>
-            </form>
+                        @if(!isAposta){
+                            <p-button label="Simular" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao()"></p-button>
+                        } @else{
+                        <div class="flex align-items-center justify-content-center gap-3">
+                            <p-button label="Cancelar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="cancelarSimulacao()"></p-button>
+                            @if(eventoId){
+                            <p-button label="Apostar" size="large" styleClass="d-flex justify-content-center mt-3" (click)="enviarSimulacao(true)"></p-button>
+                            }
+                        </div>
+                        }
+                    </ng-container>
+                </form>
+            </div>
         </div>
   
         <div class="col-6 flex flex-column align-items-center">

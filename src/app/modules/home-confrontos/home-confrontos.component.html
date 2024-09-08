@@ -17,8 +17,9 @@
         <p>{{campeonato.nome}}</p>
         <p-carousel 
             [value]="campeonato.eventos" 
-            [numVisible]="3" 
-            [numScroll]="3" 
+            [numVisible]="isMobile ? 1 : 3" 
+            [numScroll]="isMobile ? 1 : 3"
+            [showIndicators]="!isMobile"
             [circular]="false">
                 <ng-template let-confronto pTemplate="item">
                     <div class="col-12">

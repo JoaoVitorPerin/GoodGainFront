@@ -52,6 +52,13 @@ export class HomeSimulacaoService {
     });
   }
 
+  buscarPrevisoesEvento(id: any): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'pegar/predicoes', {
+      headers: this.headerService.getHeader(),
+      params: {evento: id}
+    });
+  }
+
   buscarOdds(dados: any): Observable<any> {
     return this.http.get<any>(this.API_BACK + 'pegar/odds', {
       headers: this.headerService.getHeader(),

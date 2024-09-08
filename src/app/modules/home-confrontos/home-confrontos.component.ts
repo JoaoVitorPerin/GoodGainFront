@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class HomeConfrontosComponent{
   dadosConfrontos: any;
   preferencia: boolean = false;
+  isMobile = window.innerWidth < 768;
   
   constructor(
     private homeConfrontosService: HomeConfrontosService,
