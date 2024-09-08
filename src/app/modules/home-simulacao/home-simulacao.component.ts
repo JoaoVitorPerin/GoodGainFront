@@ -89,22 +89,26 @@ export class HomeSimulacaoComponent implements OnInit {
     });
 
     this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
-      if (value && this.eventoId) {
-        this.oddsEvento = this.todasAsOddsEvento.flatMap(item => 
-          item.bets
-            .filter(bet => bet.id === value)
-            .flatMap(bet => 
-              bet.values
-                .filter(val => this.itemsTipoAposta.some(itemTipo => itemTipo.label.includes(val.value)))
-                .map(val => ({
-                  value: val.odd,
-                  label: `${val.odd} - ${item.name}`
-                }))
-            )
-        );
-      } else {
-        this.oddsEvento = [];
+      const dados = {
+        tipo_aposta: value,
+        evento: this.eventoId
       }
+      this.homeSimulacaoService.buscarOdds(dados).subscribe({
+        next: (res) => {
+          this.oddsEvento = res.list_odds
+            .map(item => ({
+              value: item.nome,
+              label: item.nome,
+              valor_odd: item.valor_odd
+            }))
+            .sort((a, b) => b.valor_odd - a.valor_odd);
+        },
+        error: (error) => {
+          console.error(error);
+          this.formSimulacao.get('odd').setValue(null);
+          this.toastrService.mostrarToastrDanger('Odds não disponiveis para esse tipo! Tente novamente mais tarde!');
+        }
+      });
     });
 
     this.buscarInfosPerfil();
@@ -161,16 +165,7 @@ export class HomeSimulacaoComponent implements OnInit {
     });
 
     if(this.eventoId){
-      this.buscarDadosEvento()
-      this.homeSimulacaoService.buscarOdds(this.eventoId).subscribe({
-        next: (res) => {
-          this.todasAsOddsEvento = res.campeonato.response[0].bookmakers;
-        },
-        error: (error) => {
-          console.error(error);
-          this.toastrService.mostrarToastrDanger('Erro ao buscar odds, tente novamente!');
-        }
-      });
+      this.buscarDadosEvento();
     }
   }
 
@@ -254,7 +249,7 @@ export class HomeSimulacaoComponent implements OnInit {
         this.simulacaoService.enviarSimulacao(dados).subscribe({
           next: () => {
             this.isAposta = false;
-            this.formSimulacao.reset();
+            this.formSimulacao.reset({}, { emitEvent: false });
             this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
             this.asidebarService.triggerHistorico();
             if(this.eventoId){
