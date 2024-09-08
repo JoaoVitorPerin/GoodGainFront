@@ -1,7 +1,7 @@
 .container {
   padding-left: 10px;
   padding-right: 10px;
-  height: calc(100vh - 35px);
+  height: calc(100vh);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -31,11 +31,5 @@
   .container {
     padding-left: 20px;
     padding-right: 20px;
-  }
-  .with-submenu {
-    padding-top: 16.5vh;
-  }
-  .without-submenu {
-    padding-top: 10vh;
   }
 }

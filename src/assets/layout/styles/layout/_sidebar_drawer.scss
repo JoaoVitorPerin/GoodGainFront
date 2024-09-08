@@ -8,7 +8,6 @@
             }
 
             .layout-sidebar {
-                height: calc(100% - 95px);
                 top: 3.1rem;
                 transition: width 0.3s cubic-bezier(0, 0, 0.2, 1);
                 width: 3.25rem;
@@ -23,6 +22,7 @@
                     justify-content: center;
                     gap: 1rem;
                     padding: 1.5rem 0rem;
+                    margin-bottom: 10px;
 
                     .app-logo {
                         .app-logo-small {
