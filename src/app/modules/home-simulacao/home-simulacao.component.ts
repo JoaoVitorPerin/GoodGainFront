@@ -241,6 +241,7 @@ export class HomeSimulacaoComponent implements OnInit {
       if (apostar) {
         const dados = {
           ...this.formSimulacao.getRawValue(),
+          odd: parseFloat(this.formSimulacao.get('odd').value.split(' - ')[0]),
           is_aposta: true
         };
 
@@ -260,7 +261,11 @@ export class HomeSimulacaoComponent implements OnInit {
           }
         });
       } else {
-        this.simulacaoService.enviarSimulacao(this.formSimulacao.getRawValue()).subscribe({
+        const dados = {
+          ...this.formSimulacao.getRawValue(),
+          odd: parseFloat(this.formSimulacao.get('odd').value.split(' - ')[0]),
+        };
+        this.simulacaoService.enviarSimulacao(dados).subscribe({
           next: (res) => {
             this.isAposta = true;
             if (res.descricao_resultado == 'Não recomendado') {
