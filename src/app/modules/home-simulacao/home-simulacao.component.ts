@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormModule } from 'src/app/shared/components/form/form.module';
 import { HomeSimulacaoService } from './home-simulacao.service';
@@ -13,11 +13,14 @@ import { AsidebarService } from 'src/app/core/services/asidebar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MeterGroupModule } from 'primeng/metergroup';
 import { TranslationService } from 'src/app/shared/services/translation.service';
+import { ModalService } from 'src/app/shared/components/modal/modal.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home-simulacao',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     FormModule,
     FormsModule,
@@ -54,6 +57,10 @@ export class HomeSimulacaoComponent implements OnInit {
   predicoesEvento: any;
   percVitoria: any = [];
 
+  htmlSimulacao: SafeHtml = '';
+
+  @ViewChild('modalResultadoAposta') modalResultadoAposta: any;
+
   constructor(
     private simulacaoService: HomeSimulacaoService,
     private formBuilder: FormBuilder,
@@ -65,7 +72,9 @@ export class HomeSimulacaoComponent implements OnInit {
     private asidebarService: AsidebarService,
     private homeSimulacaoService: HomeSimulacaoService,
     private router: Router,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private modalService: ModalService,
+    private sanitizer: DomSanitizer
   ) {
     this.eventoId = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -268,11 +277,8 @@ export class HomeSimulacaoComponent implements OnInit {
         this.simulacaoService.enviarSimulacao(dados).subscribe({
           next: (res) => {
             this.isAposta = true;
-            if (res.descricao_resultado == 'Não recomendado') {
-              this.toastrService.mostrarToastrDanger(`Essa aposta é NÃO RECOMENDADA! Pois a probabilidade de ganho é baixa!`);
-            } else {
-              this.toastrService.mostrarToastrSuccess(`Essa aposta é RECOMENDADA! Pois a probabilidade de ganho é alta!`);
-            }
+            this.htmlSimulacao = this.sanitizer.bypassSecurityTrustHtml(res.html_retorno);
+            this.modalService.abrirModal('Resultado da simulação:', this.modalResultadoAposta, [], {larguraDesktop: '50'});
           },
           error: (error) => {
             console.error(error);
