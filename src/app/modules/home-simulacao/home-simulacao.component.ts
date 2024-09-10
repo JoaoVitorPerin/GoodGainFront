@@ -127,6 +127,20 @@ export class HomeSimulacaoComponent implements OnInit {
       }
     });
 
+    this.formSimulacao.get('odd').valueChanges.subscribe(value => {
+      if(this.isAposta){
+        this.isAposta = false;
+        this.htmlSimulacao = '';
+      }
+    });
+
+    this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
+      if(this.isAposta){
+        this.isAposta = false;
+        this.htmlSimulacao = '';
+      }
+    });
+
     this.formSimulacao.get('time1').valueChanges.subscribe(async value => {
       if (value) {
         this.dadosTime1 = this.timeDisponiveis.find(time => (time.info?.team?.id) === parseInt(value));
@@ -250,12 +264,13 @@ export class HomeSimulacaoComponent implements OnInit {
       if (apostar) {
         const dados = {
           ...this.formSimulacao.getRawValue(),
-          odd: parseFloat(this.formSimulacao.get('odd').value.split(' - ')[0]),
+          odd: typeof this.formSimulacao.get('odd').value === 'string' ? parseFloat(this.formSimulacao.get('odd').value.split(' - ')[0]) : this.formSimulacao.get('odd').value,
           is_aposta: true
         };
 
         this.simulacaoService.enviarSimulacao(dados).subscribe({
           next: () => {
+            this.modalService.fecharModal();
             this.isAposta = false;
             this.formSimulacao.reset({}, { emitEvent: false });
             this.toastrService.mostrarToastrSuccess('Aposta realizada com sucesso!');
@@ -272,13 +287,13 @@ export class HomeSimulacaoComponent implements OnInit {
       } else {
         const dados = {
           ...this.formSimulacao.getRawValue(),
-          odd: parseFloat(this.formSimulacao.get('odd').value.split(' - ')[0]),
+          odd: typeof this.formSimulacao.get('odd').value === 'string' ? parseFloat(this.formSimulacao.get('odd').value.split(' - ')[0]) : this.formSimulacao.get('odd').value,
         };
         this.simulacaoService.enviarSimulacao(dados).subscribe({
           next: (res) => {
             this.isAposta = true;
             this.htmlSimulacao = this.sanitizer.bypassSecurityTrustHtml(res.html_retorno);
-            this.modalService.abrirModal('Resultado da simulação:', this.modalResultadoAposta, [], {larguraDesktop: '50'});
+            this.abrirModalResultadoAposta();
           },
           error: (error) => {
             console.error(error);
@@ -289,7 +304,13 @@ export class HomeSimulacaoComponent implements OnInit {
     }
   }
 
+  abrirModalResultadoAposta() {
+    this.modalService.abrirModal('Resultado da simulação:', this.modalResultadoAposta, [], {larguraDesktop: '50'});
+  }
+
   cancelarSimulacao() {
+    this.modalService.fecharModal();
+    this.htmlSimulacao = '';
     this.isAposta = false;
   }
 
@@ -322,9 +343,9 @@ export class HomeSimulacaoComponent implements OnInit {
         }
         if(res.predicao.percent){
           this.percVitoria = [
-            { label: this.dadosTime1?.info?.team?.name, color: '#05FF00', value: parseFloat(res.predicao.percent.home.split('%')[0]) },
+            { label: 'Time da casa', color: '#05FF00', value: parseFloat(res.predicao.percent.home.split('%')[0]) },
             { label: 'Empate', color: '#808080', value: parseFloat(res.predicao.percent.draw.split('%')[0]) },
-            { label: this.dadosTime2?.info?.team?.name, color: '#05FF00', value: parseFloat(res.predicao.percent.away.split('%')[0]) },
+            { label: 'Time de fora', color: '#05FF00', value: parseFloat(res.predicao.percent.away.split('%')[0]) },
           ]
         }
       },
