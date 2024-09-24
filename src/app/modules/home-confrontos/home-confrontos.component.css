@@ -1,0 +1,37 @@
+table {
+    width: 100%;
+    border-collapse: collapse!important;
+}
+
+th, td {
+    border: 1px solid var(--text-color);
+    padding: 8px;
+    text-align: center;
+}
+  
+th {
+    background-color: #444; /* Cor de fundo para os cabeçalhos da tabela */
+}
+  
+  .win, .loss, .draw {
+    display: inline-block; /* Para que os spans de resultado fiquem lado a lado */
+    padding: 5px 5px; /* Padding ajustável para os resultados */
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .win {
+    background-color: green; /* Fundo verde para vitórias */
+  }
+  
+  .loss {
+    background-color: red; /* Fundo vermelho para derrotas */
+  }
+  
+  .draw {
+    background-color: blue; /* Fundo azul para empates */
+  }
+  

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HomeConfrontosService } from './home-confronts.service';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/shared/components/modal/modal.service';
 
 @Component({
   selector: 'app-home-confrontos',
@@ -10,11 +11,15 @@ import { Router } from '@angular/router';
 export class HomeConfrontosComponent{
   dadosConfrontos: any;
   preferencia: boolean = false;
+  classificacao: any;
   isMobile = window.innerWidth < 768;
+
+  @ViewChild('modalClassificacao') modalClassificacao: any;
   
   constructor(
     private homeConfrontosService: HomeConfrontosService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalService
   ) {
     if(JSON.parse(localStorage.getItem("visualizacao"))?.valor){
       this.preferencia = JSON.parse(localStorage.getItem("visualizacao")).valor
@@ -52,5 +57,25 @@ export class HomeConfrontosComponent{
         console.log(error);
       }
     );
+  }
+
+  abrirModalClassificacao(dados: any){
+    console.log(dados)
+    this.classificacao = dados;
+    this.classificacao = this.classificacao.map((item: any) => {
+      return {
+        ...item,
+        forma: this.refactorFormaTime(item.forma)
+      }
+    })
+    console.log(this.classificacao)
+    this.modalService.abrirModal('Classificação:', this.modalClassificacao, [], {larguraDesktop: '50'});
+  }
+
+  refactorFormaTime(value: string): string[] {
+    const lastFiveChars = value.slice(-5);
+    const resultArray = lastFiveChars.split('');
+    
+    return resultArray;
   }
 }
