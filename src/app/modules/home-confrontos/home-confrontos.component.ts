@@ -76,6 +76,6 @@ export class HomeConfrontosComponent{
     const lastFiveChars = value.slice(-5);
     const resultArray = lastFiveChars.split('');
     
-    return resultArray;
+    return resultArray.reverse();
   }
 }
