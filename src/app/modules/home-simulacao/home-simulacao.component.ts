@@ -90,6 +90,7 @@ export class HomeSimulacaoComponent implements OnInit {
       odd: [null, Validators.required],
       valor: [null, Validators.required],
       tipoAposta: [null, Validators.required],
+      eventoId: [this.eventoId ?? null]
     });
 
     if(this.eventoId){
