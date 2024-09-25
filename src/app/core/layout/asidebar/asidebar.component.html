@@ -15,7 +15,7 @@
         <p-card>
           <div class="flex align-items-center justify-content-between">
             <div class="background-status">
-              <p class="text-sm font-bold">Aguardando</p>
+              <p class="text-xs font-bold">{{aposta.status_aposta ?? "--"}}</p>
             </div>
             <p class="text-sm">R$ {{toLocaleFixed(aposta.valor)}}</p>
           </div>
