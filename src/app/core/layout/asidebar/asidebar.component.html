@@ -14,14 +14,25 @@
       @for(aposta of historico; track aposta){
         <p-card>
           <div class="flex align-items-center justify-content-between">
-            <div class="background-status">
-              <p class="text-xs font-bold">{{aposta.status_aposta ?? "--"}}</p>
-            </div>
+            @if(aposta.status_aposta == "EM ANDAMENTO"){
+              <div class="background-status andamento">
+                <p class="text-xs font-bold">{{aposta.status_aposta ?? "--"}}</p>
+              </div>
+            }@else if(aposta.status_aposta == "ACERTOU"){
+              <div class="background-status acerto">
+                <p class="text-xs font-bold">{{aposta.status_aposta ?? "--"}}</p>
+              </div>
+            }@else if(aposta.status_aposta == "ERROU"){
+              <div class="background-status erro">
+                <p class="text-xs font-bold">{{aposta.status_aposta ?? "--"}}</p>
+              </div>
+            }
             <p class="text-sm">R$ {{toLocaleFixed(aposta.valor)}}</p>
           </div>
           <div class="flex align-items-start justify-content-between">
             <div class="flex-column justify-content-center align-items-start">
               <p class="text-xxs">{{aposta.campeonato__nome}}</p>
+              <p class="text-xxs">{{aposta.nome_tipo_aposta ?? 'Nenhum tipo registrado!'}}</p>
               <p class="text-xs text-primary">{{aposta.time_1__nome}} x {{aposta.time_2__nome}}</p>
             </div>
             <div class="flex-column justify-content-center align-items-start">

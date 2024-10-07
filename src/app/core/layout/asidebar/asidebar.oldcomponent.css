@@ -109,10 +109,23 @@
 }
 
 .background-status {
-  background-color: #c8ced3;
   width: 150px;
-  color: #1e293b;
   border-radius: 4px 0px 0px 0px;
   clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
   padding: 5px 10px;
+}
+
+.andamento{
+  background-color: #c8ced3;
+  color: #1e293b;
+}
+
+.acerto{
+  background-color: #28a745;
+  color: #fff;
+}
+
+.erro{
+  background-color: #dc3545;
+  color: #fff;
 }
