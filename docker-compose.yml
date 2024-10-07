@@ -1,0 +1,24 @@
+version: '3'
+services:
+  django:
+    build: ./GoodGain_back/
+    container_name: good_gain_back
+    environment:
+      DB_HOST: aws-0-sa-east-1.pooler.supabase.com
+      DB_NAME: postgres
+      DB_USER: postgres.yplatbhotdufskjaiich
+      DB_PASSWORD: vUsNlDt6tWxrBXt3
+      DB_PORT: 6543
+    volumes:
+      - ./GoodGain_back:/usr/src/app
+    ports:
+      - "8001:8000"  # Django vai rodar na porta 8001 externamente
+
+  angular:
+    build: ./GoodGainFront/  # Substitua pelo caminho do Dockerfile do Angular
+    container_name: good_gain_front
+    volumes:
+      - ./GoodGainFront:/usr/src/app
+    ports:
+      - "80:80"  # Nginx vai servir o frontend Angular na porta 80
+
