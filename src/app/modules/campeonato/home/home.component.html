@@ -1,0 +1,17 @@
+<section class="grid">
+    <div class="col-12 flex flex-column">
+        <app-datagrid-prime [data]="dados" [columns]="colums" [configuracoes]="configuracoesTabela" titulo="Campeonatos do sistema:" stateId="tabela-campeonato"></app-datagrid-prime>
+    </div>
+</section>
+
+<ng-template #templateStatus let-log class="text-center">
+    <p class="flex align-items-center">
+        <i class="material-symbols-outlined icon-material" [ngClass]="{'text-green-500': log.status, 'text-red-500': !log.status}">
+            @if(log.status){
+                done
+            }@else{
+                close
+            }
+        </i>
+    </p>
+  </ng-template>

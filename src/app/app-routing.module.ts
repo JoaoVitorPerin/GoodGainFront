@@ -100,6 +100,15 @@ const APP_ROUTES: Routes = [
           ).then(m => m.UsuariosModule)
       },
       {
+        path: 'campeonatos',
+        canActivateChild: [PermissaoGuard],
+        data: { perfil_id: ['admin'] },
+        loadChildren: () =>
+          import(
+            './modules/campeonato/campeonato.module'
+          ).then(m => m.CampeonatoModule)
+      },
+      {
         path: 'dashboard',
         canActivate: [PermissaoGuard],
         data: { perfil_id: ['Vip', 'admin'] },

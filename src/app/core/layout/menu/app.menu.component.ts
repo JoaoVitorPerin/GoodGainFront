@@ -100,9 +100,19 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     if(['admin'].includes(perfil)){
       this.menus.push(
         {
-          "label": "Admin Usuários",
+          "label": "Usuários",
           "icon": "person",
           "routerLink": "usuarios",
+        },
+      )
+    }
+
+    if(['admin'].includes(perfil)){
+      this.menus.push(
+        {
+          "label": "Campeonatos",
+          "icon": "trophy",
+          "routerLink": "campeonatos",
         },
       )
     }
