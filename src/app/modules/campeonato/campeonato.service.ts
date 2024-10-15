@@ -23,8 +23,8 @@ export class CampeonatoService {
     }
 
     alterarStatusCampeonato(id: any): Observable<any> {
-        return this.http.post<any>(this.API_BACK + 'campeonato', JSON.stringify({campeonato_id: id}), {
-          headers: this.headerService.getHeader({Aplication: 'application/json'}),
+        return this.http.post<any>(this.API_BACK + 'campeonato', {campeonato_id: id}, {
+          headers: this.headerService.getHeader(),
         });
     }
 }

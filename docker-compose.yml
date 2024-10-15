@@ -21,4 +21,6 @@ services:
       - ./GoodGainFront:/usr/src/app
     ports:
       - "80:80"  # Nginx vai servir o frontend Angular na porta 80
-
+networks:
+  goodgain_network:
+    driver: bridge

@@ -73,6 +73,7 @@ export class HomeConfrontosComponent{
   }
 
   refactorFormaTime(value: string): string[] {
+    if(!value) return [];
     const lastFiveChars = value.slice(-5);
     const resultArray = lastFiveChars.split('');
     
