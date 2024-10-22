@@ -120,7 +120,7 @@ export class PerfilComponent implements OnInit{
         }));
 
         this.itemsTipoAposta = dados.dados.opcoes_apostas?.map(item => ({
-          value: item.id,
+          value: item.id.toString(),
           label: item.informacao
         }));
       }, error: () => {
