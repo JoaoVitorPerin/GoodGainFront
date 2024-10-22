@@ -1,0 +1,25 @@
+.background-status {
+    width: 150px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+  
+.muito-recomendado {
+    background-color: #006400;
+}
+.recomendado {
+    background-color: #32CD32;
+}
+.arriscado {
+    background-color: #FFD700;
+}
+.nao-recomendado {
+    background-color: #FF8C00;
+}
+.nao-investir {
+    background-color: #FF0000;
+}
+
+.text-surface {
+    color: var(--surface-a)
+}

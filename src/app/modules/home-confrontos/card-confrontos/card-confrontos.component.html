@@ -1,8 +1,36 @@
 <a style="text-decoration: none; cursor: pointer;" (click)="redirectToEvent(dados)">
     <p-card>
-        <div class="flex align-items-center justify-content-center">
-            <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
-        </div>
+        @if(dados.informacao){
+            <div class="mb-2 flex align-items-center justify-content-between">
+                @if(dados.informacao == "muito-recomendado"){
+                    <div class="background-status muito-recomendado">
+                        <p class="text-xxs font-bold text-center">{{dados.informacao ?? "--"}}</p>
+                    </div>
+                }@else if(dados.informacao == "recomendado"){
+                    <div class="background-status recomendado text-surface">
+                        <p class="text-xxs font-bold text-center">Recomendado</p>
+                    </div>
+                }@else if(dados.informacao == "arriscado"){
+                    <div class="background-status arriscado text-surface">
+                        <p class="text-xxs font-bold text-center">Arriscado</p>
+                    </div>
+                }@else if(dados.informacao == "nao-recomendado"){
+                    <div class="background-status nao-recomendado">
+                        <p class="text-xxs font-bold text-center">Não recomendado</p>
+                    </div>
+                }@else if(dados.informacao == "nao-investir"){
+                    <div class="background-status nao-investir">
+                        <p class="text-xxs font-bold text-center">Não investir</p>
+                    </div>
+                }
+                <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
+            </div>
+        }
+        @if(!dados.informacao){
+            <div class="flex align-items-center justify-content-center">
+                <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
+            </div>
+        }
         <div class="flex align-items-center justify-content-around my-3">
             <div class="flex flex-column justify-content-center align-items-center gap-2">
                 <img [src]="dados.time_a__logo" height="50">

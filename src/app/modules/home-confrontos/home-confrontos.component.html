@@ -33,7 +33,7 @@
     </div>
   }
 }@else{
-  <p>Selecione uma preferência para receber recomendações!</p>
+  <p class="my-4 text-sm text-center">Você não tem nenhum tipo de aposta selecionado, selecione um na página de perfil!</p>
 }
 @if(preferencia){
 <div class="flex justify-content-start">
@@ -41,27 +41,31 @@
 </div>
 }
 <section class="flex flex-column">
-@for(campeonato of dadosConfrontos; track campeonato){
-    <div class="flex flex-column">
-        <div class="flex align-items-center justify-content-start gap-2">
-            <p>{{campeonato.nome}}</p>
-            <span (click)="abrirModalClassificacao(campeonato.classificacao)" class="material-symbols-outlined font-2xl text-primary cursor-pointer">leaderboard</span>
-        </div>
-
-        <p-carousel 
-            [value]="campeonato.eventos" 
-            [numVisible]="isMobile ? 1 : 3" 
-            [numScroll]="isMobile ? 1 : 3"
-            [showIndicators]="!isMobile"
-            [circular]="false">
-                <ng-template let-confronto pTemplate="item">
-                    <div class="col-12">
-                        <app-card-confrontos [dados]="confronto"></app-card-confrontos>
-                    </div>
-                </ng-template>
-        </p-carousel>
-    </div>
-}
+  @if(dadosConfrontos.length > 0){
+    @for(campeonato of dadosConfrontos; track campeonato){
+      <div class="flex flex-column">
+          <div class="flex align-items-center justify-content-start gap-2">
+              <p>{{campeonato.nome}}</p>
+              <span (click)="abrirModalClassificacao(campeonato.classificacao)" class="material-symbols-outlined font-2xl text-primary cursor-pointer">leaderboard</span>
+          </div>
+  
+          <p-carousel 
+              [value]="campeonato.eventos" 
+              [numVisible]="isMobile ? 1 : 3" 
+              [numScroll]="isMobile ? 1 : 3"
+              [showIndicators]="!isMobile"
+              [circular]="false">
+                  <ng-template let-confronto pTemplate="item">
+                      <div class="col-12">
+                          <app-card-confrontos [dados]="confronto"></app-card-confrontos>
+                      </div>
+                  </ng-template>
+          </p-carousel>
+      </div>
+    }
+  }@else{
+    <p class="my-4 text-sm text-center">Nenhum evento disponível no momento, volte novamente mais tarde!</p>
+  }
 </section>
 
 <ng-template #modalClassificacao>

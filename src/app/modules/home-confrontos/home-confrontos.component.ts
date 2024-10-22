@@ -10,7 +10,7 @@ import { ModalService } from 'src/app/shared/components/modal/modal.service';
 })
 export class HomeConfrontosComponent{
   dadosConfrontosTipo: any = [];
-  dadosConfrontos: any;
+  dadosConfrontos: any = [];
   preferencia: boolean = false;
   classificacao: any;
   isMobile = window.innerWidth < 768;
