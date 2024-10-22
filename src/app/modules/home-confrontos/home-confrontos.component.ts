@@ -9,6 +9,7 @@ import { ModalService } from 'src/app/shared/components/modal/modal.service';
   styleUrl: './home-confrontos.component.css'
 })
 export class HomeConfrontosComponent{
+  dadosConfrontosTipo: any = [];
   dadosConfrontos: any;
   preferencia: boolean = false;
   classificacao: any;
@@ -24,6 +25,7 @@ export class HomeConfrontosComponent{
     if(JSON.parse(localStorage.getItem("visualizacao"))?.valor){
       this.preferencia = JSON.parse(localStorage.getItem("visualizacao")).valor
       this.buscarProximosEventosPreferencias();
+      this.buscarEventosFiltradosPorTipo();
     }else{
       this.buscarProximosEventos();
     }
@@ -59,6 +61,17 @@ export class HomeConfrontosComponent{
     );
   }
 
+  buscarEventosFiltradosPorTipo(){
+    this.homeConfrontosService.buscarProximosConfrontosRecomendados().subscribe(
+      (response) => {
+        this.dadosConfrontosTipo = response.dados;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   abrirModalClassificacao(dados: any){
     console.log(dados)
     this.classificacao = dados;
@@ -68,7 +81,6 @@ export class HomeConfrontosComponent{
         forma: this.refactorFormaTime(item.forma)
       }
     })
-    console.log(this.classificacao)
     this.modalService.abrirModal('Classificação:', this.modalClassificacao, [], {larguraDesktop: '50'});
   }
 

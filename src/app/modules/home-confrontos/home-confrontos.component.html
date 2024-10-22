@@ -1,7 +1,7 @@
 <div class="flex align-items-center justify-content-between">
     <h1 class="text-primary font-2xl">
         @if(preferencia){
-            Próximos eventos por campeonato:
+            Eventos recomendados por preferências:
         }@else{
             Próximos eventos:
         }
@@ -11,6 +11,35 @@
         <p-button icon="pi pi-sliders-h" (click)="buscarProximosEventosPreferencias()" [disabled]="preferencia"/>
     </div>
 </div>
+@if(preferencia && dadosConfrontosTipo.length > 0){
+  @for(campeonato of dadosConfrontosTipo; track campeonato){
+    <div class="flex flex-column">
+        <div class="flex align-items-center justify-content-start gap-2">
+            <p>{{campeonato.nome}}</p>
+        </div>
+
+        <p-carousel 
+            [value]="campeonato.eventos" 
+            [numVisible]="isMobile ? 1 : 3" 
+            [numScroll]="isMobile ? 1 : 3"
+            [showIndicators]="!isMobile"
+            [circular]="false">
+                <ng-template let-confronto pTemplate="item">
+                    <div class="col-12">
+                        <app-card-confrontos [dados]="confronto"></app-card-confrontos>
+                    </div>
+                </ng-template>
+        </p-carousel>
+    </div>
+  }
+}@else{
+  <p>Selecione uma preferência para receber recomendações!</p>
+}
+@if(preferencia){
+<div class="flex justify-content-start">
+  <h1 class="text-primary font-2xl">Eventos por campeonato selecionado:</h1>
+</div>
+}
 <section class="flex flex-column">
 @for(campeonato of dadosConfrontos; track campeonato){
     <div class="flex flex-column">

@@ -34,4 +34,10 @@ export class HomeConfrontosService {
       headers: this.headerService.getHeader(),
     });
   }
+
+  buscarProximosConfrontosRecomendados(): Observable<any> {
+    return this.http.get<any>(this.API_BACK + 'eventos/recomendados', {
+      headers: this.headerService.getHeader(),
+    });
+  }
 }
