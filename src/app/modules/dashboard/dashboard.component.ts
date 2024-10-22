@@ -118,15 +118,15 @@ export class DashboardComponent implements OnInit {
           tipoAposta: this.returnTipoAposta(res.dados.tipo_aposta_mais_escolhida, res.tipos)
         };
 
-        this.chartCampeonatoOption.xAxis[0].data = res.dados.grafico_campeonatos.map((item: any) => this.returnCampeonato(item.campeonato, res.campeonatos));
+        this.chartCampeonatoOption.xAxis[0].data = res.dados.grafico_campeonatos?.map((item: any) => this.returnCampeonato(item.campeonato, res.campeonatos));
 
-        this.chartCampeonatoOption.series[0].data = res.dados.grafico_campeonatos.map((item: any) => item.valor);
+        this.chartCampeonatoOption.series[0].data = res.dados.grafico_campeonatos?.map((item: any) => item.valor);
 
         this.chartCampeonatoOption = {...this.chartCampeonatoOption}
 
-        this.chartTipoOption.xAxis[0].data = res.dados.grafico_tipo_aposta.map((item: any) => this.returnTipoAposta(item.tipo_aposta, res.tipos));
+        this.chartTipoOption.xAxis[0].data = res.dados.grafico_tipo_aposta?.map((item: any) => this.returnTipoAposta(item.tipo_aposta, res.tipos));
 
-        this.chartTipoOption.series[0].data = res.dados.grafico_tipo_aposta.map((item: any) => item.valor);
+        this.chartTipoOption.series[0].data = res.dados.grafico_tipo_aposta?.map((item: any) => item.valor);
 
         this.chartTipoOption = {...this.chartTipoOption}
       },
@@ -138,7 +138,7 @@ export class DashboardComponent implements OnInit {
 
   returnTipoAposta(tipo: string, listaTipo: any) {
     const tipoAposta = listaTipo.find((item: any) => item.id === parseInt(tipo));
-    return tipoAposta.informacao;
+    return tipoAposta?.informacao;
   }
 
   returnCampeonato(campeonato: any, listaCampeonato: any) {

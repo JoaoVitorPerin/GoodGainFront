@@ -3,12 +3,6 @@ services:
   django:
     build: ./GoodGain_back/
     container_name: good_gain_back
-    environment:
-      DB_HOST: aws-0-sa-east-1.pooler.supabase.com
-      DB_NAME: postgres
-      DB_USER: postgres.yplatbhotdufskjaiich
-      DB_PASSWORD: vUsNlDt6tWxrBXt3
-      DB_PORT: 6543
     volumes:
       - ./GoodGain_back:/usr/src/app
     ports:
