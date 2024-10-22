@@ -2,17 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
-import axios from 'axios';
-
-interface Team {
-  strTeam: string;
-  strTeamBadge: string;
-  strStadium: string;
-}
-
-interface ApiResponse {
-  teams: Team[];
-}
 
 @Component({
   selector: 'app-card-confrontos',
@@ -27,6 +16,7 @@ interface ApiResponse {
 
 export class CardConfrontosComponent {
   @Input({required: true}) dados: any;
+  @Input({required: true}) nome: any;
 
   constructor(
     private router: Router

@@ -1,24 +1,24 @@
 <a style="text-decoration: none; cursor: pointer;" (click)="redirectToEvent(dados)">
     <p-card>
-        @if(dados.informacao){
+        @if(dados[nome]){
             <div class="mb-2 flex align-items-center justify-content-between">
-                @if(dados.informacao == "muito-recomendado"){
+                @if(dados[nome] == "muito-recomendado"){
                     <div class="background-status muito-recomendado">
                         <p class="text-xxs font-bold text-center">Muito recomendado</p>
                     </div>
-                }@else if(dados.informacao == "recomendado"){
+                }@else if(dados[nome] == "recomendado"){
                     <div class="background-status recomendado text-surface">
                         <p class="text-xxs font-bold text-center">Recomendado</p>
                     </div>
-                }@else if(dados.informacao == "arriscado"){
+                }@else if(dados[nome] == "arriscado"){
                     <div class="background-status arriscado text-surface">
                         <p class="text-xxs font-bold text-center">Arriscado</p>
                     </div>
-                }@else if(dados.informacao == "nao-recomendado"){
+                }@else if(dados[nome] == "nao-recomendado"){
                     <div class="background-status nao-recomendado">
                         <p class="text-xxs font-bold text-center">Não recomendado</p>
                     </div>
-                }@else if(dados.informacao == "nao-investir"){
+                }@else if(dados[nome] == "nao-investir"){
                     <div class="background-status nao-investir">
                         <p class="text-xxs font-bold text-center">Não investir</p>
                     </div>
@@ -26,7 +26,7 @@
                 <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
             </div>
         }
-        @if(!dados.informacao){
+        @if(!dados[nome]){
             <div class="flex align-items-center justify-content-center">
                 <p class="font-bold text-xs">{{dados.data | date:'dd/MM/yyyy - HH:mm'}}</p>
             </div>
