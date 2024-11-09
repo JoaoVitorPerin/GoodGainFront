@@ -19,7 +19,7 @@ export class PlanoUsuarioService {
   }
 
   enviarPlanoUsuario(data: any): Observable<any> {
-    return this.http.put<any>(this.API_BACK + 'editar_usuario', data, {
+    return this.http.post<any>(this.API_BACK + 'selecionar_plano', data, {
       headers: this.headerService.getHeader()
     });
   }
