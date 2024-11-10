@@ -10,6 +10,8 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import { ButtonModule } from 'primeng/button';
+import { DatagridPrimeConfig, datagridPrimeConfigDefault } from 'src/app/core/ts/datagridPrimeConfigDefault';
+import { DatagridPrimeModule } from 'src/app/shared/components/datagrid-prime/datagrid-prime.module';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +19,8 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     ChartModule,
     NgxEchartsDirective,
-    ButtonModule
+    ButtonModule,
+    DatagridPrimeModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -39,6 +42,11 @@ export class DashboardComponent implements OnInit {
   dadosCards: any;
   chartCampeonatoOption: EChartsOption;
   chartTipoOption: EChartsOption;
+
+  configuracoesTabela: DatagridPrimeConfig = datagridPrimeConfigDefault();
+  dados: any;
+  colums: any;
+
   toLocaleFixed = toLocaleFixed;
 
   constructor(
@@ -101,6 +109,39 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
+
+    this.colums = [
+      {
+        dataField: 'id',
+        caption: 'Id',
+        dataType: 'string',
+        sorting: true
+      },
+      {
+        dataField: 'campeonato_id',
+        caption: 'Campeonato',
+        dataType: 'string',
+        sorting: true,
+      },
+      {
+        dataField: 'time_1',
+        caption: 'Time da casa',
+        dataType: 'string',
+        sorting: true,
+      },
+      {
+        dataField: 'time_2',
+        caption: 'Time de fora',
+        dataType: 'string',
+        sorting: true,
+      },
+      {
+        dataField: 'tipo_aposta_nome',
+        caption: 'Tipo aposta',
+        dataType: 'string',
+        sorting: true,
+      },
+    ]
   }
 
   buscarInfosPerfil() {
@@ -129,6 +170,8 @@ export class DashboardComponent implements OnInit {
         this.chartTipoOption.series[0].data = res.dados.grafico_tipo_aposta?.map((item: any) => item.valor);
 
         this.chartTipoOption = {...this.chartTipoOption}
+
+        this.dados = res.dados.tabela_aposta ?? [];
       },
       error: (error) => {
         console.error(error);

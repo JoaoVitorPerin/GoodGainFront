@@ -3,7 +3,13 @@
 } @else {
 
   <div class="flex justify-content-between w-100">
-    <label *ngIf="label && type != 'checkbox'">{{ label }}</label>
+    <label *ngIf="label && type != 'checkbox'">
+      {{ label }}
+      @if(exibirLabelObrigatoriedade) {
+        <span class="text-sm text-red-500">*</span>
+      }
+    </label>
+    
     <p-overlayPanel class="p-overlaypanel" #infos>
       <p>{{ajuda}}</p>
     </p-overlayPanel>

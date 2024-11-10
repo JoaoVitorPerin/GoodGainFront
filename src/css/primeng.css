@@ -532,3 +532,9 @@ input:read-only {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }
+.p-breadcrumb{
+  background: transparent;
+  border: none;
+  border-radius: none;
+  padding: 0px;
+}

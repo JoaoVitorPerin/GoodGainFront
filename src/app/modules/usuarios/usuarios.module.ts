@@ -16,6 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DatagridPrimeModule } from 'src/app/shared/components/datagrid-prime/datagrid-prime.module';
 import { TooltipModule } from 'primeng/tooltip';
 import { TabMenuModule } from 'primeng/tabmenu';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
     ButtonModule,
     TableModule,
     ToolbarModule,
+    BreadcrumbModule,
     InputTextModule,
     DatagridPrimeModule,
     TabMenuModule

@@ -13,7 +13,7 @@ export class UsuariosHomeComponent {
   configuracoesTabela: DatagridPrimeConfig = datagridPrimeConfigDefault();
   dados: any;
   colums: any;
-
+  
   @ViewChild('templateStatus', { static: true }) templateStatus: TemplateRef<any>;
 
   constructor(

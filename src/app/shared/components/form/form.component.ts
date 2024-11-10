@@ -32,6 +32,7 @@ export class FormComponent implements OnInit, OnChanges, OnDestroy{
   @Input() icon: string;
   @Input() rows: number;
   @Input() min: number;
+  @Input() exibirLabelObrigatoriedade: boolean
   @Input() max: number;
   @Input() prefix: string;
   @Input() mask: string;
