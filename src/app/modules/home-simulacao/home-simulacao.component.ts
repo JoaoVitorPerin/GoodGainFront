@@ -53,6 +53,7 @@ export class HomeSimulacaoComponent implements OnInit {
   estadiotimeb: string | null = null;
 
   isAposta:boolean = false;
+  exibirOddManual: boolean = false;
   eventoId: string;
   predicoesEvento: any;
   percVitoria: any = [];
@@ -94,6 +95,7 @@ export class HomeSimulacaoComponent implements OnInit {
     });
 
     if(this.eventoId){
+      this.exibirOddManual = false;
       this.formSimulacao.get('tipoAposta').valueChanges.subscribe(value => {
         const dados = {
           tipo_aposta: value,
@@ -112,7 +114,8 @@ export class HomeSimulacaoComponent implements OnInit {
           error: (error) => {
             console.error(error);
             this.formSimulacao.get('odd').setValue(null);
-            this.toastrService.mostrarToastrDanger('Odds não disponiveis para esse tipo! Tente novamente mais tarde!');
+            this.toastrService.mostrarToastrDanger('Odds não disponiveis para esse tipo! Digite a odd manualmente!');
+            this.exibirOddManual = true
           }
         });
       });

@@ -92,9 +92,15 @@
                             <app-form type="select" [items]="itemsTipoAposta" id="opcoes_apostas" label="Tipo de aposta" formControlName="tipoAposta" placeholder="Selecione um tipo" ngDefaultControl/>
                         </div>
                         @if(formSimulacao.get("tipoAposta").value && eventoId){
-                        <div class="col-12 mb-2">
-                            <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
-                        </div>
+                            @if(!exibirOddManual){
+                                <div class="col-12 mb-2">
+                                    <app-form type="select" id="odd" label="Odd" formControlName="odd" placeholder="Selecione uma odd" [items]="oddsEvento" ngDefaultControl></app-form>
+                                </div>
+                            }@else{
+                                <div class="col-12 mb-2">
+                                    <app-form type="float" id="odd" label="Odd" formControlName="odd" placeholder="Digite a odd" ngDefaultControl></app-form>
+                                </div>
+                            }
                         }@else if(!eventoId){
                         <div class="col-12 mb-2">
                             <app-form type="float" id="odd" label="Odd" formControlName="odd" placeholder="Digite a odd" ngDefaultControl></app-form>
