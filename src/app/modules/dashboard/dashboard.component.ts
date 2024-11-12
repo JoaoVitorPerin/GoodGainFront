@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.buscarInfosPerfil();
     this.buscarDadosDashboard();
-
+    // aqui esta instanciada a variavel ela possui propriedades padrao do ECHARTS
     this.chartCampeonatoOption = {
       tooltip: {
         trigger: 'axis',
@@ -159,6 +159,7 @@ export class DashboardComponent implements OnInit {
           tipoAposta: this.returnTipoAposta(res.dados.tipo_aposta_mais_escolhida, res.tipos)
         };
 
+        // aqui defino os valores que estarao no grafico, no xAxys o que fica no eixo X e no series o eixo Y
         this.chartCampeonatoOption.xAxis[0].data = res.dados.grafico_campeonatos?.map((item: any) => this.returnCampeonato(item.campeonato, res.campeonatos));
 
         this.chartCampeonatoOption.series[0].data = res.dados.grafico_campeonatos?.map((item: any) => item.valor);

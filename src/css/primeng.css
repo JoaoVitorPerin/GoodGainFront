@@ -260,7 +260,6 @@ input:not(.ng-dirty.ng-invalid), textarea:not(.ng-dirty.ng-invalid) {
 @media (max-width: 992px) {
   .p-button {
     height: unset;
-    min-height: 3.55rem;
   }
 }
 

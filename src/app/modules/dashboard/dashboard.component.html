@@ -32,7 +32,9 @@
                 <p class="text-primary font-sm font-bold">Campeonatos mais apostados:</p>
                 <a class="text-primary material-symbols-outlined cursor-pointer" (click)="exportToExcelCampeonato()">download</a>
             </div>
-            
+            <!-- primeiro é necessario ter essa div com a prop do echarts
+            depois defina a variavel no options que voce ira utilizar
+            defina essa variavel no typescript -->
             <div echarts [options]="chartCampeonatoOption" class="demo-chart"></div>
         </div>
     </div>
