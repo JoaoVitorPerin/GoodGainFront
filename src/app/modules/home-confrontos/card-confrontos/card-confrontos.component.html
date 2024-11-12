@@ -2,23 +2,23 @@
     <p-card>
         @if(dados[nome]){
             <div class="mb-2 flex align-items-center justify-content-between">
-                @if(dados[nome] == "muito-recomendado"){
+                @if(dados[nome] == "muito-recomendado" || dados[nome] == "Aposta muito recomendada"){
                     <div class="background-status muito-recomendado">
                         <p class="text-xxs font-bold text-center">Muito recomendado</p>
                     </div>
-                }@else if(dados[nome] == "recomendado"){
+                }@else if(dados[nome] == "recomendado" || dados[nome] == "Aposta recomendado"){
                     <div class="background-status recomendado text-surface">
                         <p class="text-xxs font-bold text-center">Recomendado</p>
                     </div>
-                }@else if(dados[nome] == "arriscado"){
+                }@else if(dados[nome] == "arriscado" || dados[nome] == "Aposta arriscada"){
                     <div class="background-status arriscado text-surface">
                         <p class="text-xxs font-bold text-center">Arriscado</p>
                     </div>
-                }@else if(dados[nome] == "nao-recomendado"){
+                }@else if(dados[nome] == "nao-recomendado" || dados[nome] == "Aposta não recomendada"){
                     <div class="background-status nao-recomendado">
                         <p class="text-xxs font-bold text-center">Não recomendado</p>
                     </div>
-                }@else if(dados[nome] == "nao-investir"){
+                }@else if(dados[nome] == "nao-investir" || dados[nome] == "Não investir"){
                     <div class="background-status nao-investir">
                         <p class="text-xxs font-bold text-center">Não investir</p>
                     </div>
